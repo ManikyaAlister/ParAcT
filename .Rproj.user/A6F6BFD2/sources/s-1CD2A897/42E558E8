@@ -1,0 +1,27 @@
+{
+    "id": "42E558E8",
+    "path": "~/cloudstor/ParAcT/install-packages-HPC.R",
+    "project_path": "install-packages-HPC.R",
+    "type": "r_source",
+    "hash": "4185071670",
+    "contents": "",
+    "dirty": false,
+    "created": 1657256125500.0,
+    "source_on_save": false,
+    "relative_order": 10,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "5,20",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1657257157,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1657257157613,
+    "read_only": false,
+    "read_only_alternatives": []
+}

@@ -1,0 +1,26 @@
+{
+    "id": "4AAF43A7",
+    "path": "~/cloudstor/ParAcT/modelling/evansetal-18/03.2_background-linear.R",
+    "project_path": "modelling/evansetal-18/03.2_background-linear.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1657249044000.0,
+    "source_on_save": false,
+    "relative_order": 6,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "36,0",
+        "scrollLine": "10"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1657249849,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1657249849432,
+    "read_only": false,
+    "read_only_alternatives": []
+}
