@@ -1,12 +1,12 @@
 rm(list=ls())
-lib = .libPaths("/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
+lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
 source(file = here("modelling/evansetal-18/05_run-models/5.0.0_load-packages.R"))
 source(file = here("modelling/evansetal-18/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
 model = "a-power"
-nSub = 1 # number of subjects to run 
+nSub = 9 # number of subjects to run 
 
 ##############################
 #### Power Threshold Model ###

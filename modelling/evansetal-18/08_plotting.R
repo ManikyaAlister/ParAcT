@@ -1,9 +1,9 @@
-rm(lists = ls())
-lib = .libPaths("/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
+rm(list = ls())
+lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
 library(ggplot2, lib.loc = lib)
 
-n = 1
+n = 9
 
 # Power model
 
@@ -49,16 +49,14 @@ thresholdPlot = function(model,n){
   
   return(a_plot)
 }
+power = thresholdPlot("a-power",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/a-pow.png"),plot = power)
 
-thresholdPlot("a-power",n)
-ggsave(filename = here("modelling/evansetal-18/09_plots/a-pow.png"))
+exp = thresholdPlot("a-exp",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/a-exp.png"),plot = exp)
 
-thresholdPlot("a-exp",n)
-ggsave(filename = here("modelling/evansetal-18/09_plots/a-exp.png"))
+linear = thresholdPlot("a-linear",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/a-linear.png"),plot = linear)
 
-thresholdPlot("a-linear",n)
-ggsave(filename = here("modelling/evansetal-18/09_plots/a-linear.png"))
-
-thresholdPlot("simple",n)
-ggsave(filename = here("modelling/evansetal-18/09_plots/a-simple.png"))
-
+simple = thresholdPlot("simple",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/a-simple.png"),plot = simple)
