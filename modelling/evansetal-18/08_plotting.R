@@ -41,6 +41,10 @@ thresholdPlot = function(model,n){
 
       threshold = x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(-x["a.rate"]*data$Trial))))
 
+    } else if (model == "a-exp-mir"){
+
+      threshold = (x["a.asym"]+x["a.start"])-x["a.start"]*exp(x["a.rate"]*data$Trial)
+
     }
     
     threshold = as.data.frame(threshold)
@@ -68,6 +72,9 @@ ggsave(filename = here("modelling/evansetal-18/09_plots/a-linear.png"),plot = li
 
 simple = thresholdPlot("simple",n)
 ggsave(filename = here("modelling/evansetal-18/09_plots/a-simple.png"),plot = simple)
+
+a_exp_mir = thresholdPlot("a-exp-mir",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/a-exp-mir.png"), plot = a_exp_mir)
 
 # Drift rate
 

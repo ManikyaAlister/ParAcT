@@ -3,22 +3,22 @@ Saving 7 x 7 in image
 Saving 7 x 7 in image
 Saving 7 x 7 in image
 Saving 7 x 7 in image
-Saving 7 x 7 in image
-Saving 7 x 7 in image
-Saving 7 x 7 in image
+Error in a_exp - mir = thresholdPlot("a-exp-mir", n) : 
+  object 'a_exp' not found
+Execution halted
 here() starts at /data/gpfs/projects/punim1751/ParAcT
-Job ID           : 37437903
+Job ID           : 37483136
 Cluster          : spartan
 User/Project     : alisterm/punim1751
 Nodes            : 1
-Wall-clock time  : 00:00:31 / 7-01:00:00
+Wall-clock time  : 00:00:30 / 7-01:00:00
 
-Displaying overall resources usage from 2022-07-13 15:07:06 to 2022-07-13 15:07:37:
+Displaying overall resources usage from 2022-07-14 09:14:48 to 2022-07-14 09:15:18:
 
 NODE            CPU#        TOT%   ( USR   / SYS   / WIO   / IDLE  ) 
 
-spartan-bm088 : 
-                CPU# 1    : 58.7   (  54.3 /   4.3 /   0.0 /  41.3 ) 
+spartan-bm086 : 
+                CPU# 1    : 60.9   (  54.7 /   6.2 /   0.0 /  39.1 ) 
 
 
 Allocated CPUs            : 1    
@@ -26,7 +26,7 @@ Allocated CPUs            : 1
   CPUs with usage <50%    : 0    
   CPUs with usage >50%    : 1    
 
-Memory used (RAM)         : 0.2%  [6MB of 4000MB]
+Memory used (RAM)         : 0.0%  [4MB of 12288MB]
 
 --------------------------------------------
 

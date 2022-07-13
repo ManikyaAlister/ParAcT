@@ -5,7 +5,7 @@ source(file = here("modelling/evansetal-18/05_run-models/5.0.0_load-packages.R")
 source(file = here("modelling/evansetal-18/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
-model = "a-power-mir"
+model = "a-exp-mir"
 nSub = 9 # number of subjects to run 
 
 ##############################
@@ -23,7 +23,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
     names(x)=par.names
     
     for (cond in conds) {
-      a=a=(x["a.asym"]+x["a.start"])-x["a.start"]*exp(x["a.rate"]*data$Trial)
+      a=(x["a.asym"]+x["a.start"])-x["a.start"]*exp(x["a.rate"]*data$Trial)
       t0=x["t0"]
       v=x["v"]
       z=0.5

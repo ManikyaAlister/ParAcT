@@ -16,6 +16,9 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 
+# The amount of memory in megabytes per process in the job:
+#SBATCH --mem=12288
+
 # Use this email address:
 #SBATCH --mail-user=alisterm@student.unimelb.edu.au
 

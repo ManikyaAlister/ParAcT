@@ -45,6 +45,8 @@ module load r/4.2.0
 # The job command(s):
 Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/05_run-models/5.2.3_v-power.R
 
+# The amount of memory in megabytes per process in the job:
+#SBATCH --mem=12288
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage
