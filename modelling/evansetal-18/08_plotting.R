@@ -5,7 +5,7 @@ library(ggplot2, lib.loc = lib)
 
 n = 9
 
-# Power model
+# Threshold
 
 thresholdPlot = function(model,n){
   
@@ -33,7 +33,15 @@ thresholdPlot = function(model,n){
       
       threshold = rep(x["a"],length(trials))
       
-    } 
+    } else if (model == "a-delayed-pow"){
+
+      threshold = x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+data$Trial^(-x["a.rate"]))))
+
+    } else if (model == "a-delayed-exp") {
+
+      threshold = x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(-x["a.rate"]*data$Trial))))
+
+    }
     
     threshold = as.data.frame(threshold)
     threshold$Participant =  i
@@ -61,6 +69,8 @@ ggsave(filename = here("modelling/evansetal-18/09_plots/a-linear.png"),plot = li
 simple = thresholdPlot("simple",n)
 ggsave(filename = here("modelling/evansetal-18/09_plots/a-simple.png"),plot = simple)
 
+# Drift rate
+
 driftPlot = function(model,n){
   
   driftDf = as.data.frame(matrix(nrow = 0, ncol = 3))
@@ -87,7 +97,15 @@ driftPlot = function(model,n){
       
       drift = rep(x["a"],length(trials))
       
-    } 
+    } else if (model == "v-delayed-pow"){
+
+      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+data$Trial^(-x["v.rate"])))
+
+    } else if (model == "v-delayed-exp"){
+
+      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(-x["v.rate"]*data$Trial)))
+
+    }
     
     drift = as.data.frame(drift)
     drift$Participant =  i
@@ -109,3 +127,6 @@ ggsave(filename = here("modelling/evansetal-18/09_plots/v-power.png"), plot = v_
 
 v_linear = driftPlot("v-linear",n)
 ggsave(filename = here("modelling/evansetal-18/09_plots/v-linear.png"), plot = v_linear)
+
+v_exp = driftPlot("v-exp",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/v-exp.png"), plot = v_exp)
