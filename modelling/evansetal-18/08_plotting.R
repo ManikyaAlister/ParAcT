@@ -50,15 +50,15 @@ thresholdPlot = function(model,n){
   return(a_plot)
 }
 
-thresholdPlot("a-power",n)
-ggsave(filename = here("modelling/evansetal-18/09_plots/a-pow.png"))
+power = thresholdPlot("a-power",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/a-pow.png"),plot = power)
 
-thresholdPlot("a-exp",n)
-ggsave(filename = here("modelling/evansetal-18/09_plots/a-exp.png"))
+exp = thresholdPlot("a-exp",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/a-exp.png"),plot = exp)
 
-thresholdPlot("a-linear",n)
-ggsave(filename = here("modelling/evansetal-18/09_plots/a-linear.png"))
+linear = thresholdPlot("a-linear",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/a-linear.png"),plot = linear)
 
-thresholdPlot("simple",n)
-ggsave(filename = here("modelling/evansetal-18/09_plots/a-simple.png"))
+simple = thresholdPlot("simple",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/a-simple.png"),plot = simple)
 
