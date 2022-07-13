@@ -22,8 +22,6 @@
 # Send yourself an email when the job:
 # aborts abnormally (fails)
 #SBATCH --mail-type=FAIL
-# begins
-#SBATCH --mail-type=BEGIN
 # ends successfully
 #SBATCH --mail-type=END
 
@@ -43,7 +41,7 @@ fi
 module load r/4.2.0
 
 # The job command(s):
-Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/05_run-models/5.1.1_a-simple.R
+Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/05_run-models/5.2.2_v-linear.R
 
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
