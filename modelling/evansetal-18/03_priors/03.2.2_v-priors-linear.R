@@ -22,7 +22,7 @@ tmpP4=grep("z",theta.names,perl=TRUE)
 
 start.points=rep(NA,n.pars)
 start.points[tmpP3.2]=3
-start.points[tmpP3.3]=.4
+start.points[tmpP3.3]=.5
 start.points[tmpP2]=0.3
 start.points[tmpP1]=1
 start.points[tmpP4]=0.5
@@ -69,13 +69,13 @@ prior=list()
 tmp=grep("v.c",theta.names,value=TRUE)
 for (n in 1:length(tmp)) {
   tmp2=tmp[n]
-  prior[[tmp2]]=c(3,1)
+  prior[[tmp2]]=c(2,2)
 }
 
 tmp=grep("v.b",theta.names,value=TRUE)
 for (n in 1:length(tmp)) {
   tmp2=tmp[n]
-  prior[[tmp2]]=c(3,1)
+  prior[[tmp2]]=c(.5,.5)
 }
 
 tmp=grep("a",theta.names,value=TRUE)

@@ -19,11 +19,11 @@ thresholdPlot = function(model,n){
     x =  apply(theta, 2, mean)
     if (model == "a-power"){
       
-      threshold = x["a.asym"]+(x["a.asym"] + x["a.start"])*data$Trial^(-x["a.rate"])
+      threshold = x["a.asym"]+x["a.start"]*data$Trial^(-x["a.rate"])
       
     } else if (model == "a-exp"){
       
-      threshold = x["a.asym"]+(x["a.asym"]+x["a.start"])*exp(-x["a.rate"]*data$Trial)
+      threshold = x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
       
     } else if (model == "a-linear"){
       
@@ -73,11 +73,11 @@ driftPlot = function(model,n){
     x =  apply(theta, 2, mean)
     if (model == "v-power"){
       
-      drift = x["v.asym"]+(x["v.asym"] + x["v.start"])*data$Trial^(x["v.rate"])
+      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*data$Trial^(-x["v.rate"])
       
     } else if (model == "v-exp"){
       
-      drift = x["v.asym"]+(x["v.asym"]+x["v.start"])*exp(x["v.rate"]*data$Trial)
+      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
       
     } else if (model == "v-linear"){
       

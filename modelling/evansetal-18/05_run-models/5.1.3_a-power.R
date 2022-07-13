@@ -23,7 +23,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
     names(x)=par.names
     
     for (cond in conds) {
-      a=x["a.asym"]+(x["a.asym"] + x["a.start"])*data$Trial^(-x["a.rate"])
+      a=x["a.asym"]+x["a.start"]*data$Trial^(-x["a.rate"])
       t0=x["t0"]
       v=x["v"]
       z=0.5
