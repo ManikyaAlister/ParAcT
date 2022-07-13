@@ -5,7 +5,7 @@ source(file = here("modelling/evansetal-18/05_run-models/5.0.0_load-packages.R")
 source(file = here("modelling/evansetal-18/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
-model = "a-delayed-power"
+model = "a-power-mir"
 nSub = 9 # number of subjects to run 
 
 ##############################
@@ -23,7 +23,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
     names(x)=par.names
     
     for (cond in conds) {
-      a=x["a.asym"]+x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+data$Trial^(-x["a.rate"])))
+      a=a=(x["a.asym"]+x["a.start"])-x["a.start"]*exp(x["a.rate"]*data$Trial)
       t0=x["t0"]
       v=x["v"]
       z=0.5
@@ -38,7 +38,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
     out
   }
   
-  theta.names=c("a.start","a.asym","a.rate","a.delay","t0",
+  theta.names=c("a.start","a.asym","a.rate","t0",
                 "v")
   
   savefile=here(paste("modelling/evansetal-18/06_output/P",useSub,"_",model,".Rdata",sep=""))
