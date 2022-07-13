@@ -44,7 +44,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
   savefile=here(paste("modelling/evansetal-18/06_output/P",useSub,"_",model,".Rdata",sep=""))
   saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
-  source(here("modelling/evansetal-18/03.3_background-pow-exp.R"))
+  source(here("modelling/evansetal-18/03_priors/03.1.3_a-priors-pow-exp.R"))
   source(here("modelling/evansetal-18/04_iterative-process.R"))
   
   n.pars = length(theta.names)

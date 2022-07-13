@@ -60,3 +60,52 @@ ggsave(filename = here("modelling/evansetal-18/09_plots/a-linear.png"),plot = li
 
 simple = thresholdPlot("simple",n)
 ggsave(filename = here("modelling/evansetal-18/09_plots/a-simple.png"),plot = simple)
+
+driftPlot = function(model,n){
+  
+  driftDf = as.data.frame(matrix(nrow = 0, ncol = 3))
+  
+  for (i in 1:n) {
+    
+    load(here(paste("modelling/evansetal-18/06_output/P", i,"_",model,".Rdata", sep = "")))
+    
+    trials = 1:length(data$Trial)
+    x =  apply(theta, 2, mean)
+    if (model == "v-power"){
+      
+      drift = x["v.asym"]+(x["v.asym"] + x["v.start"])*data$Trial^(x["v.rate"])
+      
+    } else if (model == "v-exp"){
+      
+      drift = x["v.asym"]+(x["v.asym"]+x["v.start"])*exp(x["v.rate"]*data$Trial)
+      
+    } else if (model == "v-linear"){
+      
+     drift = (x["v.b"]*data$Trial)+x["v.c"] 
+      
+    } else if (model == "simple") {
+      
+      drift = rep(x["a"],length(trials))
+      
+    } 
+    
+    drift = as.data.frame(drift)
+    drift$Participant =  i
+    drift$Trial = trials
+    driftDf  = rbind(driftDf, drift)
+  }
+  
+  colnames(driftDf) = c("Drift", "Participant", "Trial")
+  
+  a_plot = ggplot(data = driftDf) +
+    geom_line(aes(x = Trial, y = Drift, group = Participant)) +
+    theme_classic()
+  
+  return(a_plot)
+}
+
+v_power = driftPlot("v-power",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/v-power.png"), plot = v_power)
+
+v_linear = driftPlot("v-linear",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/v-linear.png"), plot = v_linear)
