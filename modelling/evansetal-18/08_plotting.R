@@ -41,11 +41,11 @@ thresholdPlot = function(model,n){
 
       threshold = x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(-x["a.rate"]*data$Trial))))
 
-    } else if (model == "a-exp-mir"){
+    } else if (model == "a-exp-mir" | model == "v-a-exp-mir"){
 
       threshold = (x["a.asym"]+x["a.start"])-x["a.start"]*exp(x["a.rate"]*data$Trial)
 
-    }
+    } 
     
     threshold = as.data.frame(threshold)
     threshold$Participant =  i
@@ -76,6 +76,9 @@ ggsave(filename = here("modelling/evansetal-18/09_plots/a-simple.png"),plot = si
 a_exp_mir = thresholdPlot("a-exp-mir",n)
 ggsave(filename = here("modelling/evansetal-18/09_plots/a-exp-mir.png"), plot = a_exp_mir)
 
+a_v_exp_mir_thresh = thresholdPlot("v-a-exp-mir",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/a_v_exp_mir_thresh.png"), plot = a_v_exp_mir_thresh)
+
 # Drift rate
 
 driftPlot = function(model,n){
@@ -92,7 +95,7 @@ driftPlot = function(model,n){
       
       drift = (x["v.asym"]+x["v.start"])-x["v.start"]*data$Trial^(-x["v.rate"])
       
-    } else if (model == "v-exp"){
+    } else if (model == "v-exp" | model == "v-a-exp-mir"){
       
       drift = (x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
       
@@ -137,3 +140,6 @@ ggsave(filename = here("modelling/evansetal-18/09_plots/v-linear.png"), plot = v
 
 v_exp = driftPlot("v-exp",n)
 ggsave(filename = here("modelling/evansetal-18/09_plots/v-exp.png"), plot = v_exp)
+
+a_v_exp_mir_drift = driftPlot("v-a-exp-mir",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/a_v_exp_mir_drift.png"), plot = a_v_exp_mir_drift)
