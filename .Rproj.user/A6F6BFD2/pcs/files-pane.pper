@@ -2,8 +2,8 @@
     "sortOrder": [
         {
             "columnIndex": 2,
-            "ascending": false
+            "ascending": true
         }
     ],
-    "path": "~/cloudstor/ParAcT/modelling/evansetal-18/05_run-models"
+    "path": "~/cloudstor/ParAcT/RT-ACC-analyses"
 }
