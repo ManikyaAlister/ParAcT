@@ -3,7 +3,7 @@ lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library
 library(here, lib.loc = lib)
 library(ggplot2, lib.loc = lib)
 
-n = 71
+n = 25
 
 # Threshold
 
@@ -70,14 +70,14 @@ ggsave(filename = here("modelling/chenetal-18/09_plots/a-exp.png"),plot = exp)
 linear = thresholdPlot("a-linear",n)
 ggsave(filename = here("modelling/chenetal-18/09_plots/a-linear.png"),plot = linear)
 
-simple = thresholdPlot("simple",n)
-ggsave(filename = here("modelling/chenetal-18/09_plots/a-simple.png"),plot = simple)
+#simple = thresholdPlot("simple",n)
+#ggsave(filename = here("modelling/chenetal-18/09_plots/a-simple.png"),plot = simple)
 
-a_exp_mir = thresholdPlot("a-exp-mir",n)
-ggsave(filename = here("modelling/chenetal-18/09_plots/a-exp-mir.png"), plot = a_exp_mir)
+#a_exp_mir = thresholdPlot("a-exp-mir",n)
+#ggsave(filename = here("modelling/chenetal-18/09_plots/a-exp-mir.png"), plot = a_exp_mir)
 
-a_v_exp_mir_thresh = thresholdPlot("v-a-exp-mir",n)
-ggsave(filename = here("modelling/chenetal-18/09_plots/a_v_exp_mir_thresh.png"), plot = a_v_exp_mir_thresh)
+#a_v_exp_mir_thresh = thresholdPlot("v-a-exp-mir",n)
+#ggsave(filename = here("modelling/chenetal-18/09_plots/a_v_exp_mir_thresh.png"), plot = a_v_exp_mir_thresh)
 
 # Drift rate
 
@@ -141,5 +141,5 @@ ggsave(filename = here("modelling/chenetal-18/09_plots/v-linear.png"), plot = v_
 v_exp = driftPlot("v-exp",n)
 ggsave(filename = here("modelling/chenetal-18/09_plots/v-exp.png"), plot = v_exp)
 
-a_v_exp_mir_drift = driftPlot("v-a-exp-mir",n)
-ggsave(filename = here("modelling/chenetal-18/09_plots/a_v_exp_mir_drift.png"), plot = a_v_exp_mir_drift)
+#a_v_exp_mir_drift = driftPlot("v-a-exp-mir",n)
+#ggsave(filename = here("modelling/chenetal-18/09_plots/a_v_exp_mir_drift.png"), plot = a_v_exp_mir_drift)

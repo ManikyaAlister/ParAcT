@@ -2,8 +2,9 @@ rm(list=ls())
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
 
-n = 71
-models = c("simple","a-linear","a-power","a-exp","a-exp-mir","v-linear","v-power","v-exp","v-a-exp-mir")
+n = 25
+#models = c("simple","a-linear","a-power","a-exp","a-exp-mir","v-linear","v-power","v-exp","v-a-exp-mir")
+models = c("a-linear","a-power","a-exp","v-linear","v-power","v-exp")
 allAIC = as.data.frame(matrix(ncol = 1+length(models)))
 allBIC = as.data.frame(matrix(ncol = 1+length(models)))
 
