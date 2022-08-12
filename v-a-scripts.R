@@ -5,8 +5,8 @@ source(file = here("modelling/evansetal-18/05_run-models/5.0.0_load-packages.R")
 source(file = here("modelling/evansetal-18/02_deep-background.R"))
 
 conds=1 # number of experimental conditions to loop over
-model = "a-delayed-exp" 
-nSub = 9 # number of subjects to run 
+model = "v-a-exp" 
+nSub = 1 # number of subjects to run 
 
 ####################################
 #### Exponential Threshold Model ###
@@ -23,9 +23,9 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
     names(x)=par.names
     
     for (cond in conds) {
-      a=x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*data$Trial))))
+      a=x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
       t0=x["t0"]
-      v=x["v"]
+      v=(x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
       z=0.5
       sv=0
       sz=0
@@ -38,13 +38,13 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
     out
   }
   
-  theta.names=c("a.start","a.asym","a.rate","a.delay","t0",
-                "v")
-
+  theta.names=c("a.asym","a.start","a.rate","t0",
+                "v.asym","v.start","v.rate")
+  
   savefile=here(paste("modelling/evansetal-18/06_output/P",useSub,"_",model,".Rdata",sep=""))
   saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
-  source(here("modelling/evansetal-18/03_priors/03.1.4_a-priors-delay.R"))
+  source(here("modelling/evansetal-18/03_priors/03.3.1_v-a-priors.R"))
   source(here("modelling/evansetal-18/04_iterative-process.R"))
   
   n.pars = length(theta.names)

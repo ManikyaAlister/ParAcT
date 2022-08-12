@@ -1,6 +1,8 @@
-data = data.frame(Trial = 1:100)
-data$Trial=c(0.1,4,2,0)
+#data = data.frame(Trial = 1:100)
+#data$Trial=c(0.1,4,2,0)
 #names(data$Trial) = c("a.rate","a.asym","a.start","a.delay")
+data = rnorm(100,1,0)
+x = 1:100
 
 r=0.1
 a=4
@@ -18,6 +20,9 @@ plot(data$Trial,x["a.asym"]+x["a.start"]*exp(x["a.rate"]*data$Trial),type="l",ma
 plot(data$Trial,x["a.asym"]-x["a.start"]*exp(-x["a.rate"]*data$Trial),type="l",main="Mirrored exponential Decay")
 
 plot(data$Trial,x["a.asym"]-x["a.start"]*exp(x["a.rate"]*data$Trial),type="l",main="Inverted (?) Mirrored exponential Decay")## <-- what I think threshold would look like 
+
+plot(data,1/(1+(exp(1)^-data)),"l")
+
 
 
 t=0

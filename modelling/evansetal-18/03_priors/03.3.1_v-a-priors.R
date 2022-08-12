@@ -48,9 +48,9 @@ lower.bounds[tmpP1.1]=0
 lower.bounds[tmpP1.2]=0
 lower.bounds[tmpP1.3]=0
 lower.bounds[tmpP2]=0
-lower.bounds[tmpP3.1]=-Inf
-lower.bounds[tmpP3.2]=-Inf
-lower.bounds[tmpP3.3]=-Inf
+lower.bounds[tmpP3.1]=0
+lower.bounds[tmpP3.2]=0
+lower.bounds[tmpP3.3]=0
 lower.bounds[tmpP4]=0
 
 upper.bounds=rep(NA,n.pars)
