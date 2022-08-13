@@ -6,7 +6,7 @@ source(file = here("modelling/evansetal-18/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
 model = "a-linear"
-nSub = 9 # number of subjects to run 
+nSub = 1 # number of subjects to run 
 
 ####################
 #### Linear Model###

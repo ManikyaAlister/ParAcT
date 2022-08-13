@@ -25,12 +25,13 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
     for (cond in conds) {
       a=x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
       t0=x["t0"]
-      v=x["v.asym"]-x["v.start"]*exp(-x["v.rate"]*data$Trial)
+      v=(x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
       z=0.5
       sv=0
       sz=0
       st0=0
       s=1
+      #browser()
       tmp=ddiffusion(rt=data$Time[data$Cond==cond],response=data$Resp[data$Cond==cond],z=z*a,a=a,v=v,t0=t0-(st0/2),s=s,sv=sv,sz=sz,st0=st0) #if I want to do it over multiple conditions
       out=out+sum(log(pmax(tmp,1e-10)))
     }
@@ -39,7 +40,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
   
   theta.names=c("a.asym","a.start","a.rate","t0",
                 "v.asym","v.start","v.rate")
-
+  
   savefile=here(paste("modelling/evansetal-18/06_output/P",useSub,"_",model,".Rdata",sep=""))
   saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
@@ -52,5 +53,5 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
   BIC = log(length(data$Time))*n.pars-2*max(weight)
   save(AIC,BIC,file = saveIC)
   save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds,
-     file=savefile)
+       file=savefile)
 }

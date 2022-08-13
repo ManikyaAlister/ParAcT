@@ -17,16 +17,13 @@
 #SBATCH --cpus-per-task=1
 
 # The amount of memory in megabytes per process in the job:
-#SBATCH --mem=12288
+#SBATCH --mem=24288
 
 # Use this email address:
 #SBATCH --mail-user=alisterm@student.unimelb.edu.au
 
 # Send yourself an email when the job:
 # aborts abnormally (fails)
-#SBATCH --mail-type=FAIL
-# begins
-#SBATCH --mail-type=BEGIN
 # ends successfully
 #SBATCH --mail-type=END
 
@@ -46,7 +43,7 @@ fi
 module load r/4.2.0
 
 # The job command(s):
-Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/05_run-models/5.1.2_a-linear.R
+Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/05_run-models/5.3.1_v-a-exp.R
 
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##

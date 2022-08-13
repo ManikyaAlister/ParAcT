@@ -23,7 +23,7 @@
 #SBATCH --mail-user=alisterm@student.unimelb.edu.au
 
 # Send yourself an email when the job:
-# aborts abnormally (fails)
+
 # ends successfully
 #SBATCH --mail-type=END
 
@@ -43,7 +43,7 @@ fi
 module load r/4.2.0
 
 # The job command(s):
-Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/05_run-models/5.3.1_v-a-exp.R
+Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/05_run-models/5.1.4_a-exp.R
 
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
