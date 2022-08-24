@@ -33,7 +33,7 @@ thresholdPlot = function(model,n){
       
       threshold = rep(x["a"],length(trials))
       
-    } else if (model == "a-delayed-pow"){
+    } else if (model == "a-delayed-power"){
 
       threshold = x["a.asym"]+x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+data$Trial^(-x["a.rate"])))
 
@@ -76,8 +76,14 @@ ggsave(filename = here("modelling/evansetal-18/09_plots/a-simple.png"),plot = si
 a_exp_mir = thresholdPlot("a-exp-mir",n)
 ggsave(filename = here("modelling/evansetal-18/09_plots/a-exp-mir.png"), plot = a_exp_mir)
 
+a_delayed_pow = thresholdPlot("a-delayed-power",n)
+
+a_delayed_exp = thresholdPlot("a-delayed-exp",n)
+ggsave(filename = here("modelling/evansetal-18/09_plots/a_delayed-exp.png"), plot = a_v_exp_mir_thresh)
+
 a_v_exp_mir_thresh = thresholdPlot("v-a-exp-mir",n)
 ggsave(filename = here("modelling/evansetal-18/09_plots/a_v_exp_mir_thresh.png"), plot = a_v_exp_mir_thresh)
+
 
 # Drift rate
 
