@@ -1,5 +1,11 @@
+## Load Packages ## 
+lib = .libPaths()
+library(rtdists,lib.loc = lib)
+library(msm, lib.loc = lib)
+library(here, lib.loc = lib)
+
 conds = 1
-nSub = 1
+nSub = 9
 
 ##### Simulate data Using Parameters ####
 
