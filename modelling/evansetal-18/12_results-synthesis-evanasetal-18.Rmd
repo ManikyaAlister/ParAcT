@@ -118,7 +118,7 @@ singleParticipant_v(9,models = c("simple","v-linear","v-power","v-a-exp"))
 
 ### Threshold
 
-```{r echo = FALSE}
+```{r}
 par(omi=rep(0.1, 4), mar=c(1.5,1.5,1.5,1.5), mfrow=c(3,3))
 singleParticipant_a(1,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
 singleParticipant_a(2,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
@@ -130,21 +130,25 @@ singleParticipant_a(7,models = c("a-power","a-exp","a-delayed-power","a-delayed-
 singleParticipant_a(8,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
 singleParticipant_a(9,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
 
+
+
 ```
 
 ### Drift
 
 ```{r}
 par(omi=rep(0.1, 4), mar=c(1.5,1.5,1.5,1.5), mfrow=c(3,3))
-singleParticipant_v(1,models = c("simple","v-linear","v-power","v-exp"))
-singleParticipant_v(2,models = c("simple","v-linear","v-power","v-exp"))
-singleParticipant_v(3,models = c("simple","v-linear","v-power","v-exp"))
-singleParticipant_v(4,models = c("simple","v-linear","v-power","v-exp"))
-singleParticipant_v(5,models = c("simple","v-linear","v-power","v-exp"))
-singleParticipant_v(6,models = c("simple","v-linear","v-power","v-exp"))
-singleParticipant_v(7,models = c("simple","v-linear","v-power","v-exp"))
-singleParticipant_v(8,models = c("simple","v-linear","v-power","v-exp"))
-singleParticipant_v(9,models = c("simple","v-linear","v-power","v-exp"))
+singleParticipant_v(1,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(2,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(3,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(4,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(5,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(6,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(7,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(8,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(9,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+
+#singleParticipant_v(1,models = c("v-delayed-exp"))
 ```
 
 

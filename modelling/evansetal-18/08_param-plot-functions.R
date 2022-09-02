@@ -94,7 +94,7 @@ driftPlot = function(model,nRange){
       
     } else if (model == "v-delayed-exp"){
 
-      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(-x["v.rate"]*data$Trial)))
+      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*data$Trial)))
 
     }
     
@@ -154,11 +154,11 @@ singleParticipant_a = function(participant,
       
     } else if (model == "a-delayed-power"){
       
-      threshold = x["a.asym"]+x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+data$Trial^(-x["a.rate"])))
+      threshold = x["a.asym"]+x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+data$Trial^(x["a.rate"])))
       
     } else if (model == "a-delayed-exp") {
       
-      threshold = x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*data$Trial))))
+      x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*data$Trial))))
       
     } else if (model == "a-exp-mir"){
       
@@ -216,7 +216,7 @@ singleParticipant_v = function(participant,
       
     } else if (model == "v-delayed-exp"){
       
-      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(-x["v.rate"]*data$Trial)))
+      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*data$Trial)))
       
     }
     lines(data$Trial,drift)

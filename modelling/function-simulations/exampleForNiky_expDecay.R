@@ -1,6 +1,6 @@
 #data = data.frame(Trial = 1:100)
 #data$Trial=c(0.1,4,2,0)
-#names(data$Trial) = c("a.rate","a.asym","a.start","a.delay")
+#names(x) = c("a.rate","a.asym","a.start","a.delay")
 data = rnorm(100,1,0)
 x = 1:100
 
