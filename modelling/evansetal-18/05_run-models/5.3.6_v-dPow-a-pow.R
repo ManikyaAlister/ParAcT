@@ -9,7 +9,7 @@ model = "v-dExp-a-exp"
 nSub = 9 # number of subjects to run 
 
 #####################################################
-#### Delayed Drift + Exponential Threshold Model ###
+#### Delayed Drift + Power Threshold Model #########
 ####################################################
 
 for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
@@ -23,9 +23,9 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
     names(x)=par.names
     
     for (cond in conds) {
-      a=x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
+      a=x["a.asym"]+x["a.start"]*data$Trial^(-x["a.rate"])
       t0=x["t0"]
-      v=(x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*data$Trial)))
+      v=(x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+data$Trial^(x["v.rate"])))
       z=0.5
       sv=0
       sz=0
