@@ -37,6 +37,66 @@ bestBIC
 
 Pretty much agreement between AIC and BIC. Model 12 = Exponential increase in v + exponential decrease in a. Model 4 = exponential decrease in a only. 
 
+#### What were the best single models?
+
+What were the best 4 single models? That can inform what 2 parameter models I should run. 
+
+```{r}
+# what were the best single models 
+bestAICsingle = apply(allAIC[,-c(1,12)],1,which.min)
+bestAICsingle
+# what were the best single models 
+bestBICsingle = apply(allBIC[,-c(1,12)],1,which.min)
+bestBICsingle
+```
+
+Looks like the v-exp-delayed was actually the best single model.
+
+```{r}
+# what was the second best model?
+secBestAICsingle = apply(allAIC[,-c(1,11,12)],1,which.min)
+secBestAICsingle
+
+secBestBICsingle = apply(allBIC[,-c(1,11,12)],1,which.min)
+secBestBICsingle
+```
+
+Followed by v-pow-delayed. Seems like the v models are all doing better than the a models. But what a models performed best? 
+
+
+```{r}
+# what was the best a model?
+best_a_AICsingle = apply(allAIC[,2:6],1,which.min)
+best_a_AICsingle
+
+best_a_BICsingle = apply(allBIC[,2:6],1,which.min)
+best_a_BICsingle
+```
+
+best a model is a-exp
+
+```{r}
+# what was the next best a model?
+secBest_a_AICsingle = apply(allAIC[,c(2,3,5,6)],1,which.min)
+secBest_a_AICsingle
+
+secBest_a_BICsingle = apply(allBIC[,c(2,3,5,6)],1,which.min)
+secBest_a_BICsingle
+```
+
+second best a model is a-pow
+
+#### What 2-parameter change models should I run?
+
+It seems like the delay functions best describe the v- models, but the a- models are better described by the normal power/exponential models. So, I think the best 2 param models to run would be: 
+
+```{r}
+bestA = c("a_exp", "a_pow")
+bestB = c("v_delayed_exp","v-delayed-pow")
+expand.grid(bestA,bestB)
+```
+
+
 # Visualise Parameters of Best Model (BIC)
 
 ```{r}
@@ -131,7 +191,6 @@ singleParticipant_a(8,models = c("a-power","a-exp","a-delayed-power","a-delayed-
 singleParticipant_a(9,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
 
 
-
 ```
 
 ### Drift
@@ -147,8 +206,6 @@ singleParticipant_v(6,models = c("v-power","v-exp","v-delayed-pow","v-delayed-ex
 singleParticipant_v(7,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
 singleParticipant_v(8,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
 singleParticipant_v(9,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
-
-#singleParticipant_v(1,models = c("v-delayed-exp"))
 ```
 
 

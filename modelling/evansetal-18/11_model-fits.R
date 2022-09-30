@@ -70,12 +70,13 @@ for (model in models){
 }
 
 # function to plot observed data against predicted data
-plotQuantiles = function(simQuants, qs = seq(0.1,0.9,0.1)) { # need to have observed quantiles means in environment (q.means & p.mean)
+plotQuantiles = function(simQuants, qs = seq(0.1,0.9,0.1)) { # need to have the observed quantiles means loaded in environment (q.means & p.mean)
   plot(observed$q.mean, qs*observed$p.mean, pch = 16, main = simQuants$name) # observed data 
   lines(observed$q.mean, qs*observed$p.mean)
   points(simQuants$q.mean, qs*simQuants$p.mean, pch = 1) # simulated data 
   lines(simQuants$q.mean, qs*simQuants$p.mean)
 }
+
 
 
 

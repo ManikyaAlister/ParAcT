@@ -43,7 +43,7 @@ for (useSub in 1:nSub) {
     tmp = rdiffusion(
       n = 10000,
       a = x["a"],
-      v = x["v.rate"]-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(-x["v.rate"]*data$Trial))),
+      v = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*data$Trial))),
       t0 = x["t0"],
       z = x["z"] * x["a"]
     ) # Runs diffusion model to generated data with estimated parameters

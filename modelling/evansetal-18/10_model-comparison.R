@@ -27,6 +27,6 @@ save(allBIC, file = here("data/evansetal-18/derived/allBIC.Rdata"))
 apply(allBIC[,2:9],2,which.min)
 
 
-rankBIC = aapply(allBIC[,2:length(allBIC)],1,which.min)
+rankBIC = apply(allBIC[,2:length(allBIC)],1,which.min)
 
 rankAIC = apply(allAIC[,2:length(allAIC)],1,which.min)

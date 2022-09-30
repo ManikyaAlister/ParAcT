@@ -42,10 +42,10 @@ for (useSub in 1:nSub) {
     
     tmp = rdiffusion(
       n = 10000,
-      a = x["a.asym"]+x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+data$Trial^(-x["a.rate"]))),
+      a = x["a.asym"]+x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+data$Trial^(x["a.rate"]))),
       v = x["v"],
       t0 = x["t0"],
-      z = x["z"] * (x["a.asym"]+x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+data$Trial^(-x["a.rate"]))))
+      z = x["z"] * (x["a.asym"]+x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+data$Trial^(x["a.rate"]))))
     ) # Runs diffusion model to generated data with estimated parameters
     simdata$Time = c(simdata$Time, tmp$rt) # Populates the RT column in the simulated data
     simdata$Resp = c(simdata$Resp, tmp$response) # Populates the Resp column in the simulated data
