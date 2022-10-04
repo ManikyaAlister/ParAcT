@@ -3,7 +3,23 @@ lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library
 library(here, lib.loc = lib)
 
 n = 9
-models = c("simple","a-linear","a-power","a-exp","a-delayed-power","a-delayed-exp","v-linear","v-power","v-exp","v-delayed-pow","v-delayed-exp","v-a-exp")
+models = c("simple",
+"a-linear",
+"a-power",
+"a-exp",
+"a-delayed-power",
+"a-delayed-exp",
+"v-linear",
+"v-power",
+"v-exp",
+"v-delayed-pow",
+"v-delayed-exp",
+"v-a-exp", 
+"v-dExp-a-exp",
+"v-dExp-a-pow",
+"v-dPow-a-exp",
+"v-dPow-a-Pow"
+)
 allAIC = as.data.frame(matrix(ncol = 1+length(models)))
 allBIC = as.data.frame(matrix(ncol = 1+length(models)))
 
