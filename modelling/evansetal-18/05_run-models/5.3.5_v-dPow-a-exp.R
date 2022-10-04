@@ -5,7 +5,7 @@ source(file = here("modelling/evansetal-18/05_run-models/5.0.0_load-packages.R")
 source(file = here("modelling/evansetal-18/02_deep-background.R"))
 
 conds=1 # number of experimental conditions to loop over
-model = "v-dExp-a-exp" 
+model = "v-dPow-a-exp" 
 nSub = 9 # number of subjects to run 
 
 #####################################################
