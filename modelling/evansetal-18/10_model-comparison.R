@@ -40,8 +40,6 @@ allBIC[i,"Participant"] = i
 save(allAIC, file = here("data/evansetal-18/derived/allAIC.Rdata"))
 save(allBIC, file = here("data/evansetal-18/derived/allBIC.Rdata"))
 
-apply(allBIC[,2:9],2,which.min)
-
 
 rankBIC = apply(allBIC[,2:length(allBIC)],1,which.min)
 

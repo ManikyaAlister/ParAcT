@@ -37,6 +37,74 @@ bestBIC
 
 Pretty much agreement between AIC and BIC. Model 12 = Exponential increase in v + exponential decrease in a. Model 4 = exponential decrease in a only. 
 
+##### Weighted model comparison
+
+```{r}
+source(here("weighted-ICs.R"))
+
+par(omi=rep(0.1, 4), mar=c(4.5,3,1.5,2), mfrow=c(1,2))
+
+wmc_AIC = weightedICs(allAIC[,2:length(allAIC)])
+plotWMC_AIC = plotWeightedICs(wmc_AIC, seed = 115,inset = -.29)
+mtext("AIC", side = 3, line = 1)
+
+
+wmc_BIC = weightedICs(allBIC[,2:length(allBIC)])
+plotWMC_BIC = plotWeightedICs(wmc_BIC, seed = 115,inset = -.6)
+mtext("BIC", side = 3, line = 1)
+```
+```{r warning = FALSE}
+source(here("compareMM-ICs.R"))
+
+par(omi=rep(0.1, 4), mar=c(4.5,3,1.5,2), mfrow=c(1,2))
+
+MMComparisonPlot(
+  wmc_AIC,
+  models1 = c("simple",
+              "a-linear",
+              "a-power",
+              "a-exp",
+              "a-delayed-power",
+              "a-delayed-exp",
+              "v-linear",
+              "v-power",
+              "v-exp"),
+  models2 = c("v-delayed-pow",
+              "v-delayed-exp",
+              "v-a-exp", 
+              "v-dExp-a-exp",
+              "v-dExp-a-pow",
+              "v-dPow-a-exp",
+              "v-dPow-a-Pow"),
+  groupNames = c("1 param models", "2 param models")
+)
+mtext("AIC", side = 3, line = 1)
+
+MMComparisonPlot(
+  wmc_BIC,
+  models1 = c("simple",
+              "a-linear",
+              "a-power",
+              "a-exp",
+              "a-delayed-power",
+              "a-delayed-exp",
+              "v-linear",
+              "v-power",
+              "v-exp"),
+  models2 = c("v-delayed-pow",
+              "v-delayed-exp",
+              "v-a-exp", 
+              "v-dExp-a-exp",
+              "v-dExp-a-pow",
+              "v-dPow-a-exp",
+              "v-dPow-a-Pow"),
+  inset = c(-0.5,-5)
+)
+mtext("BIC", side = 3, line = 1)
+```
+
+
+
 #### What were the best single models?
 
 What were the best 4 single models? That can inform what 2 parameter models I should run. 
