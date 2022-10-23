@@ -1,6 +1,9 @@
 
 rm(list = ls())
-setwd("~/Documents/2021/Gaze-Cueing/Recovery")
+library(here)
+setwd(here())
+setwd("Recovery")
+
 
 # Set up empty data frames for generated parameters (allGenParamas) and estimated parameters (allMeanTheta)
 
@@ -9,23 +12,34 @@ allMeanTheta=NULL
 
 #Define how many data sets to use
 n = 100
+model = "v-exp"
 
 for (p in 1:n) { #Loop in each data set
-  load(paste("Fits_recovery/fits_recovery_P",p,".RData", sep = ""))
-  
+  load(paste0("Fits_recovery/P",p,"_",model,".RData"))
+  load(paste0("Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
   #Rearrange and take out unnecessary values from the generated parameters 
-  tmp = c(genParams[2,2], genParams[3,1], genParams[3,2], genParams[4,1], genParams[4,2], genParams[1,2])
-  names(tmp) = c("a", "t0.-0.5","t0.0.5", "v.-0.5", "v.0.5", "z")
+  tmp = c(genParams[,1])
   
   #Create a large data set which combines the mean generated parameters from all data sets
   allGenParams=rbind(allGenParams,tmp)
   #Create a large data set which combines the mean estimated parameters from all data sets
   allMeanTheta=rbind(allMeanTheta,apply(theta,2,mean))
 }
+
+
 #Create vDiff columns 
 
 allGenParams= as.data.frame(allGenParams)
 allMeanTheta= as.data.frame(allMeanTheta)
+
+cor(allGenParams$v.start, allMeanTheta$v.start)
+cor(allGenParams$v.asym, allMeanTheta$v.asym)
+cor(allGenParams$v.rate, allMeanTheta$v.rate)
+cor(allGenParams$a, allMeanTheta$a)
+cor(allGenParams$ter, allMeanTheta$t0)
+
+
+
 allGenParams$vDiff = allGenParams$v.0.5 - allGenParams$`v.-0.5`
 allMeanTheta$vDiff = allMeanTheta$v.0.5 - allMeanTheta$`v.-0.5`
 allGenParams$t0Diff = allGenParams$t0.0.5 - allGenParams$`t0.-0.5`
@@ -36,8 +50,8 @@ save(allGenParams, file = "All_Fits/Generated_Paramaters.RData")
 save(allMeanTheta, file = "All_Fits/Estimated_Paramaters.RData")
 
 #If I want to reload
-load("~/Documents/2021/Gaze-Cueing/Recovery/All_Fits/Estimated_Paramaters.RData")
-load("~/Documents/2021/Gaze-Cueing/Recovery/All_Fits/Generated_Paramaters.RData")
+#load("~/Documents/2021/Gaze-Cueing/Recovery/All_Fits/Estimated_Paramaters.RData")
+#load("~/Documents/2021/Gaze-Cueing/Recovery/All_Fits/Generated_Paramaters.RData")
 
 cor_vDiff = cor(allGenParams[,"vDiff"],allMeanTheta[,"vDiff"])
 cor_z = cor(allGenParams[,"z"],allMeanTheta[,"z"])

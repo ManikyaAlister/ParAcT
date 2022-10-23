@@ -26,7 +26,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
       a=x["a"]
       t0=x["t0"]
       v=(x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
-      z=0.5
+      z=x["z"]
       sv=0
       sz=0
       st0=0
@@ -51,6 +51,6 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
   AIC = -2*max(weight)+ 2*n.pars 
   BIC = log(length(data$Time))*n.pars-2*max(weight)
   #save(AIC,BIC,file = saveIC)
-  save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds,
+  save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds, genParams,
        file=savefile)
 }
