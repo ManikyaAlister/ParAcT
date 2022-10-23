@@ -14,7 +14,7 @@ nSub = 100 # number of subjects to run
 
 for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
   
-  load(paste("Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
+  load(paste("Recovery/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
   
@@ -40,8 +40,8 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
   theta.names=c("a","t0",
                 "v.start","v.asym","v.rate")
   
-  savefile=here(paste("modelling/evansetal-18/06_output/P",useSub,"_",model,".Rdata",sep=""))
-  saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  savefile=here(paste("Recovery/Fits_recovery/P",useSub,"_",model,".Rdata",sep=""))
+  #saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
   source(here("Recovery/03_priors/03.2.3_v-priors-pow-exp.R"))
   source(here("Recovery/04_iterative-process.R"))
@@ -50,7 +50,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
   
   AIC = -2*max(weight)+ 2*n.pars 
   BIC = log(length(data$Time))*n.pars-2*max(weight)
-  save(AIC,BIC,file = saveIC)
+  #save(AIC,BIC,file = saveIC)
   save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds,
        file=savefile)
 }
