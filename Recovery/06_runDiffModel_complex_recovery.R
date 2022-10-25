@@ -31,13 +31,13 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
       sz=0
       st0=0
       s=1
-      tmp=ddiffusion(rt=data$Time[data$Cond==cond],response=data$Resp[data$Cond==cond],z=z*a,a=a,v=v,t0=t0-(st0/2),s=s,sv=sv,sz=sz,st0=st0) #if I want to do it over multiple conditions
+      tmp=ddiffusion(rt=data$time[data$Cond==cond],response=data$Resp[data$Cond==cond],z=z*a,a=a,v=v,t0=t0-(st0/2),s=s,sv=sv,sz=sz,st0=st0) #if I want to do it over multiple conditions
       out=out+sum(log(pmax(tmp,1e-10)))
     }
     out
   }
   
-  theta.names=c("a","t0",
+  theta.names=c("a","t0","z",
                 "v.start","v.asym","v.rate")
   
   savefile=here(paste("Recovery/Fits_recovery/P",useSub,"_",model,".Rdata",sep=""))

@@ -1,5 +1,5 @@
 
-dyn.load("DIFF.so")
+dyn.load("Recovery/DIFF_trialVarying.so")
 
 use.interval=0.0001
 use.table=qnorm(seq(use.interval,1-use.interval,use.interval))
@@ -12,7 +12,7 @@ simulate.DIFF=function(N,params,maxCounter,stepSize,varyV,varyA,varyZ,varyT0,use
   resps=rep(0,N)
   
   if (varyV) {
-    v=(genParams["v.asym"]+genParams["v.start"])-genParams["v.start"]*exp(-genParams["v.rate"]*data$Trial)
+    v=(params["v.asym"]+params["v.start"])-params["v.start"]*exp(-params["v.rate"]*(1:N))
     
   } else {
     v=rep(params["v"],N)

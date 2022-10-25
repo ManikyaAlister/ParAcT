@@ -2,7 +2,7 @@
 rm(list = ls())
 library(here)
 setwd(here())
-setwd("Recovery")
+#setwd("Recovery")
 
 
 # Set up empty data frames for generated parameters (allGenParamas) and estimated parameters (allMeanTheta)
@@ -15,8 +15,8 @@ n = 100
 model = "v-exp"
 
 for (p in 1:n) { #Loop in each data set
-  load(paste0("Fits_recovery/P",p,"_",model,".RData"))
-  load(paste0("Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
+  load(paste0("Recovery/Fits_recovery/P",p,"_",model,".RData"))
+  #load(paste0("Recovery/Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
   #Rearrange and take out unnecessary values from the generated parameters 
   tmp = c(genParams[,1])
   
