@@ -19,7 +19,7 @@ simulate.DIFF=function(N,params,maxCounter,stepSize,varyV,varyA,varyZ,varyT0,use
   }
   
   if (varyA) {
-    #insert function here to calculate the a for each trial
+    a = params["a.asym"]+params["a.start"]*exp(-params["a.rate"]*(1:N))
     
   } else {
     a=rep(params["a"],N)

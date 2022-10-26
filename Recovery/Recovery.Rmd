@@ -1,0 +1,160 @@
+---
+title: "Recovery"
+author: "Manikya Alister"
+date: "26/10/2022"
+output: 
+  html_document:
+    theme: simplex
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls())
+library(here)
+setwd(here())
+```
+
+
+```{r}
+# Set up empty data frames for generated parameters (allGenParamas) and estimated parameters (allMeanTheta)
+
+allGenParams=NULL
+allMeanTheta=NULL
+
+#Define how many data sets to use
+n = 100
+model = "v-exp"
+
+for (p in 1:n) { #Loop in each data set
+  load(paste0("Recovery/Fits_recovery/P",p,"_",model,".RData"))
+  #load(paste0("Recovery/Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
+  #Rearrange and take out unnecessary values from the generated parameters 
+  tmp = c(genParams[,1])
+  
+  #Create a large data set which combines the mean generated parameters from all data sets
+  allGenParams=rbind(allGenParams,tmp)
+  #Create a large data set which combines the mean estimated parameters from all data sets
+  allMeanTheta=rbind(allMeanTheta,apply(theta,2,mean))
+}
+
+allGenParams= as.data.frame(allGenParams)
+allMeanTheta= as.data.frame(allMeanTheta)
+
+```
+
+## Correlations
+
+```{r}
+correlations = c(
+cor(allGenParams$a, allMeanTheta$a),
+cor(allGenParams$ter, allMeanTheta$t0),
+cor(allGenParams$z, allMeanTheta$z),  
+cor(allGenParams$v.start, allMeanTheta$v.start),
+cor(allGenParams$v.asym, allMeanTheta$v.asym),
+cor(allGenParams$v.rate, allMeanTheta$v.rate)
+)
+
+
+names(correlations) = colnames(allMeanTheta)
+
+correlations
+```
+
+```{r}
+par(mfrow = c(2,3))
+
+plot(allGenParams$v.start, allMeanTheta$v.start, ylab = "Estimated", xlab = "Generated", main = "v.start")
+plot(allGenParams$v.asym, allMeanTheta$v.asym, ylab = "Estimated", xlab = "Generated", main = "v.asym")
+plot(allGenParams$v.rate, allMeanTheta$v.rate, ylab = "Estimated", xlab = "Generated", main = "v.rate")
+plot(allGenParams$a, allMeanTheta$a, ylab = "Estimated", xlab = "Generated", main = "a")
+plot(allGenParams$ter, allMeanTheta$t0, ylab = "Estimated", xlab = "Generated", main = "t0")
+plot(allGenParams$z, allMeanTheta$z, ylab = "Estimated", xlab = "Generated", main = "z")
+
+```
+
+wtf z?
+
+## Do Estimated and Generated Functions Resemble Each other? 
+
+```{r}
+singleParticipant_v = function(participant,
+                               trials = 1000,
+                               ymin = 0,
+                               ymax = 4,
+                               models = c(
+                                 "simple",
+                                 "a-linear",
+                                 "a-power",
+                                 "a-exp",
+                                 "a-delayed-power",
+                                 "a-delayed-exp",
+                                 "v-linear",
+                                 "v-power",
+                                 "v-exp",
+                                 "v-delayed-pow",
+                                 "v-delayed-exp",
+                                 "v-a-exp"
+                               ),
+                               params,
+                               title = "") {
+  plot(-1,-1,ylim = c(ymin,ymax),xlab = "trial",ylab = "v", xlim = c(0,trials), main = title)
+  for(model in models){
+    load(here(paste("Recovery/Fits_recovery/P", participant,"_",model,".Rdata", sep = "")))
+    
+    if (params == "generated"){
+      x = as.vector(genParams)
+      names(x) = rownames(genParams)
+    } else if (params == "estimated"){
+      x =  apply(theta, 2, mean)
+    }
+    if (model == "v-power"){
+      
+      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*data$Trial^(-x["v.rate"])
+      
+    } else if (model == "v-exp" | model == "v-a-exp"){
+      
+      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
+      
+    } else if (model == "v-linear"){
+      
+      drift = (x["v.b"]*data$Trial)+x["v.c"] 
+      
+    } else if (model == "simple") {
+      
+      drift = rep(x["a"],length(data$Trial))
+      
+    } else if (model == "v-delayed-pow"){
+      
+      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+data$Trial^(x["v.rate"])))
+      
+    } else if (model == "v-delayed-exp"){
+      
+      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*data$Trial)))
+      
+    }
+    lines(data$Trial,drift)
+  }
+  
+  
+}
+```
+
+
+```{r}
+par(mfrow = c(2,2))
+singleParticipant_v(participant = 1, models = "v-exp", params = "generated", title = "Generated")
+singleParticipant_v(participant = 1, models = "v-exp", params = "estimated", title = "Estimated")
+singleParticipant_v(participant = 2, models = "v-exp", params = "generated")
+singleParticipant_v(participant = 2, models = "v-exp", params = "estimated")
+
+```
+
+```{r}
+par(mfrow = c(2,2))
+singleParticipant_v(participant = 20, models = "v-exp", params = "generated", ymin = 2, ymax =6)
+singleParticipant_v(participant = 20, models = "v-exp", params = "estimated")
+singleParticipant_v(participant = 30, models = "v-exp", params = "generated", ymin = 2, ymax =6)
+singleParticipant_v(participant = 30, models = "v-exp", params = "estimated")
+```
+
