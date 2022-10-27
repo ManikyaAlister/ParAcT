@@ -27,7 +27,7 @@ n = 100
 model = "v-exp"
 
 for (p in 1:n) { #Loop in each data set
-  load(paste0("Recovery/Fits_recovery/P",p,"_",model,".RData"))
+  load(paste0("Recovery/",model,"/Fits_recovery/P",p,"_",model,".RData"))
   #load(paste0("Recovery/Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
   #Rearrange and take out unnecessary values from the generated parameters 
   tmp = c(genParams[,1])
@@ -49,7 +49,7 @@ allMeanTheta= as.data.frame(allMeanTheta)
 correlations = c(
 cor(allGenParams$a, allMeanTheta$a),
 cor(allGenParams$ter, allMeanTheta$t0),
-cor(allGenParams$z, allMeanTheta$z),  
+#cor(allGenParams$z, allMeanTheta$z),  
 cor(allGenParams$v.start, allMeanTheta$v.start),
 cor(allGenParams$v.asym, allMeanTheta$v.asym),
 cor(allGenParams$v.rate, allMeanTheta$v.rate)
@@ -100,7 +100,7 @@ singleParticipant_v = function(participant,
                                title = "") {
   plot(-1,-1,ylim = c(ymin,ymax),xlab = "trial",ylab = "v", xlim = c(0,trials), main = title)
   for(model in models){
-    load(here(paste("Recovery/Fits_recovery/P", participant,"_",model,".Rdata", sep = "")))
+    load(here(paste("Recovery/v-exp/Fits_recovery/P", participant,"_",model,".Rdata", sep = "")))
     
     if (params == "generated"){
       x = as.vector(genParams)
