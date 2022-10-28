@@ -2,8 +2,8 @@
     "sortOrder": [
         {
             "columnIndex": 2,
-            "ascending": true
+            "ascending": false
         }
     ],
-    "path": "~/cloudstor/ParAcT/Recovery/v-exp/Fits_recovery"
+    "path": "~/cloudstor/ParAcT/Recovery/v-exp/run-parallel"
 }
