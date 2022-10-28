@@ -42,7 +42,7 @@ fi
 module load r/4.2.0
 
 # The job command(s):
-Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/v-exp/06_runDiffModel_v-exp_recovery41-50.R
+Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/v-exp/run-parallel/06_runDiffModel_v-exp_recovery41-50.R
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage
