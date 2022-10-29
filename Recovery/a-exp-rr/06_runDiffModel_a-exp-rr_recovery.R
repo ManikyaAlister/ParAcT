@@ -5,7 +5,7 @@ source(file = here("Recovery/5.0.0_load-packages.R"))
 source(file = here("Recovery/02_deep-background.R"))
 
 conds= 1 # number of experimental conditions to loop over
-model = "a-exp" 
+model = "a-exp-rr" 
 nSub = 100 # number of subjects to run 
 
 ####################################
