@@ -23,6 +23,11 @@
 #SBATCH --mail-user=alisterm@student.unimelb.edu.au
 
 # Send yourself an email when the job:
+# aborts abnormally (fails)
+#SBATCH --mail-type=FAIL
+# begins
+#SBATCH --mail-type=BEGIN
+# ends successfully
 #SBATCH --mail-type=END
 
 # The maximum running time of the job in days-hours:mins:sec
@@ -41,7 +46,7 @@ fi
 module load r/4.2.0
 
 # The job command(s):
-Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/a-exp/06_runDiffModel_a-exp_recovery.R
+Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/v-exp-rr/06_runDiffModel_v-exp-rr_recovery.R
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage
