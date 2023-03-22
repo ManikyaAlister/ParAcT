@@ -1,3 +1,5 @@
+/Users/manikyaalister/Documents/Projects/ParAcT/modelling/evansetal-18/01_run-model-parallel.sh="52F9DA67"
+/Users/manikyaalister/Documents/Projects/ParAcT/modelling/evansetal-18/01_run-scripts.sh="259E7D59"
 /Users/manikyaalister/Documents/Projects/ParAcT/modelling/evansetal-18/03_priors/03.1.2_a-priors-linear.R="04D2C969"
 /Users/manikyaalister/Documents/Projects/ParAcT/modelling/evansetal-18/03_priors/03.3.1_v-a-priors.R="6F4F71A4"
 /Users/manikyaalister/Documents/Projects/ParAcT/modelling/evansetal-18/03_priors/04.2.3_v-block-priors.R="3230CF4D"
@@ -10,4 +12,7 @@
 /Users/manikyaalister/Documents/Projects/ParAcT/modelling/function-simulations/exampleForNiky_expDecay 2.R="705AF5DE"
 /Users/manikyaalister/Documents/Projects/ParAcT/modelling/function-simulations/exampleForNiky_expDecay_differentBumps.R="93886D30"
 /Users/manikyaalister/Documents/Projects/RectangleWorld/RectangleWorld-sims/archive/backup-exp-trials.R="97CABCAA"
+/Users/manikyaalister/Documents/Projects/RectangleWorld/RectangleWorld-sims/experiment-1/modelling/00_prepare-data.R="E4420C6E"
+/Users/manikyaalister/Documents/Projects/RectangleWorld/RectangleWorld-sims/experiment-1/modelling/02_model-posteriors.R="5EC92845"
 /Users/manikyaalister/Documents/Projects/RectangleWorld/RectangleWorld-sims/experiment-1/modelling/03_plot-posteriors.R="26CD6981"
+/Users/manikyaalister/Documents/Projects/RectangleWorld/RectangleWorld-sims/experiment-1/modelling/old-fitting-scripts/02_run-scripts.sh="A0325D0F"

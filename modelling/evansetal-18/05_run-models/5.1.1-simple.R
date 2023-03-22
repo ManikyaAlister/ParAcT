@@ -6,14 +6,15 @@ source(file = here("modelling/evansetal-18/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
 model = "simple"
-nSub = 9 # number of subjects to run 
+subj = commandArgs(trailingOnly = TRUE)
+# nSub = 9 # number of subjects to run (if looping instead of parallel)
 
 ####################
 #### Simple Model###
 ####################
 
 
-for (useSub in 1:nSub) {
+for (useSub in subj) {
   # Run DDM for each subject in n Subjects
   
   load(here(
