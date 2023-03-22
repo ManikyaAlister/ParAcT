@@ -7,13 +7,15 @@ source(file = here("modelling/evansetal-18/02_deep-background.R"))
 conds=1 # number of experimental conditions to loop over
 model = "v-dExp-a-exp" 
 nSub = 9 # number of subjects to run 
-
+#args <- commandArgs(trailingOnly = TRUE)
 #####################################################
 #### Delayed Drift + Exponential Threshold Model ###
 ####################################################
 
+#load(here(paste("data/evansetal-18/clean/P",args,".Rdata",sep="")))
+
 for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
-  
+
   load(here(paste("data/evansetal-18/clean/P",useSub,".Rdata",sep="")))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))

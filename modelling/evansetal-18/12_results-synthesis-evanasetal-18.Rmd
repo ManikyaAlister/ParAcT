@@ -42,15 +42,15 @@ Pretty much agreement between AIC and BIC. Model 12 = Exponential increase in v 
 ```{r}
 source(here("weighted-ICs.R"))
 
-par(omi=rep(0.1, 4), mar=c(4.5,3,1.5,2), mfrow=c(1,2))
+#par(omi=rep(0.1, 4), mar=c(4.5,3,1.5,2), mfrow=c(1,2))
 
-wmc_AIC = weightedICs(allAIC[,2:length(allAIC)])
-plotWMC_AIC = plotWeightedICs(wmc_AIC, seed = 115,inset = -.29)
-mtext("AIC", side = 3, line = 1)
+# wmc_AIC = weightedICs(allAIC[,2:length(allAIC)])
+# plotWMC_AIC = plotWeightedICs(wmc_AIC, seed = 115,inset = -.6)
+# mtext("AIC", side = 3, line = 1)
 
 
 wmc_BIC = weightedICs(allBIC[,2:length(allBIC)])
-plotWMC_BIC = plotWeightedICs(wmc_BIC, seed = 115,inset = -.6)
+plotWMC_BIC = plotWeightedICs(wmc_BIC, seed = 115,inset = -.29)
 mtext("BIC", side = 3, line = 1)
 ```
 ```{r warning = FALSE}
@@ -82,7 +82,7 @@ mtext("AIC", side = 3, line = 1)
 
 MMComparisonPlot(
   wmc_BIC,
-  models1 = c("simple",
+  models1 = c(#"simple",
               "a-linear",
               "a-power",
               "a-exp",
@@ -98,7 +98,8 @@ MMComparisonPlot(
               "v-dExp-a-pow",
               "v-dPow-a-exp",
               "v-dPow-a-Pow"),
-  inset = c(-0.5,-5)
+  groupNames = c("1 process", "2 processes"),
+  inset = c(-0.5,-.26)
 )
 mtext("BIC", side = 3, line = 1)
 ```

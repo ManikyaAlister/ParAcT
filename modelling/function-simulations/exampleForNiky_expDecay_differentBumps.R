@@ -1,4 +1,6 @@
 
+block = 10
+
 x=1:100
 
 r=0.1
@@ -8,21 +10,21 @@ b=2
 x1 = 1:100
 x2=1:100
 trialUnlearing=6
-for (i in 1:10) {
-  x2[(10*(i-1)+1):(10*(i-1)+10)]=x2[(10*(i-1)+1):(10*(i-1)+10)]-(trialUnlearing*(i-1))
+for (i in 1:block) {
+  x2[(block*(i-1)+1):(block*(i-1)+block)]=x2[(block*(i-1)+1):(block*(i-1)+block)]-(trialUnlearing*(i-1))
 }
-
 
 b.bump=1.4
 b2=rep(b,100)
-for (i in 1:10) {
-  b2[(10*(i-1)+1):(10*(i-1)+10)]=b2[(10*(i-1)+1):(10*(i-1)+10)]+(b.bump*(i-1))
+for (i in 1:block) {
+  b2[(block*(i-1)+1):(block*(i-1)+block)]=b2[(block*(i-1)+1):(block*(i-1)+block)]+(b.bump*(i-1))
 }
 
+# is the idea that we estimate a different value of b each time? 
 
 plot(x,a+b*exp(-r*x),type="l",main="Classic Exp Decay")
 
-plot(x,a+b*exp(-r*x2),type="l",main="Classic Exp Decay with trial unlearning")
+plot(x,a+b*exp(-r*x2),type="l",main="Classic Exp Dec ay with trial unlearning") # positive b because caution should increase after the block finishes
 
 plot(x,a+b2*exp(-r*x1),type="l",main="Classic Exp Decay with start bump")
 
