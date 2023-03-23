@@ -10,7 +10,6 @@
 #SBATCH --job-name="ParAcT-threshold"
 
 # The project ID which this job should run under:
-#SBATCH --account="punim1751"
 
 # Maximum number of tasks/CPU cores used by the job:
 #SBATCH --ntasks=1
