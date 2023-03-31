@@ -1,7 +1,8 @@
 rm(list=ls())
-#lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
-#library(here, lib.loc = lib)
-renv::restore()
+lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
+library(here, lib.loc = lib)
+#library(here)
+#renv::restore()
 source(file = here("modelling/evansetal-18/05_run-models/5.0.0_load-packages.R"))
 source(file = here("modelling/evansetal-18/02_deep-background.R"))
 
