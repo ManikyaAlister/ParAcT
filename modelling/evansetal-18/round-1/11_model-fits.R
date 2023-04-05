@@ -1,5 +1,6 @@
 rm(list = ls())
-library(here)
+lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
+library(here, lib.loc = lib)
 dataset = "evansetal-18"
 
 

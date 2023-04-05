@@ -1,5 +1,6 @@
-library(here)
-source(here("modelling/evansetal-18/round-1/08_param-plot-functions.R"))
+lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
+library(here, lib.loc = lib)
+source(here("modelling/evansetal-18/round-1/12_param-plots/param-plot-functions.R"))
 n = 1:9 # participants who you want to plot 
 
 # Drift rate
