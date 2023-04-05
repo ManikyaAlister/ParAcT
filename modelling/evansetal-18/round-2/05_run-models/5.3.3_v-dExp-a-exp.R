@@ -14,7 +14,7 @@ nSub = 9 # number of subjects to run
 
 #load(here(paste("data/evansetal-18/clean/P",args,".Rdata",sep="")))
 
-for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
+for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
 
   load(here(paste("data/evansetal-18/clean/P",useSub,".Rdata",sep="")))
   newSeed=Sys.time()

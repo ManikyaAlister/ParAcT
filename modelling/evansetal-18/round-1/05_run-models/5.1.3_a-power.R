@@ -6,13 +6,14 @@ source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
 model = "a-power"
-nSub = 1 # number of subjects to run 
+subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
+#nSub = 1 # number of subjects to run (if looping over subjects instead of parallel)
 
 ##############################
 #### Power Threshold Model ###
 ##############################
 
-for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
+for (useSub in subj) { # Run DDM for each subject in n Sub
   
   load(here(paste("data/evansetal-18/clean/P",useSub,".Rdata",sep="")))
   newSeed=Sys.time()

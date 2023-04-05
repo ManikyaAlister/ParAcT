@@ -14,7 +14,7 @@ subj = commandArgs(trailingOnly = TRUE)
 ####################
 
 
-for (useSub in subj) { # Run DDM for each subject in n Subjects
+for (useSub in subj) { 
   
   load(here(paste("data/evansetal-18/clean/P",useSub,".Rdata",sep="")))
   newSeed=Sys.time()

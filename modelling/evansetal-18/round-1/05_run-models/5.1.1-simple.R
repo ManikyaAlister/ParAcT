@@ -1,5 +1,5 @@
 rm(list=ls())
-renv::deactivate() 
+#renv::deactivate() 
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
 #renv::install(c("msm"))
@@ -12,7 +12,7 @@ source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
 conds=1 # number of conditions to loop over
 model = "simple"
 subj = commandArgs(trailingOnly = TRUE)
-# nSub = 9 # number of subjects to run (if looping instead of parallel)
+nSub = 9 # number of subjects to run (if looping instead of parallel)
 
 ####################
 #### Simple Model###

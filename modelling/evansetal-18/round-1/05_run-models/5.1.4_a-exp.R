@@ -5,14 +5,15 @@ source(file = here("modelling/evansetal-18/round-1/05_run-models/5.0.0_load-pack
 source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
 
 conds=1 # number of experimental conditions to loop over
-model = "a-exp" 
-nSub = 1 # number of subjects to run 
+model = "a-exp"
+subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
+# nSub = 1 # number of subjects to run (if looping instead of parallel)
 
 ####################################
 #### Exponential Threshold Model ###
 ####################################
 
-for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
+for (useSub in subj) { # Run DDM for each subject in n Subjects
   
   load(here(paste("data/evansetal-18/clean/P",useSub,".Rdata",sep="")))
   newSeed=Sys.time()

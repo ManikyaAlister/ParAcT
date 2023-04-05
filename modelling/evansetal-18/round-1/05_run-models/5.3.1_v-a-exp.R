@@ -12,7 +12,8 @@ nSub = 1 # number of subjects to run
 #### Exponential Threshold Model ###
 ####################################
 
-for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
+nSub = 9 # number of subjects to run (only used if looping instead of parallel)
+subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
   
   load(here(paste("data/evansetal-18/clean/P",useSub,".Rdata",sep="")))
   newSeed=Sys.time()
