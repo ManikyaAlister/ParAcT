@@ -25,8 +25,8 @@
 #SBATCH --mail-type=END
 
 # Where to save output logs 
-#SBATCH --output=logs/%A_%a.out
-#SBATCH --error=logs/%A_%a.err
+#SBATCH --output=slurm_output/%A_%a.out
+#SBATCH --error=slurm_output/%A_%a.err
 
 # The maximum running time of the job in days-hours:mins:sec
 #SBATCH --time=7-1:0:00
@@ -42,18 +42,14 @@ fi
 # The modules to load:
 module load r/4.2.0
 
-# Define the list of models and participants
+# Set the model and participant numbers based on the job array task ID
 models=("5.1.1-simple" "5.1.2_a-linear") #  "5.1.3_a-power" "5.1.5_a-delayed-exp" "5.1.6_a-delayed-pow" "5.1.7_a-exp-mir" "5.2.2_v-linear" "5.2.3_v-power" "5.2.4_v-exp" "5.2.5_v-delayed-pow" "5.2.6_v-delayed-exp" "5.1.8-a-simple-blocked" "5.1.9-a-complex-blocked" "5.2.8-v-simple-blocked" "5.2.9-v-complex-blocked")
-participants=(1-9)
+model=${models[$SLURM_ARRAY_TASK_ID-1]}
+participants=(1 2 3 4 5 6 7 8 9)
+participant=${participants[$SLURM_ARRAY_TASK_ID-1]}
 
-# Iterate over the model and participant IDs and run the R script for each combination
-for model in "${models[@]}"; do
-  for participant in "${participants[@]}"; do
-    # input_file="inputs/${model}_${participant}.txt"
-    output_file="slurm_output/${model}_p${participant}.out"
-    sbatch --export=participant=$participant,model=$model,input=$input_file,output=$output_file run_model.sbatch
-  done
-done
+# Run the R script with the input and output files and the participant number as a command line argument
+Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/round-1/05_run-models/${model}.R $participant
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage
