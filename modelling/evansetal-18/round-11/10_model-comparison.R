@@ -29,7 +29,7 @@ colnames(allBIC) = c("Participant",models)
 for (model in models){
     for (i in 1:n){
       
-load(here(paste("data/evansetal-18/round-1/derived/P",i,"_",model,"-IC.Rdata",sep = "")))
+load(here(paste("data/evansetal-18/derived/P",i,"_",model,"-IC.Rdata",sep = "")))
 allAIC[i,"Participant"] = i
 allAIC[i,model] = AIC
 
@@ -37,8 +37,8 @@ allBIC[i,model] = BIC
 allBIC[i,"Participant"] = i
 }
 }
-save(allAIC, file = here("data/evansetal-18/round-1/derived/allAIC.Rdata"))
-save(allBIC, file = here("data/evansetal-18/round-1/derived/allBIC.Rdata"))
+save(allAIC, file = here("data/evansetal-18/derived/allAIC.Rdata"))
+save(allBIC, file = here("data/evansetal-18/derived/allBIC.Rdata"))
 
 
 rankBIC = apply(allBIC[,2:length(allBIC)],1,which.min)

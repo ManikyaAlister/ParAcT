@@ -14,7 +14,7 @@ nSub = 9 # number of subjects to run
 
 for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
   
-  load(here(paste("data/evansetal-18/round-1/clean/P",useSub,".Rdata",sep="")))
+  load(here(paste("data/evansetal-18/clean/P",useSub,".Rdata",sep="")))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
   
@@ -42,7 +42,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
                 "v")
   
   savefile=here(paste("modelling/evansetal-18/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))
-  saveIC = here(paste("data/evansetal-18/round-1/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
   source(here("modelling/evansetal-18/round-1/03_priors/03.1.3_a-priors-pow-exp.R"))
   source(here("modelling/evansetal-18/round-1/04_iterative-process.R"))
