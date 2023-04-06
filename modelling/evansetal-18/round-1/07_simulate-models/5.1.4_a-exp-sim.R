@@ -1,5 +1,7 @@
 rm(list=ls())
-library(here)
+.libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
+lib = .libPaths()
+library(here, lib.loc = lib)
 source(file = here("modelling/evansetal-18/round-1/05_run-models/5.0.0_load-packages.R"))
 source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
 
