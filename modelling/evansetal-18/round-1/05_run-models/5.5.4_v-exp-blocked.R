@@ -7,7 +7,7 @@ source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
 blocks = 1:24 # blocks to loop over 
 model = "v-exp-blocked" 
 nSub = 9 # number of subjects to run (only used if looping instead of parallel)
-subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
+subj = 1 #commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 # number of trials in a block
 ####################################
 #### Exponential Threshold Model ###
@@ -45,7 +45,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
   savefile=here(paste("modelling/evansetal-18/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))
   saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
-  source(here("modelling/evansetal-18/round-1/03_priors/03.2.3_v-priors-pow-exp.R"))
+  source(here("modelling/evansetal-18/round-1/03_priors/03_priors.R"))
   source(here("modelling/evansetal-18/round-1/04_iterative-process.R"))
   
   n.pars = length(theta.names)

@@ -47,7 +47,7 @@ lower.bounds[tmpP3.3]=-Inf
 lower.bounds[tmpP2]=0
 lower.bounds[tmpP1]=0
 lower.bounds[tmpP4]=0
-lower.bounds[tmpP5=0]
+lower.bounds[tmpP5]=0
 
 upper.bounds=rep(NA,n.pars)
 upper.bounds[tmpP3.1]=Inf
@@ -114,12 +114,11 @@ if (length(tmp)>0) {
 }
 
 tmp=grep("b.bump",theta.names,value=TRUE)
-if (length(tmp)>0) {
-  for (n in 1:length(tmp)) {
-    tmp2=tmp[n]
-    prior[[tmp2]]=c(0.5,0.1)
-  }
+for (n in 1:length(tmp)) {
+  tmp2=tmp[n]
+  prior[[tmp2]]=c(2,2)
 }
+
 
 
 

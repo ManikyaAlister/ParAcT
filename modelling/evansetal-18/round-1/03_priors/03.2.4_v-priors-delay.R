@@ -18,7 +18,7 @@ tmpP2 = grep("t0",theta.names,perl=TRUE)
 tmpP3.1= grep("v.asym",theta.names,perl=TRUE)
 tmpP3.2 = grep("v.start",theta.names,perl=TRUE)
 tmpP3.3 = grep("v.rate",theta.names,perl=TRUE)
-tmpP3.4 = grep("v.delay",theta.names,perl=TRUE)
+tmpP3.7 = grep("v.delay",theta.names,perl=TRUE)
 tmpP4=grep("z",theta.names,perl=TRUE)
 
 
@@ -26,7 +26,7 @@ start.points=rep(NA,n.pars)
 start.points[tmpP3.1]=3
 start.points[tmpP3.2]=3
 start.points[tmpP3.3]=.5
-start.points[tmpP3.4]=.5
+start.points[tmpP3.7]=.5
 start.points[tmpP2]=0.3
 start.points[tmpP1]=1
 start.points[tmpP4]=0.5
@@ -35,7 +35,7 @@ start.points.sd=rep(NA,n.pars)
 start.points.sd[tmpP3.1]=1
 start.points.sd[tmpP3.2]=1
 start.points.sd[tmpP3.3]=1
-start.points.sd[tmpP3.4]=1
+start.points.sd[tmpP3.7]=1
 start.points.sd[tmpP2]=0.1
 start.points.sd[tmpP1]=0.5
 start.points.sd[tmpP4]=0.15
@@ -44,7 +44,7 @@ lower.bounds=rep(NA,n.pars)
 lower.bounds[tmpP3.1]=-Inf
 lower.bounds[tmpP3.2]=-Inf
 lower.bounds[tmpP3.3]=-Inf
-lower.bounds[tmpP3.4]= 0
+lower.bounds[tmpP3.7]= 0
 lower.bounds[tmpP2]=0
 lower.bounds[tmpP1]=0
 lower.bounds[tmpP4]=0
@@ -53,7 +53,7 @@ upper.bounds=rep(NA,n.pars)
 upper.bounds[tmpP3.1]=Inf
 upper.bounds[tmpP3.2]=Inf
 upper.bounds[tmpP3.3]=Inf
-upper.bounds[tmpP3.4]=Inf
+upper.bounds[tmpP3.7]=Inf
 upper.bounds[tmpP2]=Inf
 upper.bounds[tmpP1]=Inf
 upper.bounds[tmpP4]=1
