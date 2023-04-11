@@ -47,12 +47,11 @@ module load r/4.2.0
 
 
 # Set the model script names
-models=("5.1.5_a-delayed-exp" "5.1.6_a-delayed-pow" "5.1.7_a-exp-mir" "5.2.2_v-linear" "5.2.3_v-power" "5.2.4_v-exp" "5.2.5_v-delayed-pow" "5.2.6_v-delayed-exp") 
-
-# Models not run
-# ("5.1.1-simple" "5.1.2_a-linear" "5.1.3_a-power")
-#  ("5.1.8-a-simple-blocked" "5.1.9-a-complex-blocked" "5.2.8-v-simple-blocked" "5.2.9-v-complex-blocked")
-
+models=("5.1.1-simple" "5.1.2_a-linear" "5.1.3_a-power" "5.1.5_a-delayed-exp" "5.1.6_a-delayed-pow" "5.1.7_a-exp-mir" "5.2.2_v-linear" "5.2.3_v-power" "5.2.4_v-exp" "5.2.5_v-delayed-pow" "5.2.6_v-delayed-exp" "5.1.8-a-blocked-simple" "5.1.9-a-blocked-complex" "5.2.8-v-blocked-simple" "5.2.9-v-blocked-complex" "5.1.10_a-blocked-sb-exp" "5.1.11_a-blocked-ul-exp" "5.2.10_v-blocked-sb-exp" "5.2.11_v-blocked-ul-exp")
+ 
+# Models not run (put below)
+# 
+#  
 # Set the participant numbers (make sure the slurm array is set up for the correct model * participant combintation)
 participants=(1 2 3 4 5 6 7 8 9)
 

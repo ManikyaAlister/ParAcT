@@ -35,3 +35,21 @@ plot(x,a-b*exp(-r*x2),type="l",main="Mirrored Exp Decay with trial unlearning")
 
 plot(x,a-b2*exp(-r*x),type="l",main="Mirrored Exp Decay with start bump")
 
+# Step model
+block = 1:24
+step = 0.066
+d = -step*(block-1)
+a = 2.69
+a.step = a-d
+a.step
+plot(1:2400,sort(rep(a.step,100),decreasing = TRUE),"l")
+
+
+# unlearning models 
+blocks = 1:24
+x <- c(a.asym = 1, a.rate = 0.001, a.start = 3, trialUnlearn = 0.02)
+u = x["trialUnlearn"]*(blocks-1)
+a=(x["a.asym"]+x["a.start"])-x["a.start"]*exp(x["a.rate"]*data$Trial-u) 
+
+plot(data$Trial, a,"l")
+x
