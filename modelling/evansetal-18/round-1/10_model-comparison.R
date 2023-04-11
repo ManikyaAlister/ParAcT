@@ -19,10 +19,32 @@ models = c("simple",
 "v-exp",
 "v-delayed-pow",
 "v-delayed-exp",
-#"v-blocked-simple",
+"v-blocked-simple",
 "v-blocked-complex",
 "v-blocked-exp-sb",
 "v-blocked-exp-ul")
+
+v_models <- c("simple", 
+"v-linear",
+"v-power",
+"v-exp",
+"v-delayed-pow",
+"v-delayed-exp",
+"v-blocked-simple",
+"v-blocked-complex",
+"v-blocked-exp-sb",
+"v-blocked-exp-ul")
+
+a_models <- c("simple",
+"a-linear",
+"a-power",
+"a-exp",
+"a-delayed-power",
+"a-delayed-exp",
+"a-blocked-simple",
+"a-blocked-complex",
+"a-blocked-exp-sb",
+"a-blocked-exp-ul")
 
 models_2p <- c(
 "v-a-exp", 
