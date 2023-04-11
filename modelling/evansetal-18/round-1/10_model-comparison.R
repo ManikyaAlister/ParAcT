@@ -1,6 +1,7 @@
 rm(list=ls())
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
+library(modelProb)
 
 n = 9
 models = c("simple",
@@ -9,11 +10,21 @@ models = c("simple",
 "a-exp",
 "a-delayed-power",
 "a-delayed-exp",
+"a-blocked-simple",
+"a-blocked-complex",
+"a-blocked-exp-sb",
+"a-blocked-exp-ul",
 "v-linear",
 "v-power",
 "v-exp",
 "v-delayed-pow",
 "v-delayed-exp",
+#"v-blocked-simple",
+"v-blocked-complex",
+"v-blocked-exp-sb",
+"v-blocked-exp-ul")
+
+models_2p <- c(
 "v-a-exp", 
 "v-dExp-a-exp",
 "v-dExp-a-pow",
