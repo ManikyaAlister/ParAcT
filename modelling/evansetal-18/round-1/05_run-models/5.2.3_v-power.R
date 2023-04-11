@@ -6,6 +6,7 @@ source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
 model = "v-power"
+print(model) # So I can see which model is running in the output
 nSub = 9 # number of subjects to run (only used if looping instead of parallel)
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 

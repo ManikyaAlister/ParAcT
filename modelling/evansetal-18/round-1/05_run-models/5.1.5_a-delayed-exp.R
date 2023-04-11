@@ -6,6 +6,7 @@ source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
 
 conds=1 # number of experimental conditions to loop over
 model = "a-delayed-exp" 
+print(model)
 nSub = 9 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 

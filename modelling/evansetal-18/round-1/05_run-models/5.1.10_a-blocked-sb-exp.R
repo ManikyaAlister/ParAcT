@@ -6,9 +6,9 @@ source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
 
 blocks = 1:24 # blocks to loop over 
 model = "a-blocked-exp-sb" 
+print(model)
 nSub = 9 # number of subjects to run (only used if looping instead of parallel)
-subj = 1
-#commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
+subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 
 ####################################
 #### Exponential Threshold Model ###
