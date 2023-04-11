@@ -394,6 +394,7 @@ if(length(tmp) > 0){
   }
 }
 
+if (exists("blocks")){
 for (block in blocks){
   tmp = grep(paste0("a.",block), theta.names, value = TRUE)
   if (length(tmp) > 0) {
@@ -410,4 +411,5 @@ for (block in blocks){
       prior[[tmp2]] = c(3, 1)
     }
   }
+}
 }

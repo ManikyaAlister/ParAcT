@@ -2,7 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
-modelling/evansetal-18/round_1/06_output/*
+#modelling/evansetal-18/round_1/06_output/*
 modelling/evansetal-18/round_2/06_output/*
 slurm_output/*
 **.out
