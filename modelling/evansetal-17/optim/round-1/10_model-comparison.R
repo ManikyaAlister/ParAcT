@@ -4,10 +4,12 @@ library(here, lib.loc = lib)
 library(modelProb)
 
 n = 9
+# round 1 models 
+
 models = c("simple",
 "a-linear",
 "a-power",
-"a-exp",
+"a-exp-mir",
 "a-delayed-power",
 "a-delayed-exp",
 "a-blocked-simple",
@@ -63,7 +65,7 @@ IC_array = function(models, criterion) {
     for (i in 1:n) {
       load(here(
         paste(
-          "data/evansetal-18/derived/P",
+          "data/evansetal-17/derived/optim/P",
           i,
           "_",
           model,
@@ -86,8 +88,8 @@ IC_array = function(models, criterion) {
 allAIC <- IC_array(models,"AIC")
 allBIC <- IC_array(models,"BIC")
 
-save(allAIC, file = here("data/evansetal-18/derived/allAIC.Rdata"))
-save(allBIC, file = here("data/evansetal-18/derived/allBIC.Rdata"))
+save(allAIC, file = here("data/evansetal-17/derived/optim/allAIC.Rdata"))
+save(allBIC, file = here("data/evansetal-17/derived/optim/allBIC.Rdata"))
 
 allAIC_v <- IC_array(v_models, "AIC")
 allAIC_a <- IC_array(a_models, "AIC")
@@ -156,7 +158,7 @@ for (i in 1:length(best[,1])){
 
 # what are the 2-parameter models that need to be made? 
 unique_2p_best <- unique(models_2p_best)
-
+save(file = here("data/evansetal-17/derived/optim/round-2-models.Rdata"), unique_2p_best)
 
 
 ## FIT PLOT

@@ -52,7 +52,7 @@ for model in "${models[@]}"; do
   for participant in "${participants[@]}"; do
     # input_file="inputs/${model}_${participant}.txt"
     output_file="slurm_output/${model}_p${participant}.out"
-    sbatch --export=participant=$participant,model=$model,input=$input_file,output=$output_file /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/round-1/00_slurm-scripts/run-model.txt
+    sbatch --export=participant=$participant,model=$model,input=$input_file,output=$output_file /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-17/optim/round-1/00_slurm-scripts/run-model.txt
   done
 done
 

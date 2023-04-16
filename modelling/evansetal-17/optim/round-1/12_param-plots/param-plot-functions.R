@@ -11,7 +11,7 @@ thresholdPlot = function(model,nRange){
   
   for (i in nRange) {
     
-    load(here(paste("modelling/evansetal-18/round-1/06_output/P", i,"_",model,".Rdata", sep = "")))
+    load(here(paste("modelling/evansetal-17/optim/round-1/06_output/P", i,"_",model,".Rdata", sep = "")))
     
     trials = 1:length(data$Trial)
     x =  apply(theta, 2, mean)
@@ -68,7 +68,7 @@ driftPlot = function(model,nRange){
   
   for (i in nRange) {
     
-    load(here(paste("modelling/evansetal-18/round-1/06_output/P", i,"_",model,".Rdata", sep = "")))
+    load(here(paste("modelling/evansetal-17/optim/round-1/06_output/P", i,"_",model,".Rdata", sep = "")))
     
     trials = 1:length(data$Trial)
     x =  apply(theta, 2, mean)
@@ -134,7 +134,7 @@ singleParticipant_a = function(participant,
                                )) {
   plot(-1,-1,ylim = c(ymin,ymax),xlab = "trial",ylab = "a", xlim = c(0,trials), main = paste0(participant))
   for(model in models){
-    load(here(paste("modelling/evansetal-18/round-1/06_output/P", participant,"_",model,".Rdata", sep = "")))
+    load(here(paste("modelling/evansetal-17/optim/round-1/06_output/P", participant,"_",model,".Rdata", sep = "")))
     x =  apply(theta, 2, mean)
     if (model == "a-power"){
       
@@ -192,7 +192,7 @@ singleParticipant_v = function(participant,
                                )) {
   plot(-1,-1,ylim = c(ymin,ymax),xlab = "trial",ylab = "v", xlim = c(0,trials), main = paste0(participant))
   for(model in models){
-    load(here(paste("modelling/evansetal-18/round-1/06_output/P", participant,"_",model,".Rdata", sep = "")))
+    load(here(paste("modelling/evansetal-17/optim/round-1/06_output/P", participant,"_",model,".Rdata", sep = "")))
     x =  apply(theta, 2, mean)
     if (model == "v-power"){
       

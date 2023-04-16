@@ -1,11 +1,13 @@
 rm(list=ls())
-library(here)
-source(file = here("modelling/evansetal-18/05_run-models/5.0.0_load-packages.R"))
-source(file = here("modelling/evansetal-18/02_deep-background.R"))
+.libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
+lib = .libPaths()
+library(here, lib.loc = lib)
+source(file = here("modelling/evansetal-17/optim/round-2/05_run-models/5.0.0_load-packages.R"))
+source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 
 conds=c(1,2) # redundant because only one condition
 
-nSub = 9 # number of subjects
+nSub = 10 # number of subjects
 
 ####################################
 #### Exponential Threshold Model ###
@@ -16,7 +18,7 @@ nSub = 9 # number of subjects
 for (useSub in 1:nSub) {
   load(here(
     paste(
-      "modelling/evansetal-18/06_output/P",
+      "modelling/evansetal-17/optim/round-2/06_output/P",
       useSub,
       "_v-a-exp.Rdata",
       sep = ""
@@ -54,7 +56,7 @@ for (useSub in 1:nSub) {
   
   save(sim, file = here(
     paste(
-      "modelling/evansetal-18/08_model-predictions/P",
+      "modelling/evansetal-17/optim/round-2/08_model-predictions/P",
       useSub,
       "_v-a-exp.Rdata",
       sep = ""

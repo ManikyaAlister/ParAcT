@@ -1,14 +1,15 @@
 rm(list = ls())
-library(here)
-dataset = "evansetal-18"
+lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
+library(here, lib.loc = lib)
+dataset = "evansetal-17"
 
 
 # Load observed data 
-nSub = 9
+nSub = 10
 all.data=list() 
 for (useSub in 1:nSub) {
   
-  load(here(paste0("data/",dataset,"/clean/P",useSub,".Rdata")))
+  load(here(paste0("data/",dataset,"/clean/P",useSub,"-Optim-Trial.Rdata")))
   
   all.data[[useSub]]=data
 }
@@ -54,14 +55,14 @@ observed = quantiles(all.data)
 # Simulate data
 
 # load simulated data
-models = c("simple","a-linear","a-power","a-exp","a-delayed-power","a-delayed-exp","v-linear","v-power","v-exp","v-delayed-power","v-delayed-exp","v-a-exp")
+models = c("simple","a-linear","a-power","a-exp-mir","a-delayed-power","a-delayed-exp","v-linear","v-power","v-exp","v-delayed-power","v-delayed-exp","v-a-exp")
 
 allSimQuantiles = list()
 
 for (model in models){
   all.data = list()
   for (useSub in 1:nSub) {
-    load(here(paste0("modelling/",dataset,"/08_model-predictions/P",useSub,"_",model,".Rdata")))
+    load(here(paste0("modelling/",dataset,"/optim/round-2/08_model-predictions/P",useSub,"_",model,".Rdata")))
     all.data[[useSub]]=sim
   }
   quant = quantiles(all.data)

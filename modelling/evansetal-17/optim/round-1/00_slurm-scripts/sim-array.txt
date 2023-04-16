@@ -57,7 +57,7 @@ models=("5.1.1-simple" "5.1.2_a-linear" "5.1.3_a-power" "5.1.5_a-delayed-exp" "5
 model_idx=$(((SLURM_ARRAY_TASK_ID-1))) 
 
 # Run the R script with the input and output files and the participant number as a command line argument
-Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/round-1/07_simulate-models/${models[$model_idx]}-sim.R
+Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-17/optim/round-1/07_simulate-models/${models[$model_idx]}-sim.R
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage

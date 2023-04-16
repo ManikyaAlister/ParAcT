@@ -1,15 +1,16 @@
 rm(list=ls())
 ## Load Packages ## 
-lib = .libPaths("/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
+.libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
+lib = .libPaths()
 library(rtdists,lib.loc = lib)
 library(msm, lib.loc = lib)
 library(here, lib.loc = lib)
 
-source(file = here("modelling/evansetal-18/02_deep-background.R"))
+source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 
 conds=1
 
-nSub = 9
+nSub = 10
 
 ####################
 #### Linear Model###
@@ -18,7 +19,7 @@ nSub = 9
 for (useSub in 1:nSub) {
   load(here(
     paste(
-      "modelling/evansetal-18/06_output/P",
+      "modelling/evansetal-17/optim/round-2/06_output/P",
       useSub,
       "_a-linear.Rdata",
       sep = ""
@@ -56,7 +57,7 @@ for (useSub in 1:nSub) {
   
   save(sim, file = here(
     paste(
-      "modelling/evansetal-18/08_model-predictions/P",
+      "modelling/evansetal-17/optim/round-2/08_model-predictions/P",
       useSub,
       "_a-linear.Rdata",
       sep = ""

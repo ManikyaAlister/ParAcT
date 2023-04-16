@@ -6,11 +6,11 @@ library(rtdists,lib.loc = lib)
 library(msm, lib.loc = lib)
 library(here, lib.loc = lib)
 
-source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
+source(file = here("modelling/evansetal-17/optim/round-1/02_deep-background.R"))
 
 conds=1
 
-nSub = 9
+nSub = 10
 
 ####################
 #### Linear Model###
@@ -19,7 +19,7 @@ nSub = 9
 for (useSub in 1:nSub) {
   load(here(
     paste(
-      "modelling/evansetal-18/round-1/06_output/P",
+      "modelling/evansetal-17/optim/round-1/06_output/P",
       useSub,
       "_v-linear.Rdata",
       sep = ""
@@ -57,7 +57,7 @@ for (useSub in 1:nSub) {
   
   save(sim, file = here(
     paste(
-      "modelling/evansetal-18/round-1/08_model-predictions/P",
+      "modelling/evansetal-17/optim/round-1/08_model-predictions/P",
       useSub,
       "_v-linear.Rdata",
       sep = ""

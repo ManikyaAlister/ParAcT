@@ -17,7 +17,7 @@ for (useSub in 1:nSub) {
   
   # Load simulated data
     load(paste(
-      "modelling/evansetal-18/round-1/08_model-predictions/P",
+      "modelling/evansetal-17/optim/round-1/08_model-predictions/P",
       useSub,
       "_",best_model,".Rdata",
       sep = ""
@@ -27,7 +27,7 @@ for (useSub in 1:nSub) {
     
   # Load simple model simulated data
     load(paste(
-      "modelling/evansetal-18/round-1/08_model-predictions/P",
+      "modelling/evansetal-17/optim/round-1/08_model-predictions/P",
       useSub,
       "_simple.Rdata",
       sep = ""

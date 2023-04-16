@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# set up job array (make sure the array length is nModels * nParticipants)
+#SBATCH --array=1-18
+
+# Partition for the job:
+#SBATCH --partition=physical
+
+# Multithreaded (SMP) job: must run on one node 
+#SBATCH --nodes=1
+
+# The name of the job:
+#SBATCH --job-name="round1"
+
+# Maximum number of tasks/CPU cores used by the job:
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+
+# The amount of memory in megabytes per process in the job:
+#SBATCH --mem=2G
+
+# Use this email address:
+#SBATCH --mail-user=alisterm@student.unimelb.edu.au
+
+# Send yourself an email when the job:
+
+# ends successfully
+#SBATCH --mail-type=END
+
+# Where to save output logs 
+#SBATCH --output=slurm_output/%A_%a.out
+#SBATCH --error=slurm_output/%A_%a.err
+
+# The maximum running time of the job in days-hours:mins:sec
+#SBATCH --time=7-1:0:00
+
+# check that the script is launched with sbatch
+if [ "x$SLURM_JOB_ID" == "x" ]; then
+   echo "You need to submit your job to the queuing system with sbatch"
+   exit 1
+fi
+
+# Run the job from the directory where it was launched (default)
+
+# The modules to load:
+module load r/4.2.0
+
+
+# Set the model script names
+models=("5.3.2_v-a-exp-mir" "5.3.3_v-linear-a-blocked-complex" "5.3.7_v-linear-a-exp-mir" "5.3.8-v-power-a-blocked-simple" "5.3.9_v-linear-a-power" "5.3.10_v-power-a-exp-mir" "5.3.11_v-linear-v-blocked-simple")
+ 
+# Models not run (put below)
+#  
+# Set the participant numbers (make sure the slurm array is set up for the correct model * participant combintation)
+participants=(1 2 3 4 5 6 7 8 9 10)
+
+# Calculate the model and participant indices from the job array task ID
+model_idx=$(((SLURM_ARRAY_TASK_ID-1) % 2)) # make sure you correctly indicate the number of models after '%'
+participant_idx=$(((SLURM_ARRAY_TASK_ID-1) / 2)) # make sure you correctly indicate the number of models after '/'
+
+# Run the R script with the input and output files and the participant number as a command line argument
+Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-17/optim/round-2/05_run-models/${models[$model_idx]}.R ${participants[$participant_idx]}
+
+##DO NOT ADD/EDIT BEYOND THIS LINE##
+##Job monitor command to list the resource usage
+my-job-stats -a -n -s

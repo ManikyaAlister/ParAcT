@@ -1,13 +1,13 @@
 rm(list=ls())
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
-source(file = here("modelling/evansetal-18/round-1/05_run-models/5.0.0_load-packages.R"))
-source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
+source(file = here("modelling/evansetal-17/optim/round-1/05_run-models/5.0.0_load-packages.R"))
+source(file = here("modelling/evansetal-17/optim/round-1/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
 model = "a-delayed-power"
 print(model)
-nSub = 9 # number of subjects to run 
+nSub = 10 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 
 ##############################
@@ -16,7 +16,7 @@ subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject 
 
 for (useSub in subj) { # Run DDM for each subject in nSub, or a specific subject if running in parallel
   
-  load(here(paste("data/evansetal-18/clean/P",useSub,".Rdata",sep="")))
+  load(here(paste("data/evansetal-17/clean/P",useSub,"-Optim-Trial.Rdata",sep="")))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
   
@@ -43,11 +43,11 @@ for (useSub in subj) { # Run DDM for each subject in nSub, or a specific subject
   theta.names=c("a.start","a.asym","a.rate","a.delay","t0",
                 "v")
   
-  savefile=here(paste("modelling/evansetal-18/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))
-  saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  savefile=here(paste("modelling/evansetal-17/optim/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))
+  saveIC = here(paste("data/evansetal-17/derived/optim/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
-source(here("modelling/evansetal-18/round-1/03_priors.R"))
-  source(here("modelling/evansetal-18/round-1/04_iterative-process.R"))
+source(here("modelling/evansetal-17/optim/round-1/03_priors.R"))
+  source(here("modelling/evansetal-17/optim/round-1/04_iterative-process.R"))
   
   n.pars = length(theta.names)
   

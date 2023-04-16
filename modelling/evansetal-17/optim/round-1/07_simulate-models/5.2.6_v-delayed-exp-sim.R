@@ -7,19 +7,19 @@ library(rtdists,lib.loc = lib)
 library(msm, lib.loc = lib)
 library(here, lib.loc = lib)
 
-source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
+source(file = here("modelling/evansetal-17/optim/round-1/02_deep-background.R"))
 
 conds=1 # redundant because only one condition
 
 
-nSub = 9 # number of subjects
+nSub = 10 # number of subjects
 
 ##### Simulate data Using Parameters ####
 
 for (useSub in 1:nSub) {
   load(here(
     paste(
-      "modelling/evansetal-18/round-1/06_output/P",
+      "modelling/evansetal-17/optim/round-1/06_output/P",
       useSub,
       "_v-delayed-exp.Rdata",
       sep = ""
@@ -57,7 +57,7 @@ for (useSub in 1:nSub) {
   
   save(sim, file = here(
     paste(
-      "modelling/evansetal-18/round-1/08_model-predictions/P",
+      "modelling/evansetal-17/optim/round-1/08_model-predictions/P",
       useSub,
       "_v-delayed-exp.Rdata",
       sep = ""

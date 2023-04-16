@@ -6,14 +6,14 @@ library(here, lib.loc = lib)
 #library(here)
 #library(rtdists)
 #library(msm)
-source(file = here("modelling/evansetal-18/round-1/05_run-models/5.0.0_load-packages.R"))
-source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
+source(file = here("modelling/evansetal-17/optim/round-1/05_run-models/5.0.0_load-packages.R"))
+source(file = here("modelling/evansetal-17/optim/round-1/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
 model = "simple"
 print(model)
 subj = commandArgs(trailingOnly = TRUE)
-nSub = 9 # number of subjects to run (if looping instead of parallel)
+nSub = 10 # number of subjects to run (if looping instead of parallel)
 
 ####################
 #### Simple Model###
@@ -24,7 +24,7 @@ for (useSub in subj) {
   # Run DDM for each subject in n Subjects
   
   load(here(
-    paste("data/evansetal-18/clean/P",useSub, ".Rdata", sep = "")
+    paste("data/evansetal-17/clean/P",useSub, "-Optim-Trial.Rdata", sep = "")
   ))
   newSeed = Sys.time()
   set.seed(as.numeric(newSeed))
@@ -63,11 +63,11 @@ for (useSub in subj) {
   theta.names = c("a", "t0",
                   "v")
   
-  savefile=here(paste("modelling/evansetal-18/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))
-  saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  savefile=here(paste("modelling/evansetal-17/optim/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))
+  saveIC = here(paste("data/evansetal-17/derived/optim/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
-  source(here("modelling/evansetal-18/round-1/03_priors.R"))
-  source(here("modelling/evansetal-18/round-1/04_iterative-process.R"))
+  source(here("modelling/evansetal-17/optim/round-1/03_priors.R"))
+  source(here("modelling/evansetal-17/optim/round-1/04_iterative-process.R"))
   
   n.pars = length(theta.names)
   

@@ -53,14 +53,14 @@ models=("5.1.1-simple" "5.2.8-v-blocked-simple")
 # "5.1.2_a-linear" "5.1.3_a-power" "5.1.5_a-delayed-exp" "5.1.6_a-delayed-pow" "5.1.7_a-exp-mir" "5.2.2_v-linear" "5.2.3_v-power" "5.2.4_v-exp" "5.2.5_v-delayed-pow" "5.2.6_v-delayed-exp" "5.1.8-a-blocked-simple" "5.1.9-a-blocked-complex" "5.2.8-v-blocked-simple" "5.2.9-v-blocked-complex" "5.1.10_a-blocked-sb-exp" "5.1.11_a-blocked-ul-exp" "5.2.10_v-blocked-sb-exp" "5.2.11_v-blocked-ul-exp")
 #  
 # Set the participant numbers (make sure the slurm array is set up for the correct model * participant combintation)
-participants=(1 2 3 4 5 6 7 8 9)
+participants=(1 2 3 4 5 6 7 8 9 10)
 
 # Calculate the model and participant indices from the job array task ID
 model_idx=$(((SLURM_ARRAY_TASK_ID-1) % 2)) # make sure you correctly indicate the number of models after '%'
 participant_idx=$(((SLURM_ARRAY_TASK_ID-1) / 2)) # make sure you correctly indicate the number of models after '/'
 
 # Run the R script with the input and output files and the participant number as a command line argument
-Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/round-1/05_run-models/${models[$model_idx]}.R ${participants[$participant_idx]}
+Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-17/optim/round-1/05_run-models/${models[$model_idx]}.R ${participants[$participant_idx]}
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage
