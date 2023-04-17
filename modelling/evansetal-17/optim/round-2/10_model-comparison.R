@@ -26,7 +26,7 @@ models = c("simple",
 
 models_2p = c(
   "v-a-exp-mir",
-  "v-linear-a-blocked-complex",
+  #"v-linear-a-blocked-complex",
   "v-linear-a-exp-mir",
   "v-power-a-blocked-simple",
   "v-linear-a-power",
