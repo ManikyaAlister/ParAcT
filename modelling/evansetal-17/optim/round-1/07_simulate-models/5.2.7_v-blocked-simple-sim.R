@@ -7,7 +7,7 @@ source(file = here("modelling/evansetal-17/optim/round-1/02_deep-background.R"))
 model = "v-blocked-simple"
 conds=c(1,2) # redundant because only one condition
 blocks = 1:24
-nSub = 10 # number of subjects
+nSub = 9 # number of subjects
 
 ####################################
 #### Exponential Threshold Model ###

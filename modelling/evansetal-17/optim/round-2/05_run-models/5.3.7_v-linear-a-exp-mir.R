@@ -1,13 +1,13 @@
 rm(list=ls())
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
-source(file = here("modelling/evansetal-17/optim/round-1/05_run-models/5.0.0_load-packages.R"))
-source(file = here("modelling/evansetal-17/optim/round-1/02_deep-background.R"))
+source(file = here("modelling/evansetal-17/optim/round-2/05_run-models/5.0.0_load-packages.R"))
+source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
 model = "v-linear-a-exp-mir"
 print(model)
-nSub = 10 # number of subjects to run 
+nSub = 9 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 
 
@@ -44,11 +44,11 @@ for (useSub in subj) { # Run DDM for each subject in nSub, or a specific subject
   theta.names=c("a.start","a.asym","a.rate","t0",
                 "v.b","v.c")
   
-  savefile=here(paste("modelling/evansetal-17/optim/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))
+  savefile=here(paste("modelling/evansetal-17/optim/round-2/06_output/P",useSub,"_",model,".Rdata",sep=""))
   saveIC = here(paste("data/evansetal-17/derived/optim/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
-source(here("modelling/evansetal-17/optim/round-1/03_priors.R"))
-  source(here("modelling/evansetal-17/optim/round-1/04_iterative-process.R"))
+source(here("modelling/evansetal-17/optim/round-2/03_priors.R"))
+  source(here("modelling/evansetal-17/optim/round-2/04_iterative-process.R"))
   
   n.pars = length(theta.names)
   

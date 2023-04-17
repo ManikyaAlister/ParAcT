@@ -52,7 +52,7 @@ models=("5.3.2_v-a-exp-mir" "5.3.3_v-linear-a-blocked-complex" "5.3.7_v-linear-a
 # Models not run (put below)
 #  
 # Set the participant numbers (make sure the slurm array is set up for the correct model * participant combintation)
-participants=(1 2 3 4 5 6 7 8 9 10)
+participants=(1 2 3 4 5 6 7 8 9)
 
 # Calculate the model and participant indices from the job array task ID
 model_idx=$(((SLURM_ARRAY_TASK_ID-1) % 7)) # make sure you correctly indicate the number of models after '%'

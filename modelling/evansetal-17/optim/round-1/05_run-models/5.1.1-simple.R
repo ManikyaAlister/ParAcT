@@ -12,8 +12,9 @@ source(file = here("modelling/evansetal-17/optim/round-1/02_deep-background.R"))
 conds=1 # number of conditions to loop over
 model = "simple"
 print(model)
-subj = commandArgs(trailingOnly = TRUE)
-nSub = 10 # number of subjects to run (if looping instead of parallel)
+subj = 10
+#commandArgs(trailingOnly = TRUE)
+nSub = 9 # number of subjects to run (if looping instead of parallel)
 
 ####################
 #### Simple Model###

@@ -10,7 +10,7 @@ source(file = here("modelling/evansetal-17/optim/round-1/02_deep-background.R"))
 
 conds=1
 
-nSub = 10
+nSub = 9
 
 ####################
 #### Linear Model###

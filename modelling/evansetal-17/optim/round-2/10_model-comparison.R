@@ -24,35 +24,16 @@ models = c("simple",
 "v-blocked-exp-sb",
 "v-blocked-exp-ul")
 
-v_models <- c("simple", 
-"v-linear",
-"v-power",
-"v-exp",
-"v-delayed-pow",
-"v-delayed-exp",
-"blocked-simple",
-"v-blocked-complex",
-"v-blocked-exp-sb",
-"v-blocked-exp-ul")
-
-a_models <- c("simple",
-"a-linear",
-"a-power",
-"a-exp",
-"a-delayed-power",
-"a-delayed-exp",
-"a-blocked-simple",
-"a-blocked-complex",
-"a-blocked-exp-sb",
-"a-blocked-exp-ul")
-
-models_2p <- c(
-"v-a-exp", 
-"v-dExp-a-exp",
-"v-dExp-a-pow",
-"v-dPow-a-exp",
-"v-dPow-a-Pow"
+models_2p = c(
+  "v-a-exp-mir",
+  "v-linear-a-blocked-complex",
+  "v-linear-a-exp-mir",
+  "v-power-a-blocked-simple",
+  "v-linear-a-power",
+  "v-power-a-exp-mir",
+  "v-linear-v-blocked-simple"
 )
+
 
 IC_array = function(models, criterion) {
   # set up empty array
@@ -83,17 +64,17 @@ IC_array = function(models, criterion) {
   allIC
 }
 
-allAIC <- IC_array(models,"AIC")
-allBIC <- IC_array(models,"BIC")
+allAIC <- IC_array(models_2p,"AIC")
+allBIC <- IC_array(models_2p,"BIC")
 
 save(allAIC, file = here("data/evansetal-17/derived/optim/allAIC.Rdata"))
 save(allBIC, file = here("data/evansetal-17/derived/optim/allBIC.Rdata"))
-
-allAIC_v <- IC_array(v_models, "AIC")
-allAIC_a <- IC_array(a_models, "AIC")
-
-allBIC_v <- IC_array(v_models,"BIC")
-allBIC_a <- IC_array(a_models, "BIC")
+# 
+# allAIC_v <- IC_array(v_models, "AIC")
+# allAIC_a <- IC_array(a_models, "AIC")
+# 
+# allBIC_v <- IC_array(v_models,"BIC")
+# allBIC_a <- IC_array(a_models, "BIC")
 
 rank_models <- function(scores_array) {
   # apply the ranking function to each row of the array
@@ -116,38 +97,38 @@ rank_models <- function(scores_array) {
 rankBIC <- rank_models(allBIC)
 rankAIC <- rank_models(allAIC)
 
-rankBIC_a <- rank_models(allBIC_a)
-rankBIC_v <- rank_models(allBIC_v)
+# rankBIC_a <- rank_models(allBIC_a)
+# rankBIC_v <- rank_models(allBIC_v)
 
-# Narrow that down to the best two models per participant
-best2_v <- rankBIC_v[,1:2]
-best2_a <- rankBIC_a[,1:2]
-
-best2 <- cbind(best2_a, best2_v)
-
-# Figure out all of the two parameter models to run based on the best 2
-models_2p <- array(dim = c(n, 4))
-
-for (i in 1:length(best2[,1])){
-  model <- c()
-  model[1] <- paste0(best2[i,1],"+",best2[i,3])
-  model[2] <- paste0(best2[i,1],"+",best2[i,4])
-  model[3] <- paste0(best2[i,2],"+",best2[i,4])
-  model[4] <- paste0(best2[i,2],"+",best2[i,3])
-  
-  models_2p[i,] <- model
-}
-
-unique_2p <- unique(models_2p)
-
-# Narrow that down to the best model because best two results in a lot of models
-best_v <- rankBIC_v[,1]
-best_a <- rankBIC_a[,1]
-
-best <- cbind(best_a, best_v)
-
-# Figure out all of the two parameter models to run for each participant, based on their best single parameterm models
-models_2p_best <- array(dim = c(n, 1))
+# # Narrow that down to the best two models per participant
+# best2_v <- rankBIC_v[,1:2]
+# best2_a <- rankBIC_a[,1:2]
+# 
+# best2 <- cbind(best2_a, best2_v)
+# 
+# # Figure out all of the two parameter models to run based on the best 2
+# models_2p <- array(dim = c(n, 4))
+# 
+# for (i in 1:length(best2[,1])){
+#   model <- c()
+#   model[1] <- paste0(best2[i,1],"+",best2[i,3])
+#   model[2] <- paste0(best2[i,1],"+",best2[i,4])
+#   model[3] <- paste0(best2[i,2],"+",best2[i,4])
+#   model[4] <- paste0(best2[i,2],"+",best2[i,3])
+#   
+#   models_2p[i,] <- model
+# }
+# 
+# unique_2p <- unique(models_2p)
+# 
+# # Narrow that down to the best model because best two results in a lot of models
+# best_v <- rankBIC_v[,1]
+# best_a <- rankBIC_a[,1]
+# 
+# best <- cbind(best_a, best_v)
+# 
+# # Figure out all of the two parameter models to run for each participant, based on their best single parameterm models
+# models_2p_best <- array(dim = c(n, 1))
 
 for (i in 1:length(best[,1])){
   models_2p_best

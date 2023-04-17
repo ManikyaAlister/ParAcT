@@ -5,7 +5,7 @@ dataset = "evansetal-17"
 
 
 # Load observed data 
-nSub = 10
+nSub = 9
 all.data=list() 
 for (useSub in 1:nSub) {
   

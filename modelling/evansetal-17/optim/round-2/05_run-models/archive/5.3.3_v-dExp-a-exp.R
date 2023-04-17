@@ -6,7 +6,7 @@ source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 
 conds=1 # number of experimental conditions to loop over
 model = "v-dExp-a-exp" 
-nSub = 10 # number of subjects to run 
+nSub = 9 # number of subjects to run 
 #args <- commandArgs(trailingOnly = TRUE)
 #####################################################
 #### Delayed Drift + Exponential Threshold Model ###
@@ -43,7 +43,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
                 "v.start","v.asym","v.rate","v.delay")
 
   savefile=here(paste("modelling/evansetal-17/optim/round-2/06_output/P",useSub,"_",model,".Rdata",sep=""))
-  saveIC = here(paste("data/evansetal-18/derived/optim/round-2/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  saveIC = here(paste("data/evansetal-18/derived/optim/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
   source(here("modelling/evansetal-17/optim/round-2/03_priors/03.1.3_a-priors-pow-exp.R"))
   source(here("modelling/evansetal-17/optim/round-2/03_priors/03.2.4_v-priors-delay.R"))
