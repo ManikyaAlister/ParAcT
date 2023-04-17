@@ -1,6 +1,6 @@
 rm(list=ls())
 library(here)
-parseFeedbackType="Optim"
+parseFeedbackType="Norm"
 parseBlockType="Trial"
 
 files=dir(here("data/evansetal-17/raw"))
