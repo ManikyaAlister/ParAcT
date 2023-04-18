@@ -55,7 +55,7 @@ observed = quantiles(all.data)
 # Simulate data
 
 # load simulated data
-models = c("simple","a-linear","a-power","a-exp-mir","a-delayed-power","a-delayed-exp","v-linear","v-power","v-exp","v-delayed-power","v-delayed-exp","v-a-exp")
+models = c("simple","a-linear","a-power","a-exp-mir","a-delayed-power","a-delayed-exp","v-linear","v-power","v-exp","v-delayed-power","v-delayed-exp","v-a-exp-mir")
 
 allSimQuantiles = list()
 

@@ -3,7 +3,7 @@ lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library
 library(here, lib.loc = lib)
 library(modelProb)
 
-n = 9
+n = 7
 models = c("simple",
 "a-linear",
 "a-power",
@@ -22,7 +22,14 @@ models = c("simple",
 "blocked-simple",
 "v-blocked-complex",
 "v-blocked-exp-sb",
-"v-blocked-exp-ul")
+"v-blocked-exp-ul",
+"v-a-exp-mir",
+#"v-linear-a-blocked-complex",
+"v-linear-a-exp-mir",
+"v-power-a-blocked-simple",
+"v-linear-a-power",
+#"v-power-a-exp-mir",
+"v-linear-a-blocked-simple")
 
 models_2p = c(
   "v-a-exp-mir",
@@ -31,7 +38,7 @@ models_2p = c(
   "v-power-a-blocked-simple",
   "v-linear-a-power",
   "v-power-a-exp-mir",
-  "v-linear-v-blocked-simple"
+  "v-linear-a-blocked-simple"
 )
 
 
@@ -64,8 +71,8 @@ IC_array = function(models, criterion) {
   allIC
 }
 
-allAIC <- IC_array(models_2p,"AIC")
-allBIC <- IC_array(models_2p,"BIC")
+allAIC <- IC_array(models,"AIC")
+allBIC <- IC_array(models,"BIC")
 
 save(allAIC, file = here("data/evansetal-17/derived/optim/allAIC.Rdata"))
 save(allBIC, file = here("data/evansetal-17/derived/optim/allBIC.Rdata"))
@@ -129,15 +136,15 @@ rankAIC <- rank_models(allAIC)
 # 
 # # Figure out all of the two parameter models to run for each participant, based on their best single parameterm models
 # models_2p_best <- array(dim = c(n, 1))
-
-for (i in 1:length(best[,1])){
-  models_2p_best
-  models_2p_best[i] <- paste0(best[i,1],"+",best[i,2])
-}
-
-# what are the 2-parameter models that need to be made? 
-unique_2p_best <- unique(models_2p_best)
-
+# 
+# for (i in 1:length(best[,1])){
+#   models_2p_best
+#   models_2p_best[i] <- paste0(best[i,1],"+",best[i,2])
+# }
+# 
+# # what are the 2-parameter models that need to be made? 
+# unique_2p_best <- unique(models_2p_best)
+# 
 
 
 ## FIT PLOT
