@@ -37,7 +37,7 @@ models_2p = c(
   "v-linear-a-exp-mir",
   "v-power-a-blocked-simple",
   "v-linear-a-power",
-  #"v-power-a-exp-mir",
+  "v-power-a-exp-mir",
   "v-linear-a-blocked-simple"
 )
 

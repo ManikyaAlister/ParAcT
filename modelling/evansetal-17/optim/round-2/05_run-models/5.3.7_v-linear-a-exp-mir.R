@@ -8,7 +8,8 @@ conds=1 # number of conditions to loop over
 model = "v-linear-a-exp-mir"
 print(model)
 nSub = 9 # number of subjects to run 
-subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
+subj =  8 
+#commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 
 
 ##############################
