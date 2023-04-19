@@ -24,17 +24,24 @@ for (i in 1:block) {
 
 plot(x,a+b*exp(-r*x),type="l",main="Classic Exp Decay")
 
-plot(x,a+b*exp(-r*x2),type="l",main="Classic Exp Dec ay with trial unlearning") # positive b because caution should increase after the block finishes
+plot(x,a+b*exp(-r*x2),type="l",main="Classic Exp Dec ay with trial unlearning", ylab = "a") # positive b because caution should increase after the block finishes
+abline(v = x[seq(10, 100, 10)], lty = 2)
 
-plot(x,a+b2*exp(-r*x1),type="l",main="Classic Exp Decay with start bump")
+
+plot(x,a+b2*exp(-r*x1),type="l",main="Classic Exp Decay with start bump", ylab = "a")
+abline(v = x[seq(10, 100, 10)], lty = 2)
 
 
 plot(x,a-b*exp(-r*x),type="l",main="Mirrored Exp Decay")
+abline(v = x[seq(10, 100, 10)], lty = 2)
 
-plot(x,a-b*exp(-r*x2),type="l",main="Mirrored Exp Decay with trial unlearning")
 
-plot(x,a-b2*exp(-r*x),type="l",main="Mirrored Exp Decay with start bump")
+plot(x,a-b*exp(-r*x2),type="l",main="Mirrored Exp Decay with trial unlearning", ylab = "v")
+abline(v = x[seq(10, 100, 10)], lty = 2)
 
+
+plot(x,a-b2*exp(-r*x),type="l",main="Mirrored Exp Decay with start bump", ylab = "v")
+abline(v = x[seq(10, 100, 10)], lty = 2)
 # Step model
 block = 1:24
 step = 0.066
@@ -42,7 +49,8 @@ d = -step*(block-1)
 a = 2.69
 a.step = a-d
 a.step
-plot(1:2400,sort(rep(a.step,100),decreasing = TRUE),"l")
+plot(1:(24*40),sort(rep(a.step,40),decreasing = TRUE),"l", ylab = "a", xlab = "trials")
+plot(1:(24*40),sort(rep(a.step,40),decreasing = FALSE),"l", ylab = "v", xlab = "trials")
 
 
 # unlearning models 
