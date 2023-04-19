@@ -55,7 +55,7 @@ observed = quantiles(all.data)
 # Simulate data
 
 # load simulated data
-models = c("simple","a-linear","a-power","a-exp-mir","a-delayed-power","a-delayed-exp","v-linear","v-power","v-exp","v-delayed-power","v-delayed-exp","v-a-exp-mir")
+models = c("simple","a-linear","a-power","a-exp-mir","a-delayed-power","a-delayed-exp","v-linear","v-power","v-exp","v-delayed-power","v-delayed-exp","v-linear-a-power")
 
 allSimQuantiles = list()
 
@@ -80,5 +80,5 @@ plotQuantiles = function(simQuants, qs = seq(0.1,0.9,0.1)) { # need to have the 
 
 
 
-
+plotQuantiles(allSimQuantiles["v-linear-a-power"])
 
