@@ -5,8 +5,8 @@ source(file = here("Recovery/5.0.0_load-packages.R"))
 source(file = here("Recovery/02_deep-background.R"))
 
 conds= 1 # number of experimental conditions to loop over
-model = "a-exp" 
-nSub = 2 # number of subjects to run 
+model = "a-exp-mispecification" 
+nSub = 100 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
 
 ####################################
@@ -24,7 +24,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in nSubj, or a specific subj
     names(x)=par.names
     
     for (cond in conds) {
-      a=x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
+      a=x["a"]
       t0=x["t0"]
       v=x["v"]
       z=0.5
@@ -39,12 +39,12 @@ for (useSub in 1:nSub) { # Run DDM for each subject in nSubj, or a specific subj
   }
   
   theta.names=c("v","t0",
-                "a.start","a.asym","a.rate")
+                "a")
   
   savefile=here(paste("Recovery/",model,"/Fits_recovery/P",useSub,"_",model,".Rdata",sep=""))
   #saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
-  source(here("Recovery/03_priors/03.1.3_a-priors-pow-exp.R"))
+  source(here("Recovery/03_priors.R"))
   source(here("Recovery/04_iterative-process.R"))
   
   n.pars = length(theta.names)
