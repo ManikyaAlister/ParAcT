@@ -5,9 +5,11 @@ source(file = here("modelling/evansetal-17/optim/round-2/05_run-models/5.0.0_loa
 source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 
 conds=1 # number of experimental conditions to loop over
-model = "v-power-a-exp-mir" 
+model = "v-power-a-dExp" 
+print(model) # so that I can see which model is being run
 nSub = 9 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
+print(subj) # so that I can see which subject is being run
 
 ####################################
 #### Exponential Threshold Model ###
@@ -24,7 +26,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     names(x)=par.names
     
     for (cond in conds) {
-      a=(x["a.asym"]+x["a.start"])-x["a.start"]*exp(x["a.rate"]*data$Trial)
+      a=x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*data$Trial))))
       t0=x["t0"]
       v=(x["v.asym"]+x["v.start"])-x["v.start"]*data$Trial^(-x["v.rate"])
       z=0.5
@@ -38,7 +40,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out
   }
   
-  theta.names=c("a.start","a.asym","a.rate","t0",
+  theta.names=c("a.start","a.asym","a.rate","a.delay","t0",
                 "v.start","v.asym","v.rate")
 
   savefile=here(paste("modelling/evansetal-17/optim/round-2/06_output/P",useSub,"_",model,".Rdata",sep=""))
