@@ -3,7 +3,7 @@ lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library
 library(here, lib.loc = lib)
 library(modelProb)
 
-n = 7
+n = 9
 models = c("simple",
 "a-linear",
 "a-power",
