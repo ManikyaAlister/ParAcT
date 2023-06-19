@@ -5,6 +5,14 @@ r=0.1
 a=4
 b=2
 
+beta = 0.01
+c = 1
+
+# linear 
+plot(trial, c+beta*trial, "l", ylab = "v")
+plot(trial, c+-beta*trial, "l", ylab = "a")
+
+
 # Power
 plot(trial, a-b*trial^-r, "l", ylab = "v")
 plot(trial, a+b*trial^-r, "l", ylab = "a")

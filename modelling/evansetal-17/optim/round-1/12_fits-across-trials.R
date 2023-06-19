@@ -2,15 +2,15 @@ library(dplyr)
 library(ggplot2)
 
 nSub = 1
-dataset = "evansetal-18"
+dataset = "evansetal-17"
 
 # vector of the best model for each participant  
-best_models = rep("a-exp-mir", nSub)
+best_models = rep("a-exp", nSub)
 
 for (useSub in 1:nSub) {
   
   # load participant data 
-  load(here(paste0("data/",dataset,"/clean/P",useSub,".Rdata")))
+  load(here(paste0("data/",dataset,"/clean/P",useSub,"-Optim-Trial.Rdata")))
   
   # determine best model for that participant 
   best_model <- best_models[useSub]

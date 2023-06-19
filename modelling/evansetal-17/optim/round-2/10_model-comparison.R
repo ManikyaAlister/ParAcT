@@ -7,7 +7,7 @@ n = 9
 models = c("simple",
 "a-linear",
 "a-power",
-"a-exp-mir",
+"a-exp",
 "a-delayed-power",
 "a-delayed-exp",
 "a-blocked-simple",
@@ -23,16 +23,17 @@ models = c("simple",
 "v-blocked-complex",
 "v-blocked-exp-sb",
 "v-blocked-exp-ul",
-"v-a-exp-mir",
+"v-a-exp",
 #"v-linear-a-blocked-complex",
 "v-linear-a-exp-mir",
 "v-power-a-blocked-simple",
 "v-linear-a-power",
-#"v-power-a-exp-mir",
-"v-linear-a-blocked-simple")
+"v-power-a-exp-mir",
+"v-linear-a-blocked-simple",
+"v-power-a-dExp")
 
 models_2p = c(
-  "v-a-exp-mir",
+  "v-a-exp",
   #"v-linear-a-blocked-complex",
   "v-linear-a-exp-mir",
   "v-power-a-blocked-simple",
@@ -103,6 +104,11 @@ rank_models <- function(scores_array) {
 # Rank the best models for each participant
 rankBIC <- rank_models(allBIC)
 rankAIC <- rank_models(allAIC)
+
+
+# comparison plots
+
+
 
 # rankBIC_a <- rank_models(allBIC_a)
 # rankBIC_v <- rank_models(allBIC_v)

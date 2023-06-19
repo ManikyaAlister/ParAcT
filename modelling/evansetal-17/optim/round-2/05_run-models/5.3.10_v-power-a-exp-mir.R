@@ -7,7 +7,8 @@ source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 conds=1 # number of experimental conditions to loop over
 model = "v-power-a-exp-mir" 
 nSub = 9 # number of subjects to run 
-subj = commandArgs(trailingOnly = TRUE)
+subj = 9
+#commandArgs(trailingOnly = TRUE)
 
 ####################################
 #### Exponential Threshold Model ###

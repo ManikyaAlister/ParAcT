@@ -9,7 +9,7 @@ n = 9
 models = c("simple",
 "a-linear",
 "a-power",
-"a-exp-mir",
+"a-exp",
 "a-delayed-power",
 "a-delayed-exp",
 "a-blocked-simple",
@@ -168,3 +168,24 @@ save(file = here("data/evansetal-17/derived/optim/round-2-models.Rdata"), unique
 # dots plotted as usual. Color based on correct or incorrect. If correct, get model predictions and error bar
 # Number at the top saying % of times where model made correction prediction about accuracy. 
 
+
+# Relative probability of single param modles to simple model
+
+# Get names of best model for each participant
+nSub = 9
+library(modelProb)
+best_mod_names <- rankBIC[,1]
+BIC_best_mod <- NULL
+for (i in 1:nSub){
+  BIC_best_mod[i] <- allBIC[i,best_mod_names[i]]
+}
+allBIC$simple
+
+IC_array_MM <- cbind(BIC_best_mod, allBIC$simple)
+rownames(IC_array_MM) <- c("Best Model", "Standard DDM")
+
+weights_simple_comp <- modelProb::weightedICs(IC_array_MM)
+colnames(weights_simple_comp) <- c("Best Model", "Standard DDM")
+
+
+MMComparisonPlot(ICweights = weights_simple_comp, models1 = "Best Model", models2 = "Standard DDM", main = "Best Model v Standard DDM")
