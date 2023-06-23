@@ -9,4 +9,5 @@ slurm_output/*
 **.DS_Store
 .Rproj.user/shared/notebooks/paths
 ../../../../.Rproj.user/shared/notebooks/paths
+.Rproj.user/shared/notebooks/paths
 Presentations/*
