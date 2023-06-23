@@ -44,4 +44,6 @@ weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
 
 modelProb::plotWeightedICs(weightedBIC)
-modelProb::plotWeightedICs(weightedAIC)
+modelProb::plotWeightedICs(weightedAIC, main = "a-exp generating data", seed = 9)
+
+

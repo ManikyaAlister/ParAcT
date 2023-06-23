@@ -6,7 +6,7 @@ rm(list=ls())
 library(msm)
 
 
-source("Recovery/02_simulate-DIFF-trialVarying.R")
+source("Recovery/02_simulate-DIFF-exp.R")
 library(lhs)
 
 

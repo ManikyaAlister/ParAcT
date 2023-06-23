@@ -5,7 +5,7 @@ library(here)
 #setwd("Recovery") 
 library(msm)
 
-source("02_simulate-DIFF-trialVarying.R")
+source("02_simulate-DIFF-exp.R")
 library(lhs)
 
 

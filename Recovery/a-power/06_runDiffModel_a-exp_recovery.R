@@ -5,7 +5,7 @@ source(file = here("Recovery/5.0.0_load-packages.R"))
 source(file = here("Recovery/02_deep-background.R"))
 
 conds= 1 # number of experimental conditions to loop over
-model = "a-exp" 
+model = "a-power" 
 nSub = 2 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
 
@@ -24,7 +24,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in nSubj, or a specific subj
     names(x)=par.names
     
     for (cond in conds) {
-      a=x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
+      a=x["a.asym"]+x["a.start"]*data$Trial^(-x["a.rate"])
       t0=x["t0"]
       v=x["v"]
       z=0.5
