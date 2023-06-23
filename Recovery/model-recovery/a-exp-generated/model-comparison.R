@@ -4,7 +4,7 @@ library(here, lib.loc = lib)
 library(modelProb)
 
 
-n = 1
+n = 100
 generating_data ="a-exp-generated"
 
 models = c(
@@ -41,7 +41,7 @@ allAIC <- IC_array(models,"AIC")
 allBIC <- IC_array(models,"BIC")
 
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
-weightedBIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
+weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
 
 modelProb::plotWeightedICs(weightedBIC)
-modelProb::plotWeightedICs(weightedBIC)
+modelProb::plotWeightedICs(weightedAIC)

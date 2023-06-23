@@ -4,7 +4,7 @@ library(here, lib.loc = lib)
 library(modelProb)
 
 
-n = 1
+n = 100
 generating_data ="v-exp-generated"
 
 models = c(
