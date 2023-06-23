@@ -53,14 +53,14 @@ models=("runDiffModel_v-exp_recovery", "runDiffModel_v-pow_recovery")
 # 
 #  
 # Set the participant numbers (make sure the slurm array is set up for the correct model * participant combintation)
-participants=({1..100})
+participants=($(seq 1 100))
 
 # Calculate the model and participant indices from the job array task ID
 model_idx=$(((SLURM_ARRAY_TASK_ID-1) % 2)) # make sure you correctly indicate the number of models after '%'
 participant_idx=$(((SLURM_ARRAY_TASK_ID-1) / 2)) # make sure you correctly indicate the number of models after '/'
 
 # Run the R script with the input and output files and the participant number as a command line argument
-Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/model-recovery/a-exp-generated/${models[$model_idx]}.R ${participants[$participant_idx]}
+Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/model-recovery/v-exp-generated/${models[$model_idx]}.R ${participants[$participant_idx]}
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage

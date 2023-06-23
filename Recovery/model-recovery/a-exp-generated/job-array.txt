@@ -10,7 +10,7 @@
 #SBATCH --nodes=1
 
 # The name of the job:
-#SBATCH --job-name="round1"
+#SBATCH --job-name="a-exp-gen"
 
 # Maximum number of tasks/CPU cores used by the job:
 #SBATCH --ntasks=1
@@ -47,17 +47,17 @@ module load r/4.2.0
 
 
 # Set the model script names
-models=("runDiffModel_a-exp_recovery.R", "runDiffModel_a-pow_recovery.R")
+models=("runDiffModel_a-exp_recovery" "runDiffModel_a-pow_recovery")
  
 # Models not run (put below)
 # 
 #  
 # Set the participant numbers (make sure the slurm array is set up for the correct model * participant combintation)
-participants=({1..100})
+participants=($(seq 1 100))
 
 # Calculate the model and participant indices from the job array task ID
-model_idx=$(((SLURM_ARRAY_TASK_ID-1) % 200)) # make sure you correctly indicate the number of models after '%'
-participant_idx=$(((SLURM_ARRAY_TASK_ID-1) / 200)) # make sure you correctly indicate the number of models after '/'
+model_idx=$(((SLURM_ARRAY_TASK_ID-1) % 2)) # make sure you correctly indicate the number of models after '%'
+participant_idx=$(((SLURM_ARRAY_TASK_ID-1) / 2)) # make sure you correctly indicate the number of models after '/'
 
 # Run the R script with the input and output files and the participant number as a command line argument
 Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/model-recovery/a-exp-generated/${models[$model_idx]}.R ${participants[$participant_idx]}
