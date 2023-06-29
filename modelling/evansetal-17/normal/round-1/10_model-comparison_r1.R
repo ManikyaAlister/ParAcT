@@ -12,7 +12,7 @@ v_models <- c(#"simple",
               "v-exp",
               #"v-delayed-pow",
               "v-delayed-exp",
-              "blocked-simple",
+              "v-locked-simple",
               #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
               "v-blocked-exp-sb",
               #"v-blocked-exp-ul",
