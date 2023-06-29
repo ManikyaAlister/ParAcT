@@ -6,10 +6,10 @@ library(modelProb)
 n = 7
 # round 1 models 
 
-v_models <- c(#"simple", 
+v_models <- c("simple", 
               "v-linear",
               #"v-power",
-              "v-exp",
+              #"v-exp",
               #"v-delayed-pow",
               "v-delayed-exp",
               "v-locked-simple",
@@ -18,7 +18,7 @@ v_models <- c(#"simple",
               #"v-blocked-exp-ul",
               "v-delayed-exp-blocked")
 
-a_models <- c(#"simple",
+a_models <- c("simple",
               "a-linear",
               #"a-power",
               "a-exp",
