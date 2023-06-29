@@ -13,7 +13,7 @@ conds=1 # number of conditions to loop over
 model = "simple"
 print(model)
 subj = commandArgs(trailingOnly = TRUE)
-nSub = 10 # number of subjects to run (if looping instead of parallel)
+nSub = 7 # number of subjects to run (if looping instead of parallel)
 
 ####################
 #### Simple Model###

@@ -7,7 +7,7 @@ source(file = here("modelling/evansetal-17/normal/round-1/02_deep-background.R")
 
 conds=c(1,2) # redundant because only one condition
 
-nSub = 10 # number of subjects
+nSub = 7 # number of subjects
 
 ####################################
 #### Exponential Threshold Model ###
