@@ -8,7 +8,7 @@ blocks = 1:24
 conds=1 # number of conditions to loop over
 model = "v-blocked-complex"
 print(model) # so I can see what model is running in the output
-nSub = 9 # number of subjects to run (only used if looping instead of parallel)
+nSub = 10 # number of subjects to run (only used if looping instead of parallel)
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 
 ####################
@@ -20,7 +20,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
   # Run DDM for each subject in n Subjects
   
   load(here(
-    paste("data/evansetal-17/clean/P",useSub, "-Normal-Trial.Rdata", sep = "")
+    paste("data/evansetal-17/clean/P",useSub, "-Norm-Trial.Rdata", sep = "")
   ))
   newSeed = Sys.time()
   set.seed(as.numeric(newSeed))
@@ -56,7 +56,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out
   }
   
-  theta.names = c("a", "t0")
+  theta.names = c("z", "a", "t0")
 
   # name block parameters
   block.theta.names = NULL

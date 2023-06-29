@@ -37,7 +37,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
     out
   }
   
-  theta.names=c("a.asym","a.start","a.rate","t0",
+  theta.names = c("z", "a.asym","a.start","a.rate","t0",
                 "v.asym","v.start","v.rate")
 
   savefile=here(paste("modelling/chenetal-18/06_output/P",useSub,"_",model,".Rdata",sep=""))

@@ -8,7 +8,7 @@ blocks = 1:24
 conds=1 # number of conditions to loop over
 model = "a-blocked-simple"
 print(model)
-nSub = 9 # number of subjects to run (if looping over participants)
+nSub = 10 # number of subjects to run (if looping over participants)
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 
 ####################
@@ -20,7 +20,7 @@ for (useSub in subj) {
   # Run DDM for each subject in n Subjects
   
   load(here(
-    paste("data/evansetal-17/clean/P",useSub, "-Normal-Trial.Rdata", sep = "")
+    paste("data/evansetal-17/clean/P",useSub, "-Norm-Trial.Rdata", sep = "")
   ))
   newSeed = Sys.time()
   set.seed(as.numeric(newSeed))
@@ -60,7 +60,7 @@ for (useSub in subj) {
     out
   }
   
-  theta.names = c("a", "t0","step",
+  theta.names = c("z", "a", "t0","step",
                   "v")
   
   savefile=here(paste("modelling/evansetal-17/normal/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))

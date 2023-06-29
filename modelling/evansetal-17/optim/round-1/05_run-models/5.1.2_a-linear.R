@@ -41,7 +41,7 @@ for (useSub in subj) {
     out
   }
   
-  theta.names=c("a.b","a.c","t0",
+  theta.names = c("z", "a.b","a.c","t0",
                 "v")
   
   savefile=here(paste("modelling/evansetal-17/optim/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))

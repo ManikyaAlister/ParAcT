@@ -16,7 +16,7 @@ subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject 
 
 for (useSub in subj) { # Run DDM for each subject in n Subjects
   
-  load(here(paste("data/evansetal-17/clean/P",useSub,"-Normal-Trial.Rdata",sep="")))
+  load(here(paste("data/evansetal-17/clean/P",useSub,"-Norm-Trial.Rdata",sep="")))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
   
@@ -39,7 +39,7 @@ for (useSub in subj) { # Run DDM for each subject in n Subjects
     out
   }
   
-  theta.names=c("a.start","a.asym","a.rate","t0",
+  theta.names = c("z", "a.start","a.asym","a.rate","t0",
                 "v")
 
   savefile=here(paste("modelling/evansetal-17/normal/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))

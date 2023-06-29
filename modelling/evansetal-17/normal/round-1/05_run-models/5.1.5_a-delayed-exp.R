@@ -7,7 +7,7 @@ source(file = here("modelling/evansetal-17/normal/round-1/02_deep-background.R")
 conds=1 # number of experimental conditions to loop over
 model = "a-delayed-exp" 
 print(model)
-nSub = 9 # number of subjects to run 
+nSub = 10 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 
 ####################################
@@ -16,7 +16,7 @@ subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject 
 
 for (useSub in subj) { # Run DDM for each subject in nSub, or a specific subject if running in parallel
   
-  load(here(paste("data/evansetal-17/clean/P",useSub,"-Normal-Trial.Rdata",sep="")))
+  load(here(paste("data/evansetal-17/clean/P",useSub,"-Norm-Trial.Rdata",sep="")))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
   
@@ -40,7 +40,7 @@ for (useSub in subj) { # Run DDM for each subject in nSub, or a specific subject
     out
   }
   
-  theta.names=c("a.start","a.asym","a.rate","a.delay","t0",
+  theta.names = c("z", "a.start","a.asym","a.rate","a.delay","t0",
                 "v")
 
   savefile=here(paste("modelling/evansetal-17/normal/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))

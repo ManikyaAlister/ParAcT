@@ -38,7 +38,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in nSubj, or a specific subj
     out
   }
   
-  theta.names=c("v","t0",
+  theta.names = c("z", "v","t0",
                 "a.start","a.asym","a.rate")
   
   savefile=here(paste("Recovery/",model,"/Fits_recovery/P",useSub,"_",model,".Rdata",sep=""))

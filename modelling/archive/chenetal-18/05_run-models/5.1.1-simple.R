@@ -53,7 +53,7 @@ for (useSub in 1:nSub) {
     out
   }
   
-  theta.names = c("a", "t0",
+  theta.names = c("z", "a", "t0",
                   "v")
   
   savefile=here(paste("modelling/chenetal-18/06_output/P",useSub,"_",model,".Rdata",sep=""))

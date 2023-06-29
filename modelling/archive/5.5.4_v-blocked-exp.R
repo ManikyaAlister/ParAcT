@@ -39,7 +39,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out
   }
   
-  theta.names=c("a","t0","b.bump",
+  theta.names = c("z", "a","t0","b.bump",
                 "v.start","v.asym","v.rate")
 
   savefile=here(paste("modelling/evansetal-18/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))

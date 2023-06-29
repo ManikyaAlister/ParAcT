@@ -64,7 +64,7 @@ for (useSub in subj) {
     out
   }
   
-  theta.names = c("t0",
+  theta.names = c("z", "t0",
                   "v")
   
   # name block parameters

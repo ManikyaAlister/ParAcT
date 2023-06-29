@@ -13,18 +13,18 @@ conds=1 # number of conditions to loop over
 model = "simple"
 print(model)
 subj = commandArgs(trailingOnly = TRUE)
-nSub = 9 # number of subjects to run (if looping instead of parallel)
+nSub = 10 # number of subjects to run (if looping instead of parallel)
 
 ####################
 #### Simple Model###
 ####################
 
 
-for (useSub in subj) {
+for (useSub in 1) {
   # Run DDM for each subject in n Subjects
   
   load(here(
-    paste("data/evansetal-17/clean/P",useSub, "-Normal-Trial.Rdata", sep = "")
+    paste("data/evansetal-17/clean/P",useSub, "-Norm-Trial.Rdata", sep = "")
   ))
   newSeed = Sys.time()
   set.seed(as.numeric(newSeed))
@@ -60,7 +60,7 @@ for (useSub in subj) {
     out
   }
   
-  theta.names = c("a", "t0",
+  theta.names = c("z", "a", "t0",
                   "v")
   
   savefile=here(paste("modelling/evansetal-17/normal/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))

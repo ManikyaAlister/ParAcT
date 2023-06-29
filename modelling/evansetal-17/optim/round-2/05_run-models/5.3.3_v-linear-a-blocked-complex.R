@@ -41,7 +41,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out
   }
   
-  theta.names=c("t0",
+  theta.names = c("z", "t0",
                 "v.b", "v.c")
   
   # name block parameters

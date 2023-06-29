@@ -20,7 +20,7 @@ for (useSub in subj) {
   # Run DDM for each subject in n Subjects
   
   load(here(
-    paste("data/evansetal-17/clean/P",useSub, "-Normal-Trial.Rdata", sep = "")
+    paste("data/evansetal-17/clean/P",useSub, "-Norm-Trial.Rdata", sep = "")
   ))
   newSeed = Sys.time()
   set.seed(as.numeric(newSeed))
@@ -64,7 +64,7 @@ for (useSub in subj) {
     out
   }
   
-  theta.names = c("t0",
+  theta.names = c("z", "t0",
                   "v")
   
   # name block parameters

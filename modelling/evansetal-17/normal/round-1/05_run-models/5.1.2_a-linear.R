@@ -17,7 +17,7 @@ subj = commandArgs(trailingOnly = TRUE)
 
 for (useSub in subj) { 
   
-  load(here(paste("data/evansetal-17/clean/P",useSub,"-Normal-Trial.Rdata",sep="")))
+  load(here(paste("data/evansetal-17/clean/P",useSub,"-Norm-Trial.Rdata",sep="")))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
   
@@ -41,7 +41,7 @@ for (useSub in subj) {
     out
   }
   
-  theta.names=c("a.b","a.c","t0",
+  theta.names = c("z", "a.b","a.c","t0",
                 "v")
   
   savefile=here(paste("modelling/evansetal-17/normal/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))

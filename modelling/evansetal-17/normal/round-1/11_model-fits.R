@@ -5,11 +5,11 @@ dataset = "evansetal-17"
 
 
 # Load observed data 
-nSub = 9
+nSub = 10
 all.data=list() 
 for (useSub in 1:nSub) {
   
-  load(here(paste0("data/",dataset,"/clean/P",useSub,"-Normal-Trial.Rdata")))
+  load(here(paste0("data/",dataset,"/clean/P",useSub,"-Norm-Trial.Rdata")))
   
   all.data[[useSub]]=data
 }
