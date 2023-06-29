@@ -158,7 +158,7 @@ save(file = here("data/evansetal-17/derived/normal/round-2-models.Rdata"), uniqu
 # 
 # 
 # # Get names of best model for each participant
-# nSub = 10
+# nSub = 7
 # library(modelProb)
 # best_mod_names <- rankBIC[, 1]
 # BIC_best_mod <- NULL

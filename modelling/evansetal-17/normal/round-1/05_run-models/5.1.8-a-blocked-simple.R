@@ -8,7 +8,7 @@ blocks = 1:24
 conds=1 # number of conditions to loop over
 model = "a-blocked-simple"
 print(model)
-nSub = 10 # number of subjects to run (if looping over participants)
+nSub = 7 # number of subjects to run (if looping over participants)
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 
 ####################

@@ -13,14 +13,14 @@ conds=1 # number of conditions to loop over
 model = "simple"
 print(model)
 subj = commandArgs(trailingOnly = TRUE)
-nSub = 10 # number of subjects to run (if looping instead of parallel)
+nSub = 7 # number of subjects to run (if looping instead of parallel)
 
 ####################
 #### Simple Model###
 ####################
 
 
-for (useSub in 1) {
+for (useSub in subj) {
   # Run DDM for each subject in n Subjects
   
   load(here(
