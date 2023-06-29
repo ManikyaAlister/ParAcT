@@ -38,7 +38,7 @@ for (useSub in subj) {
       a = x["a"]
       t0 = x["t0"]
       v = x["v"]
-      z = 0.5
+      z = x["z"]
       sv = 0
       sz = 0
       st0 = 0

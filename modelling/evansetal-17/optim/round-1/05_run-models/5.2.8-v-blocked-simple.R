@@ -38,7 +38,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
       if (v < 0 ) {
         return(-Inf)
       }
-      z = 0.5
+      z = x["z"]
       sv = 0
       sz = 0
       st0 = 0

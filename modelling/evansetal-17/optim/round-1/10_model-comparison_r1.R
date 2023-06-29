@@ -6,54 +6,39 @@ library(modelProb)
 n = 9
 # round 1 models 
 
-models = c("simple",
-"a-linear",
-"a-power",
-"a-exp",
-"a-delayed-power",
-"a-delayed-exp",
-"a-blocked-simple",
-"a-blocked-complex",
-"a-blocked-exp-sb",
-"a-blocked-exp-ul",
-"v-linear",
-"v-power",
-"v-exp",
-"v-delayed-pow",
-"v-delayed-exp",
-"blocked-simple",
-"v-blocked-complex",
-"v-blocked-exp-sb",
-"v-blocked-exp-ul")
-
 v_models <- c("simple", 
-"v-linear",
-"v-power",
-"v-exp",
-"v-delayed-pow",
-"v-delayed-exp",
-"blocked-simple",
-"v-blocked-complex",
-"v-blocked-exp-sb",
-"v-blocked-exp-ul")
+              "v-linear",
+              #"v-power",
+              "v-exp",
+              #"v-delayed-pow",
+              "v-delayed-exp",
+              "blocked-simple",
+              #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
+              "v-blocked-exp-sb",
+              #"v-blocked-exp-ul",
+              "v-delayed-exp-blocked")
 
 a_models <- c("simple",
-"a-linear",
-"a-power",
-"a-exp",
-"a-delayed-power",
-"a-delayed-exp",
-"a-blocked-simple",
-"a-blocked-complex",
-"a-blocked-exp-sb",
-"a-blocked-exp-ul")
+              "a-linear",
+              #"a-power",
+              "a-exp",
+              #"a-delayed-power",
+              "a-delayed-exp",
+              "a-blocked-simple",
+              #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
+              "a-blocked-exp-sb",
+              #"a-blocked-exp-ul",
+              "a-delayed-exp-blocked",
+              "a-step")
+
+models <- c(a_models, v_models)
 
 models_2p <- c(
-"v-a-exp", 
-"v-dExp-a-exp",
-"v-dExp-a-pow",
-"v-dPow-a-exp",
-"v-dPow-a-Pow"
+  "v-a-exp", 
+  "v-dExp-a-exp",
+  "v-dExp-a-pow",
+  "v-dPow-a-exp",
+  "v-dPow-a-Pow"
 )
 
 IC_array = function(models, criterion) {
@@ -153,7 +138,7 @@ models_2p_best <- array(dim = c(n, 1))
 
 for (i in 1:length(best[,1])){
   models_2p_best
-  models_2p_best[i] <- paste0(best[i,1],"+",best[i,2])
+  models_2p_best[i] <- paste0(best[i,2],"+",best[i,1])
 }
 
 # what are the 2-parameter models that need to be made? 
@@ -170,22 +155,28 @@ save(file = here("data/evansetal-17/derived/optim/round-2-models.Rdata"), unique
 
 
 # Relative probability of single param modles to simple model
-
-# Get names of best model for each participant
-nSub = 9
-library(modelProb)
-best_mod_names <- rankBIC[,1]
-BIC_best_mod <- NULL
-for (i in 1:nSub){
-  BIC_best_mod[i] <- allBIC[i,best_mod_names[i]]
-}
-allBIC$simple
-
-IC_array_MM <- cbind(BIC_best_mod, allBIC$simple)
-rownames(IC_array_MM) <- c("Best Model", "Standard DDM")
-
-weights_simple_comp <- modelProb::weightedICs(IC_array_MM)
-colnames(weights_simple_comp) <- c("Best Model", "Standard DDM")
-
-
-MMComparisonPlot(ICweights = weights_simple_comp, models1 = "Best Model", models2 = "Standard DDM", main = "Best Model v Standard DDM")
+# 
+# 
+# # Get names of best model for each participant
+# nSub = 9
+# library(modelProb)
+# best_mod_names <- rankBIC[, 1]
+# BIC_best_mod <- NULL
+# for (i in 1:nSub) {
+#   BIC_best_mod[i] <- allBIC[i, best_mod_names[i]]
+# }
+# allBIC$simple
+# 
+# IC_array_MM <- cbind(BIC_best_mod, allBIC$simple)
+# rownames(IC_array_MM) <- c("Best Model", "Standard DDM")
+# 
+# weights_simple_comp <- modelProb::weightedICs(IC_array_MM)
+# colnames(weights_simple_comp) <- c("Best Model", "Standard DDM")
+# 
+# 
+# MMComparisonPlot(
+#   ICweights = weights_simple_comp,
+#   models1 = "Best Model",
+#   models2 = "Standard DDM",
+#   main = "Best Model v Standard DDM"
+# )

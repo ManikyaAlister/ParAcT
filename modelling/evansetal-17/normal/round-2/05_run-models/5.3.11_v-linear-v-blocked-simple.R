@@ -38,7 +38,7 @@ for (useSub in subj) {
       }
       t0 = x["t0"]
       v=(x["v.b"]*data$Trial)+x["v.c"] 
-      z = 0.5
+      z = x["z"]
       sv = 0
       sz = 0
       st0 = 0

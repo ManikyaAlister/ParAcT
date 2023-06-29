@@ -4,34 +4,32 @@ library(here, lib.loc = lib)
 library(modelProb)
 
 n = 9
-models = c("simple",
-"a-linear",
-"a-power",
-"a-exp",
-"a-delayed-power",
-"a-delayed-exp",
-"a-blocked-simple",
-"a-blocked-complex",
-"a-blocked-exp-sb",
-"a-blocked-exp-ul",
-"v-linear",
-"v-power",
-"v-exp",
-"v-delayed-pow",
-"v-delayed-exp",
-"blocked-simple",
-"v-blocked-complex",
-"v-blocked-exp-sb",
-"v-blocked-exp-ul",
-"v-a-exp",
-#"v-linear-a-blocked-complex",
-"v-linear-a-exp-mir",
-"v-power-a-blocked-simple",
-"v-linear-a-power",
-"v-power-a-exp-mir",
-"v-linear-a-blocked-simple",
-"v-power-a-dExp")
+v_models <- c("simple", 
+              "v-linear",
+              #"v-power",
+              "v-exp",
+              #"v-delayed-pow",
+              "v-delayed-exp",
+              "blocked-simple",
+              #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
+              "v-blocked-exp-sb",
+              #"v-blocked-exp-ul",
+              "v-delayed-exp-blocked")
 
+a_models <- c("simple",
+              "a-linear",
+              #"a-power",
+              "a-exp",
+              #"a-delayed-power",
+              "a-delayed-exp",
+              "a-blocked-simple",
+              #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
+              "a-blocked-exp-sb",
+              #"a-blocked-exp-ul",
+              "a-delayed-exp-blocked",
+              "a-step")
+
+models <- c(a_models, v_models)
 models_2p = c(
   "v-a-exp",
   #"v-linear-a-blocked-complex",
