@@ -3,10 +3,10 @@ lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library
 library(here, lib.loc = lib)
 library(modelProb)
 
-n = 10
+n = 7
 # round 1 models 
 
-v_models <- c("simple", 
+v_models <- c(#"simple", 
               "v-linear",
               #"v-power",
               "v-exp",
@@ -18,7 +18,7 @@ v_models <- c("simple",
               #"v-blocked-exp-ul",
               "v-delayed-exp-blocked")
 
-a_models <- c("simple",
+a_models <- c(#"simple",
               "a-linear",
               #"a-power",
               "a-exp",
