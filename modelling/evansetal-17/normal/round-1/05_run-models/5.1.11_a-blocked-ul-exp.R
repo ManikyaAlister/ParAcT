@@ -30,7 +30,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
       a=(x["a.asym"]+x["a.start"])-x["a.start"]*exp(x["a.rate"]*data$Trial-u) # should it be "+" u because a decreases over blocks and unlearning means a should increase
       t0=x["t0"]
       v=x["v"]
-      z=0.5
+      z = x["z"]
       sv=0
       sz=0
       st0=0

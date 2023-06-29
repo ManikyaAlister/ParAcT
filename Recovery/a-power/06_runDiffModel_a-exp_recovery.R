@@ -27,7 +27,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in nSubj, or a specific subj
       a=x["a.asym"]+x["a.start"]*data$Trial^(-x["a.rate"])
       t0=x["t0"]
       v=x["v"]
-      z=0.5
+      z = x["z"]
       sv=0
       sz=0
       st0=0

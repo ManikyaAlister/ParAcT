@@ -29,7 +29,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
       a=x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*data$Trial))))
       t0=x["t0"]
       v=(x["v.asym"]+x["v.start"])-x["v.start"]*data$Trial^(-x["v.rate"])
-      z=0.5
+      z = x["z"]
       sv=0
       sz=0
       st0=0

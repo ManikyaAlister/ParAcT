@@ -27,7 +27,7 @@ subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject 
       a=x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
       t0=x["t0"]
       v=(x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
-      z=0.5
+      z = x["z"]
       sv=0
       sz=0
       st0=0

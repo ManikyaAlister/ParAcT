@@ -28,7 +28,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
       a=(-x["a.b"]*data$Trial)+x["a.c"] # -bx + c = linear function
       t0=x["t0"]
       v=x["v"]
-      z=0.5
+      z = x["z"]
       sv=0
       sz=0
       st0=0
