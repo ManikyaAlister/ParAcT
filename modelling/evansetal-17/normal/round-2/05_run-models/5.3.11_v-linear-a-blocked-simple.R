@@ -11,11 +11,6 @@ print(model)
 nSub = 9 # number of subjects to run (if looping over participants)
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 
-####################
-#### Simple Model###
-####################
-
-
 for (useSub in subj) {
   # Run DDM for each subject in n Subjects
   
