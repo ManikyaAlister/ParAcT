@@ -7,7 +7,7 @@ source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 conds=1 # number of experimental conditions to loop over
 model = "v-dExp-a-exp" 
 nSub = 9 # number of subjects to run 
-#args <- commandArgs(trailingOnly = TRUE)
+subj = commandArgs(trailingOnly = TRUE)
 #####################################################
 #### Delayed Drift + Exponential Threshold Model ###
 ####################################################
