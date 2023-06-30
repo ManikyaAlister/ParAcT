@@ -29,7 +29,7 @@ a_models <- c("simple",
               "a-blocked-exp-sb",
               #"a-blocked-exp-ul",
               "a-delayed-exp-blocked",
-              "a-step")
+              "a-step-fixed")
 
 models <- c(a_models, v_models)
 
@@ -102,6 +102,7 @@ rank_models <- function(scores_array) {
 # Rank the best models for each participant
 rankBIC <- rank_models(allBIC)
 rankAIC <- rank_models(allAIC)
+print(rankBIC)
 
 rankBIC_a <- rank_models(allBIC_a)
 rankBIC_v <- rank_models(allBIC_v)
@@ -132,6 +133,7 @@ best_v <- rankBIC_v[,1]
 best_a <- rankBIC_a[,1]
 
 best <- cbind(best_a, best_v)
+print(best)
 
 # Figure out all of the two parameter models to run for each participant, based on their best single parameterm models
 models_2p_best <- array(dim = c(n, 1))

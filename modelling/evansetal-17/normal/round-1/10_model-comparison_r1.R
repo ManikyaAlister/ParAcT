@@ -6,13 +6,13 @@ library(modelProb)
 n = 7
 # round 1 models 
 
-v_models <- c(#"simple", 
+v_models <- c("simple", 
               "v-linear",
               #"v-power",
               "v-exp",
               #"v-delayed-pow",
               "v-delayed-exp",
-              "blocked-simple",
+              "v-blocked-simple",
               #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
               "v-blocked-exp-sb",
               #"v-blocked-exp-ul",
@@ -143,7 +143,7 @@ for (i in 1:length(best[,1])){
 
 # what are the 2-parameter models that need to be made? 
 unique_2p_best <- unique(models_2p_best)
-save(file = here("data/evansetal-17/derived/normal/round-2-models.Rdata"), unique_2p_best)
+#save(file = here("data/evansetal-17/derived/normal/round-2-models.Rdata"), unique_2p_best)
 
 
 ## FIT PLOT
