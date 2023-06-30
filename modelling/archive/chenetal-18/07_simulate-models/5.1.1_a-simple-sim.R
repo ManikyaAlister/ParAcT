@@ -6,7 +6,7 @@ nSub = 1
 for(useSub in 1:nSub) {
 
 
-  load(here(paste("modelling/evansetal-18/06_output/P",useSub,"_simple.Rdata", sep = ""))) #Loads through the datasets of each participant in nSub
+  load(here(paste("modelling/evansetal-17/06_output/P",useSub,"_simple.Rdata", sep = ""))) #Loads through the datasets of each participant in nSub
 
 
   simdata=list(Time=NULL,Cond=NULL,Resp=NULL) #Sets up a list with the correct headings in preparation for the simulation
@@ -29,7 +29,7 @@ for(useSub in 1:nSub) {
 
   sim = as.data.frame(simdata) # Convert the simulated data from List format to data frame format
 
-  save(sim, file = here(paste("modelling/evansetal-18/08_model-predictions/P",useSub,"_simple.Rdata", sep = "")))
+  save(sim, file = here(paste("modelling/evansetal-17/08_model-predictions/P",useSub,"_simple.Rdata", sep = "")))
 
 }
 

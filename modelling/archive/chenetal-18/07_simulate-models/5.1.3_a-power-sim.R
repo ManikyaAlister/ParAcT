@@ -1,8 +1,8 @@
 
 rm(list=ls())
 
-source(file = here("modelling/evansetal-18/05_run-models/5.0.0_load-packages.R"))
-source(file = here("modelling/evansetal-18/02_deep-background.R"))
+source(file = here("modelling/evansetal-17/05_run-models/5.0.0_load-packages.R"))
+source(file = here("modelling/evansetal-17/02_deep-background.R"))
 
 conds=1 # redundant because only one condition
 
@@ -15,7 +15,7 @@ nSub = 1 # number of subjects
 
 for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
   
-  load(here(paste("data/evansetal-18/clean/P",useSub,".Rdata",sep="")))
+  load(here(paste("data/evansetal-17/clean/P",useSub,".Rdata",sep="")))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
   
@@ -42,10 +42,10 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
   theta.names = c("z", "a.start","a.asym","a.rate","t0",
                 "v")
   
-  savefile=here(paste("modelling/evansetal-18/06_output/P",useSub,"_a-power.Rdata",sep=""))
+  savefile=here(paste("modelling/evansetal-17/06_output/P",useSub,"_a-power.Rdata",sep=""))
   
-  source(here("modelling/evansetal-18/03.2_background-pow-exp.R"))
-  source(here("modelling/evansetal-18/04_iterative-process.R"))
+  source(here("modelling/evansetal-17/03.2_background-pow-exp.R"))
+  source(here("modelling/evansetal-17/04_iterative-process.R"))
   
   n.pars = length(theta.names)
   
@@ -61,7 +61,7 @@ for (useSub in 1:nSub) { # Run DDM for each subject in n Subjects
 for (useSub in 1:nSub) {
   load(here(
     paste(
-      "modelling/evansetal-18/06_output/P",
+      "modelling/evansetal-17/06_output/P",
       useSub,
       "power.Rdata",
       sep = ""
@@ -99,7 +99,7 @@ for (useSub in 1:nSub) {
   
   save(sim, file = here(
     paste(
-      "modelling/evansetal-18/07_model-predictions/P",
+      "modelling/evansetal-17/07_model-predictions/P",
       useSub,
       "_a-power.Rdata",
       sep = ""

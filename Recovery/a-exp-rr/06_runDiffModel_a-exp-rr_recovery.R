@@ -41,7 +41,7 @@ for (useSub in 35:nSub) { # Run DDM for each subject in n Subjects
                 "a.start","a.asym","a.rate")
   
   savefile=here(paste("Recovery/",model,"/Fits_recovery/P",useSub,"_",model,".Rdata",sep=""))
-  #saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  #saveIC = here(paste("data/evansetal-17/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
   source(here("Recovery/03_priors/03.1.3_a-priors-pow-exp.R"))
   source(here("Recovery/04_iterative-process.R"))

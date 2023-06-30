@@ -1,5 +1,5 @@
 ---
-title: "PaRacT Evansetal-18 Data"
+title: "PaRacT evansetal-17 Data"
 author: "Manikya Alister"
 date: "26/08/2022"
 output:
@@ -13,14 +13,14 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(here)
 library(gridExtra)
-source(here("modelling/evansetal-18/08_param-plot-functions.R"))
+source(here("modelling/evansetal-17/08_param-plot-functions.R"))
 ```
 # Model Comparison
 
 ## AIC
 
 ```{r}
-load(here("data/evansetal-18/derived/allAIC.Rdata"))
+load(here("data/evansetal-17/derived/allAIC.Rdata"))
 allAIC[,-1]
 bestAIC =apply(allAIC[,-1],1,which.min)
 bestAIC
@@ -29,7 +29,7 @@ bestAIC
 ## BIC
 
 ```{r}
-load(here("data/evansetal-18/derived/allBIC.Rdata"))
+load(here("data/evansetal-17/derived/allBIC.Rdata"))
 allBIC[,-1]
 bestBIC = apply(allBIC[,-1],1,which.min)
 bestBIC
@@ -169,7 +169,7 @@ expand.grid(bestA,bestB)
 # Visualise Parameters of Best Model (BIC)
 
 ```{r}
-source(here("modelling/evansetal-18/08_param-plot-functions.R"))
+source(here("modelling/evansetal-17/08_param-plot-functions.R"))
 v_a_exp_thresh = thresholdPlot("v-a-exp", as.numeric(names(bestBIC[bestBIC == 12])))
 v_a_exp_drift = driftPlot("v-a-exp", as.numeric(names(bestBIC[bestBIC == 12])))
 gridExtra::grid.arrange(v_a_exp_drift,v_a_exp_thresh, top = "Participants Best Fit by Exponential Threshold + Drift Model")
@@ -282,7 +282,7 @@ singleParticipant_v(9,models = c("v-power","v-exp","v-delayed-pow","v-delayed-ex
 # Model Fits (I'm not 100% sure if I've done these right)
 
 ```{r}
-source(here("modelling/evansetal-18/11_model-fits.R"))
+source(here("modelling/evansetal-17/11_model-fits.R"))
 par(omi=rep(0.1, 4), mar=c(1.5,1.5,1.5,1.5), mfrow=c(3,4))
 
 plotQuantiles(allSimQuantiles[[models[1]]])

@@ -42,7 +42,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
                 "v.start","v.asym","v.rate")
 
   savefile=here(paste("modelling/evansetal-17/optim/round-2/06_output/P",useSub,"_",model,".Rdata",sep=""))
-  saveIC = here(paste("data/evansetal-18/derived/optim/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  saveIC = here(paste("data/evansetal-17/derived/optim/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
   source(here("modelling/evansetal-17/optim/round-2/03_priors/03.2.3_v-priors-pow-exp.R"))
   source(here("modelling/evansetal-17/optim/round-2/04_iterative-process.R"))

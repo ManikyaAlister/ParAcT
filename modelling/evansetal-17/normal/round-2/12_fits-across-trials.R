@@ -2,7 +2,7 @@ library(dplyr)
 library(ggplot2)
 
 nSub = 1
-dataset = "evansetal-18"
+dataset = "evansetal-17"
 
 # vector of the best model for each participant  
 best_models = rep("a-exp-mir", nSub)

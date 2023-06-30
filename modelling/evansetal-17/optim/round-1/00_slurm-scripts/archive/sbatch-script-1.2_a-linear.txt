@@ -42,7 +42,7 @@ fi
 module load r/4.2.0
 
 # The job command(s):
-Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/05_run-models/5.1.2_a-linear.R
+Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-17/05_run-models/5.1.2_a-linear.R
 
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##

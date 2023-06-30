@@ -1,8 +1,8 @@
 rm(list=ls())
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
-source(file = here("modelling/evansetal-18/round-1/05_run-models/5.0.0_load-packages.R"))
-source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
+source(file = here("modelling/evansetal-17/round-1/05_run-models/5.0.0_load-packages.R"))
+source(file = here("modelling/evansetal-17/round-1/02_deep-background.R"))
 
 blocks = 1:24 # blocks to loop over 
 model = "v-exp-blocked" 
@@ -15,7 +15,7 @@ subj = 1 #commandArgs(trailingOnly = TRUE) # If parallel, this will be the subje
 
 for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
-  load(here(paste("data/evansetal-18/clean/P",useSub,".Rdata",sep="")))
+  load(here(paste("data/evansetal-17/clean/P",useSub,".Rdata",sep="")))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
   
@@ -42,11 +42,11 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
   theta.names = c("z", "a","t0","b.bump",
                 "v.start","v.asym","v.rate")
 
-  savefile=here(paste("modelling/evansetal-18/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))
-  saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  savefile=here(paste("modelling/evansetal-17/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))
+  saveIC = here(paste("data/evansetal-17/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
-source(here("modelling/evansetal-18/round-1/03_priors.R"))
-  source(here("modelling/evansetal-18/round-1/04_iterative-process.R"))
+source(here("modelling/evansetal-17/round-1/03_priors.R"))
+  source(here("modelling/evansetal-17/round-1/04_iterative-process.R"))
   
   n.pars = length(theta.names)
   

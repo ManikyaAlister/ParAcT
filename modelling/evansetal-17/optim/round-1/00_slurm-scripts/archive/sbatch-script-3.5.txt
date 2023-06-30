@@ -42,7 +42,7 @@ fi
 module load r/4.2.0
 
 # The job command(s):
-Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/05_run-models/5.3.5_v-dPow-a-exp.R
+Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-17/05_run-models/5.3.5_v-dPow-a-exp.R
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage
