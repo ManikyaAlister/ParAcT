@@ -43,7 +43,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
                 "a.start","a.asym","a.rate")
   
   savefile=here(paste("Recovery/model-recovery/",generating_data,"/fits/P",useSub,"_",model,".Rdata",sep=""))
-  #saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  #saveIC = here(paste("data/evansetal-17/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
   
   source(here("Recovery/03_priors/03.1.3_a-priors-pow-exp.R"))

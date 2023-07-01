@@ -4,5 +4,5 @@
 
 for ii in $(seq 1 1)
   do
-  Rscript modelling/evansetal-18/05_run-models/5.1.1-simple.R $ii &
+  Rscript modelling/evansetal-17/05_run-models/5.1.1-simple.R $ii &
   done

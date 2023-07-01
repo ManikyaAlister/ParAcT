@@ -5,15 +5,10 @@ source(file = here("modelling/evansetal-17/optim/round-2/05_run-models/5.0.0_loa
 source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
-model = "v-linear-a-exp-mir"
+model = "v-linear-a-dExp"
 print(model)
 nSub = 9 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
-
-
-##############################
-#### Power Threshold Model ###
-##############################
 
 for (useSub in subj) { # Run DDM for each subject in nSub, or a specific subject if running in parallel
   
@@ -41,13 +36,13 @@ for (useSub in subj) { # Run DDM for each subject in nSub, or a specific subject
     out
   }
   
-  theta.names = c("z", "a.start","a.asym","a.rate","t0",
+  theta.names = c("z", "a.start","a.asym","a.rate","a.delay","t0",
                 "v.b","v.c")
   
   savefile=here(paste("modelling/evansetal-17/optim/round-2/06_output/P",useSub,"_",model,".Rdata",sep=""))
   saveIC = here(paste("data/evansetal-17/derived/optim/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
-source(here("modelling/evansetal-17/optim/round-2/03_priors.R"))
+  source(here("modelling/evansetal-17/optim/round-2/03_priors.R"))  
   source(here("modelling/evansetal-17/optim/round-2/04_iterative-process.R"))
   
   n.pars = length(theta.names)

@@ -12,7 +12,7 @@ nSub = 9 # number of subjects to run
 #### Delayed Drift + Exponential Threshold Model ###
 ####################################################
 
-#load(here(paste("data/evansetal-18/clean/P",args,".Rdata",sep="")))
+#load(here(paste("data/evansetal-17/clean/P",args,".Rdata",sep="")))
 
 for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
 
@@ -43,7 +43,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
                 "v.start","v.asym","v.rate","v.delay")
 
   savefile=here(paste("modelling/evansetal-17/optim/round-2/06_output/P",useSub,"_",model,".Rdata",sep=""))
-  saveIC = here(paste("data/evansetal-18/derived/optim/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  saveIC = here(paste("data/evansetal-17/derived/optim/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
   source(here("modelling/evansetal-17/optim/round-2/03_priors/03.1.3_a-priors-pow-exp.R"))
   source(here("modelling/evansetal-17/optim/round-2/03_priors/03.2.4_v-priors-delay.R"))

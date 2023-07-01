@@ -4,7 +4,7 @@ library(dplyr)
 n = 9
 allData = array()
 for (i in 1:n){
-load(paste0("data/evansetal-18/clean/P",i,".Rdata"))
+load(paste0("data/evansetal-17/clean/P",i,".Rdata"))
 allData=rbind(allData,data)
 }
 allData = allData[2:length(allData[,1]),]

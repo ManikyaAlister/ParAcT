@@ -1,8 +1,8 @@
 rm(list=ls())
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
-source(file = here("modelling/evansetal-18/round-1/05_run-models/5.0.0_load-packages.R"))
-source(file = here("modelling/evansetal-18/round-1/02_deep-background.R"))
+source(file = here("modelling/evansetal-17/round-1/05_run-models/5.0.0_load-packages.R"))
+source(file = here("modelling/evansetal-17/round-1/02_deep-background.R"))
 
 conds=1 # number of experimental conditions to loop over
 model = "v-a-exp" 
@@ -15,7 +15,7 @@ nSub = 1 # number of subjects to run
 nSub = 9 # number of subjects to run (only used if looping instead of parallel)
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
   
-  load(here(paste("data/evansetal-18/clean/P",useSub,".Rdata",sep="")))
+  load(here(paste("data/evansetal-17/clean/P",useSub,".Rdata",sep="")))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
   
@@ -42,11 +42,11 @@ subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject 
   theta.names = c("z", "a.asym","a.start","a.rate","t0",
                 "v.asym","v.start","v.rate")
   
-  savefile=here(paste("modelling/evansetal-18/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))
-  saveIC = here(paste("data/evansetal-18/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  savefile=here(paste("modelling/evansetal-17/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))
+  saveIC = here(paste("data/evansetal-17/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
-source(here("modelling/evansetal-18/round-1/03_priors.R"))
-  source(here("modelling/evansetal-18/round-1/04_iterative-process.R"))
+source(here("modelling/evansetal-17/round-1/03_priors.R"))
+  source(here("modelling/evansetal-17/round-1/04_iterative-process.R"))
   
   n.pars = length(theta.names)
   

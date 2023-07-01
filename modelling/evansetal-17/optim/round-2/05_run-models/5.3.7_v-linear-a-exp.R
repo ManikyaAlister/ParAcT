@@ -5,15 +5,10 @@ source(file = here("modelling/evansetal-17/optim/round-2/05_run-models/5.0.0_loa
 source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
-model = "v-linear-a-exp-mir"
+model = "v-linear-a-exp"
 print(model)
 nSub = 9 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
-
-
-##############################
-#### Power Threshold Model ###
-##############################
 
 for (useSub in subj) { # Run DDM for each subject in nSub, or a specific subject if running in parallel
   

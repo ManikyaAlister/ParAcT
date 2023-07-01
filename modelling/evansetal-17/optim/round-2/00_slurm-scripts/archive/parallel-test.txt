@@ -47,7 +47,7 @@ module load r/4.2.0
 # The job command(s):
 #Rscript /data/gpfs/projects/punim1751/ParAcT/renv/activate.R
 
-sh /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/01_run-model-parallel.sh
+sh /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-17/01_run-model-parallel.sh
 
 #Rscript renvRestore.R
 

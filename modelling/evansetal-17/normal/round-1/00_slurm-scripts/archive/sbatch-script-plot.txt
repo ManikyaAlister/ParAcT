@@ -44,8 +44,8 @@ fi
 module load r/4.2.0
 
 # The job command(s):
-Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/08_plotting.R
-Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-18/10_model-comparison.R
+Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-17/08_plotting.R
+Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-17/10_model-comparison.R
 
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
