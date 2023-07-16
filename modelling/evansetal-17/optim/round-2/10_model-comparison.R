@@ -10,13 +10,13 @@ v_models <- c("simple",
               "v-exp",
               #"v-delayed-pow",
               "v-delayed-exp",
-              "blocked-simple",
+              "v-blocked-simple",
               #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
               "v-blocked-exp-sb",
               #"v-blocked-exp-ul",
               "v-delayed-exp-blocked")
 
-a_models <- c("simple",
+a_models <- c(#"simple",
               "a-linear",
               #"a-power",
               "a-exp",
@@ -27,18 +27,19 @@ a_models <- c("simple",
               "a-blocked-exp-sb",
               #"a-blocked-exp-ul",
               "a-delayed-exp-blocked",
-              "a-step")
+              "a-step-fixed")
 
-models <- c(a_models, v_models)
 models_2p = c(
   "v-a-exp",
   #"v-linear-a-blocked-complex",
-  "v-linear-a-exp-mir",
-  "v-power-a-blocked-simple",
-  "v-linear-a-power",
-  "v-power-a-exp-mir",
-  "v-linear-a-blocked-simple"
+  "v-linear-a-exp",
+  "v-linear-a-dExp",
+  "v-linear-a-blocked-simple",
+  "v-dExp-blocked-a-exp",
+  "v-dExp-a-dExp"
 )
+
+models <- c(a_models, v_models, models_2p)
 
 
 IC_array = function(models, criterion) {
@@ -48,6 +49,7 @@ IC_array = function(models, criterion) {
   
   for (model in models) {
     for (i in 1:n) {
+      print(model)
       load(here(
         paste(
           "data/evansetal-17/derived/optim/P",
@@ -99,62 +101,54 @@ rank_models <- function(scores_array) {
   return(model_names)
 }
 
+
 # Rank the best models for each participant
 rankBIC <- rank_models(allBIC)
 rankAIC <- rank_models(allAIC)
 
+# Get only models that were at least in the top 3 models
+rankBIC_top <- unique(as.vector(rankBIC[,1:3]))
 
-# comparison plots
-
-
-
-# rankBIC_a <- rank_models(allBIC_a)
-# rankBIC_v <- rank_models(allBIC_v)
-
-# # Narrow that down to the best two models per participant
-# best2_v <- rankBIC_v[,1:2]
-# best2_a <- rankBIC_a[,1:2]
-# 
-# best2 <- cbind(best2_a, best2_v)
-# 
-# # Figure out all of the two parameter models to run based on the best 2
-# models_2p <- array(dim = c(n, 4))
-# 
-# for (i in 1:length(best2[,1])){
-#   model <- c()
-#   model[1] <- paste0(best2[i,1],"+",best2[i,3])
-#   model[2] <- paste0(best2[i,1],"+",best2[i,4])
-#   model[3] <- paste0(best2[i,2],"+",best2[i,4])
-#   model[4] <- paste0(best2[i,2],"+",best2[i,3])
-#   
-#   models_2p[i,] <- model
-# }
-# 
-# unique_2p <- unique(models_2p)
-# 
-# # Narrow that down to the best model because best two results in a lot of models
-# best_v <- rankBIC_v[,1]
-# best_a <- rankBIC_a[,1]
-# 
-# best <- cbind(best_a, best_v)
-# 
-# # Figure out all of the two parameter models to run for each participant, based on their best single parameterm models
-# models_2p_best <- array(dim = c(n, 1))
-# 
-# for (i in 1:length(best[,1])){
-#   models_2p_best
-#   models_2p_best[i] <- paste0(best[i,1],"+",best[i,2])
-# }
-# 
-# # what are the 2-parameter models that need to be made? 
-# unique_2p_best <- unique(models_2p_best)
-# 
+# filter the BIC array so that only these models are included
+allBIC_top <- allBIC[,rankBIC_top]
 
 
-## FIT PLOT
+BIC_weights_top <- modelProb::weightedICs(allBIC_top)
+plotWeightedICs(BIC_weights_top, cex = 0.5)
 
-# DOTS IN GREEN OR RED FOR CORRECT OR INCORRECT 
-# HOW TO CAPTURE UNCERTAINTY? 
-# dots plotted as usual. Color based on correct or incorrect. If correct, get model predictions and error bar
-# Number at the top saying % of times where model made correction prediction about accuracy. 
+BIC_weights <- modelProb::weightedICs(allBIC)
+models = colnames(allAIC)
+
+models_1p <- models[!(models %in% models_2p)]
+modelProb::MMComparisonPlot(BIC_weights, models_1p, models_2p, groupNames = c("Single Parameter Models", "2 Parameter Models"))
+
+a_exp_models <- models[grep("a-exp", models)]
+non_a_exp_models <- models[!(models %in% a_exp_models)]
+modelProb::MMComparisonPlot(BIC_weights, a_exp_models, non_a_exp_models, groupNames = c("a-exp Models", "Other Models"))
+
+a_dExp_models <- models[grep("a-dExp", models)]
+non_a_dExp_models <- models[!(models %in% a_dExp_models)]
+modelProb::MMComparisonPlot(BIC_weights, a_dExp_models, non_a_dExp_models, groupNames = c("a-delayed exp Models", "Other Models"))
+
+v_exp_models <- models[c(grep("v-exp", models), grep("v-a-exp", models))]
+non_v_exp_models <- models[!(models %in% v_exp_models)]
+modelProb::MMComparisonPlot(BIC_weights, v_exp_models, non_v_exp_models, groupNames = c("v-exp Models", "Other Models"))
+
+v_linear_models <- models[c(grep("v-linear", models))]
+non_v_linear_models <- models[!(models %in% v_linear_models)]
+modelProb::MMComparisonPlot(BIC_weights, v_linear_models, non_v_linear_models, groupNames = c("v-linear Models", "Other Models"))
+
+v_dExp_models <- models[grep("v-dExp", models)]
+non_v_dExp_models <- models[!(models %in% v_dExp_models)]
+modelProb::MMComparisonPlot(BIC_weights, v_dExp_models, non_v_dExp_models, groupNames = c("v-delayed exp Models", "Other Models"))
+
+exp_models <- models[grep("-exp", models)]
+exp_models <- exp_models[!exp_models %in% c("a-blocked-exp-sb", "v-delayed-exp-blocked", "v-blocked-exp-sb", "a-delayed-exp-blocked", "v-delayed-exp")]
+non_exp_models <- models[!models %in% exp_models]
+modelProb::MMComparisonPlot(BIC_weights, exp_models, non_exp_models, groupNames = c("Exp Models", "Other Models"), main = "Exponential versus non-exponential models")
+
+# which participants were best fit by exponential models? 
+best_BICs = rankBIC[,1]
+p_a_exp = grep("a-exp", best_BICs)
+p_v_exp = c(grep("v-exp", best_BICs), best_BICs[best_BICs["v-a-exp"]])
 

@@ -8,10 +8,10 @@ blocks = 1:24
 conds=1 # number of conditions to loop over
 model = "v-linear-a-blocked-simple"
 print(model)
-nSub = 9 # number of subjects to run (if looping over participants)
+nSub = 7 # number of subjects to run (if looping over participants)
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 
-for (useSub in subj) {
+for (useSub in 7) {
   # Run DDM for each subject in n Subjects
   
   load(here(

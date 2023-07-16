@@ -42,22 +42,21 @@ abline(v = x[seq(10, 100, 10)], lty = 2)
 
 plot(x,a-b2*exp(-r*x),type="l",main="Mirrored Exp Decay with start bump", ylab = "v")
 abline(v = x[seq(10, 100, 10)], lty = 2)
+
 # Step model
-block = 1:24
+blocks = rep(1:10, each = 10)
 step = 0.066
-d = -step*(block-1)
-a = 2.69
-a.step = a-d
-a.step
-plot(1:(24*40),sort(rep(a.step,40),decreasing = TRUE),"l", ylab = "a", xlab = "trials")
-plot(1:(24*40),sort(rep(a.step,40),decreasing = FALSE),"l", ylab = "v", xlab = "trials")
+a = sort(blocks - step, decreasing = TRUE)
+plot(1:100,a, "l", ylim = c(0,10))
+x_points <- seq(1, 100, 10)
+segments(x_points, par("usr")[3], x_points, par("usr")[4], col = "black", lty = "dashed")
+
+# blocked delay model
+r=0.6
+a=5
+b=2
+t = 1000
+plot(trials,a+b*((t+1)/(t+exp(r*blocks))),type="l",main="Classic Transition Exponential Decay", ylab = "a")
+segments(x_points, par("usr")[3], x_points, par("usr")[4], col = "black", lty = "dashed")
 
 
-# unlearning models 
-blocks = 1:24
-x <- c(a.asym = 1, a.rate = 0.001, a.start = 3, trialUnlearn = 0.02)
-u = x["trialUnlearn"]*(blocks-1)
-a=(x["a.asym"]+x["a.start"])-x["a.start"]*exp(x["a.rate"]*data$Trial-u) 
-
-plot(data$Trial, a,"l")
-x

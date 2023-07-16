@@ -8,10 +8,12 @@ n = 1:9 # participants who you want to plot
 v_power = driftPlot("v-power",n)
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/v-power.png"), plot = v_power)
 
-v_linear = driftPlot("v-linear",n)
+n = c(5,9)
+v_linear = driftPlot("v-linear",n, complex = TRUE, mean = TRUE)
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/v-linear.png"), plot = v_linear)
 
-v_exp = driftPlot("v-exp",n)
+n = c(2, 4, 6, 8)
+v_exp = driftPlot("v-exp",n, complex = TRUE, mean = TRUE)
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/v-exp.png"), plot = v_exp)
 
 # Threshold
@@ -19,19 +21,23 @@ ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/v-exp.png"
 power = thresholdPlot("a-power",n)
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-pow.png"),plot = power)
 
-exp = thresholdPlot("a-exp",n)
-ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-exp.png"),plot = exp)
+n = c(2, 3, 4, 5, 6, 7, 8)
+exp = thresholdPlot("a-exp",n, complex = TRUE, mean = TRUE)
+ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/a-exp.png"),plot = exp)
 
-linear = thresholdPlot("a-linear",n)
-ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-linear.png"),plot = linear)
+linear = thresholdPlot("a-linear",n, complex = TRUE, mean = TRUE)
+ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/a-linear.png"),plot = linear)
 
 simple = thresholdPlot("simple",n)
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-simple.png"),plot = simple)
+
+n = 1
+thresholdPlot("a-step-fixed",n, complex = TRUE, mean = TRUE)
 
 a_exp_mir = thresholdPlot("a-exp-mir",n)
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-exp-mir.png"), plot = a_exp_mir)
 
 a_delayed_pow = thresholdPlot("a-delayed-power",n)
 
-a_delayed_exp = thresholdPlot("a-delayed-exp",n)
+a_delayed_exp = thresholdPlot("a-delayed-exp",n, complex = TRUE)
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a_delayed-exp.png"), plot = a_delayed_exp)

@@ -19,10 +19,10 @@ ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/v-exp.png"
 power = thresholdPlot("a-power",n)
 ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/a-pow.png"),plot = power)
 
-exp = thresholdPlot("a-exp",n)
+exp = thresholdPlot("a-exp-mir",n, complex = TRUE)
 ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/a-exp.png"),plot = exp)
 
-linear = thresholdPlot("a-linear",n)
+linear = thresholdPlot("a-linear",n, complex = TRUE)
 ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/a-linear.png"),plot = linear)
 
 simple = thresholdPlot("simple",n)

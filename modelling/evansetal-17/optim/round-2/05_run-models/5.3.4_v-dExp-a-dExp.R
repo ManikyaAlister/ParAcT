@@ -10,7 +10,7 @@ nSub = 9 # number of subjects to run
 subj = commandArgs(trailingOnly = TRUE)
 print(model)
 
-for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
+for (useSub in 9) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
 
   load(here(paste("data/evansetal-17/clean/P",useSub,"-Optim-Trial.Rdata",sep="")))
   newSeed=Sys.time()

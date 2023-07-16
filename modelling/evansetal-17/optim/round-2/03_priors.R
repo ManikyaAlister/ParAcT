@@ -41,6 +41,10 @@ tmpP5=grep("b.bump",theta.names,perl=TRUE)
 tmpP6=grep("step",theta.names,perl=TRUE)
 tmpP7=grep("trialUnlearn",theta.names,perl=TRUE)
 
+# step models
+tmpP8.1= grep("when",theta.names,perl=TRUE)
+tmpP8.2= grep("initial",theta.names,perl=TRUE)
+
 if (exists("blocks")) {
   # for each block, create a new variable tmpP1.8, tmpP1,9, etc based on the value of the block for v and a
   names.a = NULL
@@ -90,6 +94,10 @@ start.points[tmpP5]=1
 start.points[tmpP6]=0.05
 start.points[tmpP7]=1
 
+# step models 
+start.points[tmpP8.1]=30
+start.points[tmpP8.2]=0.05
+
 # for block in blocks, create a new starting point corresponding to the v and a block variables (tmpP1.8, tmpP1.9, etc)
 if (exists("blocks")){
 for(block in blocks){
@@ -130,6 +138,10 @@ start.points.sd[tmpP5]=0.5
 start.points.sd[tmpP6]=0.5
 start.points.sd[tmpP7]=0.5
 
+# step models
+start.points.sd[tmpP8.1]=3
+start.points.sd[tmpP8.2]=0.5
+
 # for block in blocks, create a new starting point.sd corresponding to the v and a block variables (tmpP1.8, tmpP1.9, etc)
 if (exists("blocks")){
 for(block in blocks){
@@ -157,9 +169,9 @@ lower.bounds[tmpP3.3]=-Inf
 lower.bounds[tmpP1.4]=0
 lower.bounds[tmpP1.5]=0
 lower.bounds[tmpP1.6]=0
-lower.bounds[tmpP3.4]=-Inf
-lower.bounds[tmpP3.5]=-Inf
-lower.bounds[tmpP3.6]=-Inf
+lower.bounds[tmpP3.4]=0
+lower.bounds[tmpP3.5]=0
+lower.bounds[tmpP3.6]=0
 
 # transition/delay models
 lower.bounds[tmpP1.7]=0
@@ -170,6 +182,10 @@ lower.bounds[tmpP3.7]= 0
 lower.bounds[tmpP5]=0
 lower.bounds[tmpP6]=0
 lower.bounds[tmpP7]=0
+
+# step models 
+lower.bounds[tmpP8.1]=0
+lower.bounds[tmpP8.2]=0
 
 if (exists("blocks")){
 for(block in blocks){
@@ -209,6 +225,10 @@ upper.bounds[tmpP3.7]=Inf
 upper.bounds[tmpP5]=Inf
 upper.bounds[tmpP6]=Inf
 upper.bounds[tmpP7]=Inf
+
+# step models 
+upper.bounds[tmpP8.1]=max(data$Trial)
+upper.bounds[tmpP8.2]=Inf
 
 if (exists("blocks")){
 for(block in blocks){
@@ -391,6 +411,22 @@ if(length(tmp) > 0){
   for (n in 1:length(tmp)) {
     tmp2 = tmp[n]
     prior[[tmp2]] = c(2, 2)
+  }
+}
+
+tmp = grep("initial", theta.names, value = TRUE)
+if (length(tmp) > 0) {
+  for (n in 1:length(tmp)) {
+    tmp2 = tmp[n]
+    prior[[tmp2]] = c(0.05, 0.5)
+  }
+}
+
+tmp = grep("when", theta.names, value = TRUE)
+if (length(tmp) > 0) {
+  for (n in 1:length(tmp)) {
+    tmp2 = tmp[n]
+    prior[[tmp2]] = c(3, 1)
   }
 }
 

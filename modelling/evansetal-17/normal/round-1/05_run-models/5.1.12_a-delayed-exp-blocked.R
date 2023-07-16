@@ -14,7 +14,7 @@ subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject 
 #### Exponential Threshold Model ###
 ####################################
 
-for (useSub in subj) { # Run DDM for each subject in nSub, or a specific subject if running in parallel
+for (useSub in 1) { # Run DDM for each subject in nSub, or a specific subject if running in parallel
   
   load(here(paste("data/evansetal-17/clean/P",useSub,"-Norm-Trial.Rdata",sep="")))
   newSeed=Sys.time()
@@ -53,7 +53,7 @@ source(here("modelling/evansetal-17/normal/round-1/03_priors.R"))
   
   AIC = -2*max(weight)+ 2*n.pars 
   BIC = log(length(data$Time))*n.pars-2*max(weight)
-  save(AIC,BIC,file = saveIC)
-  save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds,
-       file=savefile)
+  #save(AIC,BIC,file = saveIC)
+  #save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds,
+  #     file=savefile)
 }

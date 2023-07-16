@@ -27,7 +27,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     names(x)=par.names
     
     for (block in blocks) {
-      noFeedbackBlocks = c(1:3)
+      noFeedbackBlocks = c(1:4)
       a=ifelse(block %in% noFeedbackBlocks, x["initial"], x["initial"]-x["step"])
       t0 = x["t0"]
       v=x["v"]

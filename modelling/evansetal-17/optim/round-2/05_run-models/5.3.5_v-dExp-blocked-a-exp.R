@@ -11,7 +11,7 @@ subj = commandArgs(trailingOnly = TRUE)
 print(model)
 
 
-for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
+for (useSub in 1) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
 
   load(here(paste("data/evansetal-17/clean/P",useSub,"-Optim-Trial.Rdata",sep="")))
   newSeed=Sys.time()
@@ -51,5 +51,5 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
   BIC = log(length(data$Time))*n.pars-2*max(weight)
   save(AIC,BIC,file = saveIC)
   save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds,
-       file=savefile)
+        file=savefile)
 }

@@ -157,9 +157,9 @@ lower.bounds[tmpP3.3]=-Inf
 lower.bounds[tmpP1.4]=0
 lower.bounds[tmpP1.5]=0
 lower.bounds[tmpP1.6]=0
-lower.bounds[tmpP3.4]=-Inf
-lower.bounds[tmpP3.5]=-Inf
-lower.bounds[tmpP3.6]=-Inf
+lower.bounds[tmpP3.4]=0
+lower.bounds[tmpP3.5]=0
+lower.bounds[tmpP3.6]=0
 
 # transition/delay models
 lower.bounds[tmpP1.7]=0
