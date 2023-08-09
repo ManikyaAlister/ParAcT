@@ -13,7 +13,7 @@ subj = commandArgs(trailingOnly = TRUE)
 #### Exponential Threshold Model ###
 ####################################
 
-for (useSub in 1:nSub) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
+for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
   load(paste("Recovery/",model,"/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
@@ -38,13 +38,13 @@ for (useSub in 1:nSub) { # Run DDM for each subject in nSubj, or a specific subj
     out
   }
   
-  theta.names = c("z", "v","t0",
-                "a.start","a.asym","a.rate")
+  theta.names = c("z", "a","t0",
+                "v.start","v.asym","v.rate")
   
   savefile=here(paste("Recovery/",model,"/Fits_recovery/P",useSub,"_",model,".Rdata",sep=""))
   #saveIC = here(paste("data/evansetal-17/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
-  source(here("Recovery/03_priors/03.1.3_a-priors-pow-exp.R"))
+  source(here("modelling/evansetal-17/optim/round-1/03_priors.R"))
   source(here("Recovery/04_iterative-process.R"))
   
   n.pars = length(theta.names)

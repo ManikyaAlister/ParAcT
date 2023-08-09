@@ -8,12 +8,13 @@ conds= 1 # number of experimental conditions to loop over
 model = "a-power" 
 nSub = 100 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
+print(subj)
 
 ####################################
 #### Exponential Threshold Model ###
 ####################################
 
-for (useSub in 1:nSub) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
+for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
   load(paste("Recovery/",model,"/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
