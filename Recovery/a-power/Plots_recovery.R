@@ -12,9 +12,9 @@ allMeanTheta=NULL
 
 #Define how many data sets to use
 n = 100
-model = "v-power"
+model = "a-power"
 
-for (p in 1:n) { #Loop in each data set
+for (p in c(1:67,69:n)) { #Loop in each data set
   load(paste0("Recovery/",model,"/Fits_recovery/P",p,"_",model,".RData"))
   #load(paste0("Recovery/Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
   #Rearrange and take out unnecessary values from the generated parameters 
@@ -32,18 +32,19 @@ for (p in 1:n) { #Loop in each data set
 allGenParams= as.data.frame(allGenParams)
 allMeanTheta= as.data.frame(allMeanTheta)
 
-cor(allGenParams$v.start, allMeanTheta$v.start)
-cor(allGenParams$v.asym, allMeanTheta$v.asym)
-cor(allGenParams$v.rate, allMeanTheta$v.rate)
-cor(allGenParams$a, allMeanTheta$a)
+cor(allGenParams$a.start, allMeanTheta$a.start)
+cor(allGenParams$a.asym, allMeanTheta$a.asym)
+cor(allGenParams$a.rate, allMeanTheta$a.rate)
+cor(allGenParams$v, allMeanTheta$v)
 cor(allGenParams$ter, allMeanTheta$t0)
-cor(allGenParams$z, allMeanTheta$z)
+#cor(allGenParams$z, allMeanTheta$z)
 
 
-plot(allGenParams$v.start, allMeanTheta$v.start)
-plot(allGenParams$v.asym, allMeanTheta$v.asym)
-plot(allGenParams$v.rate, allMeanTheta$v.rate)
-plot(allGenParams$a, allMeanTheta$a)
+plot(allGenParams$a.start, allMeanTheta$a.start)
+plot(allGenParams$a.asym, allMeanTheta$a.asym)
+plot(allGenParams$a.rate, allMeanTheta$a.rate)
+plot(allGenParams$v, allMeanTheta$v)
 plot(allGenParams$ter, allMeanTheta$t0)
-plot(allGenParams$z, allMeanTheta$z)
+#plot(allGenParams$z, allMeanTheta$z)
+
 
