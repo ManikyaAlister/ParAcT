@@ -47,7 +47,7 @@ module load r/4.2.0
 
 
 # Set the model script names
-models=("runDiffModel_v-exp_recovery") 
+models=("runDiffModel_v-linear_recovery") 
  # (, "runDiffModel_v-pow_recovery")
 
 # Models not run (put below)

@@ -17,7 +17,7 @@ generating_data = "a-power-generated"
 for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
   # load data generated from the a exponential model
-  load(paste("Recovery/",model,"/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
+  load(paste("Recovery/a-power/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
   log.dens.like = function (x,data,par.names) {
@@ -52,7 +52,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
   n.pars = length(theta.names)
   
   AIC = -2*max(weight)+ 2*n.pars 
-  BIC = log(length(data$time))*n.pars-2*max(weight)
+  BIC = log(length(data$Trial))*n.pars-2*max(weight)
   #save(AIC,BIC,file = saveIC)
   save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds, genParams,
        file=savefile)

@@ -5,10 +5,10 @@ source(file = here("Recovery/5.0.0_load-packages.R"))
 source(file = here("Recovery/02_deep-background.R"))
 
 conds= 1 # number of experimental conditions to loop over
-model = "v-exp" 
+model = "v-linear" 
 nSub = 100 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
-generating_data = "v-power-generated"
+generating_data = "v-exp-generated"
 
 ####################################
 #### Exponential Threshold Model ###
@@ -16,9 +16,7 @@ generating_data = "v-power-generated"
 
 for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
-  load(paste("Recovery/v-power/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
-  #data =  lapply(data, head, n = 10)
-
+  load(paste("Recovery/v-exp/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
   
@@ -29,7 +27,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     for (cond in conds) {
       a=x["a"]
       t0=x["t0"]
-      v=(x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
+      v=(x["v.b"]*data$Trial)+x["v.c"] 
       z=x["z"]
       sv=0
       sz=0
@@ -41,12 +39,13 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out
   }
   
-  theta.names = c("z", "a","t0","z",
-                "v.start","v.asym","v.rate")
+  
+  theta.names = c("z", "a","t0",
+                  "v.b","v.c")
   
   savefile=here(paste("Recovery/model-recovery/",generating_data,"/fits/P",useSub,"_",model,".Rdata",sep=""))
 
-  source(here("Recovery/03_priors/03.2.3_v-priors-pow-exp.R"))
+  source(here("modelling/evansetal-17/optim/round-1/03_priors.R"))
   source(here("Recovery/04_iterative-process.R"))
   
   n.pars = length(theta.names)

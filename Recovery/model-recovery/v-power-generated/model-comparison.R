@@ -1,4 +1,4 @@
-rm(list=ls())
+rm(list = ls())
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
 library(modelProb)
@@ -8,49 +8,71 @@ n = 100
 generating_model <- "v-power"
 recovering_model <- "v-exp"
 
-models = c(
-recovering_model,
-generating_model)
+models <- c(recovering_model,
+           generating_model)
 
-generatiing = c(FALSE, TRUE)
+generating <- c(FALSE, TRUE)
 
-generating_data = paste0(generating_model, "-generated")
 
 
 IC_array = function(models, criterion, generating) {
   # set up empty array
   allIC <- as.data.frame(matrix(ncol = length(models)))
   colnames(allIC) = c(models)
-
-  for (model in models) {
-    if (generating[i]) {
-    if (model)
+  
+  for (j in 1:length(models)) {
+    model <- models[j]
+    gen <- generating[j]
+    
     for (i in 1:n) {
-      load(here(
-        paste(
-          "Recovery/model-recovery/",generating_data,"/fits/P",i,"_",model,".Rdata",
-          sep = ""
-        )
-      ))
-      if (criterion == "AIC") {
-        IC <- AIC
-      } else if (criterion == "BIC") {
-        IC <- BIC
+      if (!gen) {
+        generating_data <- paste0(model, "-generated")
+        load(here(
+          paste(
+            "Recovery/model-recovery/",
+            generating_data,
+            "/fits/P",
+            i,
+            "_",
+            model,
+            ".Rdata",
+            sep = ""
+          )
+        ))
+        } else {
+          load(here(
+            paste(
+              "Recovery/",
+              model,
+              "/Fits_recovery/P",
+              i,
+              "_",
+              model,
+              ".Rdata",
+              sep = ""
+            )
+          ))
+        }
+        if (criterion == "AIC") {
+          IC <- AIC
+        } else if (criterion == "BIC") {
+          IC <- BIC
+        }
+        allIC[i, model] = IC
+        
       }
-      allIC[i, model] = IC
-      
     }
-  }
-  }
+  
+  
   
   allIC
 }
 
-allAIC <- IC_array(models,"AIC")
-allBIC <- IC_array(models,"BIC")
+allAIC <- IC_array(models, "AIC", generating)
+allBIC <- IC_array(models, "BIC", generating)
 
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
 
-modelProb::plotWeightedICs(weightedAIC, main = "v-exp generating data", seed = 9)
-modelProb::plotWeightedICs(weightedBIC)
+modelProb::plotWeightedICs(weightedAIC, main = "AIC v-power generating data", seed = 9)
+modelProb::plotWeightedICs(weightedBIC, main = "BIC v-power generating data", seed = 9)
