@@ -61,7 +61,7 @@ model_idx=$(((SLURM_ARRAY_TASK_ID-1) % 1)) # make sure you correctly indicate th
 participant_idx=$(((SLURM_ARRAY_TASK_ID-1) / 1)) # make sure you correctly indicate the number of models after '/'
 
 # Run the R script with the input and output files and the participant number as a command line argument
-Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/model-recovery/v-exp-generated/${models[$model_idx]}.R ${participants[$participant_idx]}
+Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/model-recovery/v-power-generated/${models[$model_idx]}.R ${participants[$participant_idx]}
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage

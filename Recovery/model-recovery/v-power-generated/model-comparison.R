@@ -5,19 +5,26 @@ library(modelProb)
 
 
 n = 100
-generating_data ="v-exp-generated"
+generating_model <- "v-power"
+recovering_model <- "v-exp"
 
 models = c(
-"v-power",
-"v-exp")
+recovering_model,
+generating_model)
+
+generatiing = c(FALSE, TRUE)
+
+generating_data = paste0(generating_model, "-generated")
 
 
-IC_array = function(models, criterion) {
+IC_array = function(models, criterion, generating) {
   # set up empty array
   allIC <- as.data.frame(matrix(ncol = length(models)))
   colnames(allIC) = c(models)
-  
+
   for (model in models) {
+    if (generating[i]) {
+    if (model)
     for (i in 1:n) {
       load(here(
         paste(
@@ -34,6 +41,8 @@ IC_array = function(models, criterion) {
       
     }
   }
+  }
+  
   allIC
 }
 
