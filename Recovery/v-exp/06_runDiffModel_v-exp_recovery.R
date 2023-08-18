@@ -47,7 +47,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
   source(here("Recovery/04_iterative-process.R"))
   
   n.pars = length(theta.names)
-  
+
   AIC = -2*max(weight)+ 2*n.pars 
   BIC = log(length(data$time))*n.pars-2*max(weight)
   #save(AIC,BIC,file = saveIC)

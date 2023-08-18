@@ -5,17 +5,14 @@ source(file = here("Recovery/5.0.0_load-packages.R"))
 source(file = here("Recovery/02_deep-background.R"))
 
 conds= 1 # number of experimental conditions to loop over
-model = "v-power" 
+model = "simple" 
 nSub = 100 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
+generating_data = "v-exp-generated"
 
-####################################
-#### Exponential Threshold Model ###
-####################################
-
-for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
+for (useSub in 1:nSub) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
-  load(paste("Recovery/",model,"/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
+  load(paste("Recovery/v-exp/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
   
@@ -26,8 +23,8 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     for (cond in conds) {
       a=x["a"]
       t0=x["t0"]
-      v=(x["v.asym"]+x["v.start"])-x["v.start"]*data$Trial^(-x["v.rate"])
-      z = x["z"]
+      v=x["v"]
+      z=x["z"]
       sv=0
       sz=0
       st0=0
@@ -38,12 +35,12 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out
   }
   
+  
   theta.names = c("z", "a","t0",
-                "v.start","v.asym","v.rate")
+                  "v")
   
-  savefile=here(paste("Recovery/",model,"/Fits_recovery/P",useSub,"_",model,".Rdata",sep=""))
-  #saveIC = here(paste("data/evansetal-17/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
-  
+  savefile=here(paste("Recovery/model-recovery/",generating_data,"/fits/P",useSub,"_",model,".Rdata",sep=""))
+
   source(here("modelling/evansetal-17/optim/round-1/03_priors.R"))
   source(here("Recovery/04_iterative-process.R"))
   
@@ -51,7 +48,6 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
   
   AIC = -2*max(weight)+ 2*n.pars 
   BIC = log(length(data$time))*n.pars-2*max(weight)
-  #save(AIC,BIC,file = saveIC)
   save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds, genParams,
        file=savefile)
 }
