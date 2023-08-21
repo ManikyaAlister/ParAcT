@@ -5,9 +5,11 @@ source(file = here("Recovery/5.0.0_load-packages.R"))
 source(file = here("Recovery/02_deep-background.R"))
 
 conds= 1 # number of experimental conditions to loop over
-model = "complex-blocked" 
+model = "v-blocked-complex" 
+print(model)
 nSub = 100 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
+print(subj)
 generating_data = "v-exp-generated"
 blocks = 1:24
 ####################################
