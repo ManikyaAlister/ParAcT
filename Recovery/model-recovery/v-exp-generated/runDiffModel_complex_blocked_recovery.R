@@ -35,7 +35,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
       s = 1
       tmp = ddiffusion(
         rt = data$time[data$Block == block],
-        response = data$Resp[data$Block == block],
+        response = (3-data$Resp[data$Block == block]),
         z = z * a,
         a = a,
         v = v,
