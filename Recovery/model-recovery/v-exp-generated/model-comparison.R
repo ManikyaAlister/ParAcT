@@ -99,8 +99,31 @@ models <- c(recovering_model,
 generating <- c(FALSE, TRUE)
 
 
-allAIC <- IC_array(models,"AIC", generating, grouping_param = "v.rate")
-allBIC <- IC_array(models,"BIC", generating, grouping_param = "v.rate")
+allAIC <- IC_array(models,"AIC", generating, grouping_param = "v.asym")
+allBIC <- IC_array(models,"BIC", generating, grouping_param = "v.asym")
+
+weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
+weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
+
+apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum))
+apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
+
+modelProb::plotWeightedICs(weightedAIC, main = "AIC v-exp generating data", seed = 9)
+modelProb::plotWeightedICs(weightedBIC, main = "BIC v-exp generating data", seed = 9)
+
+# simple - exp comparison
+
+recovering_model <- "simple"
+generating_model <- "v-exp"
+
+models <- c(recovering_model,
+            generating_model)
+
+generating <- c(FALSE, TRUE)
+
+
+allAIC <- IC_array(models,"AIC", generating, grouping_param = "v.asym")
+allBIC <- IC_array(models,"BIC", generating, grouping_param = "v.asym")
 
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)

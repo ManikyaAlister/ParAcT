@@ -1,0 +1,315 @@
+---
+title: "PaRacT knowlesetal-19 Data"
+author: "Manikya Alister"
+date: "26/08/2022"
+output:
+    html_document:
+      theme: simplex
+      code_folding: hide
+  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(gridExtra)
+source(here("modelling/knowlesetal-19/08_param-plot-functions.R"))
+```
+# Model Comparison
+
+## AIC
+
+```{r}
+load(here("data/knowlesetal-19/derived/allAIC.Rdata"))
+allAIC[,-1]
+bestAIC =apply(allAIC[,-1],1,which.min)
+bestAIC
+```
+
+## BIC
+
+```{r}
+load(here("data/knowlesetal-19/derived/allBIC.Rdata"))
+allBIC[,-1]
+bestBIC = apply(allBIC[,-1],1,which.min)
+bestBIC
+```
+
+Pretty much agreement between AIC and BIC. Model 12 = Exponential increase in v + exponential decrease in a. Model 4 = exponential decrease in a only. 
+
+##### Weighted model comparison
+
+```{r}
+source(here("weighted-ICs.R"))
+
+#par(omi=rep(0.1, 4), mar=c(4.5,3,1.5,2), mfrow=c(1,2))
+
+# wmc_AIC = weightedICs(allAIC[,2:length(allAIC)])
+# plotWMC_AIC = plotWeightedICs(wmc_AIC, seed = 115,inset = -.6)
+# mtext("AIC", side = 3, line = 1)
+
+
+wmc_BIC = weightedICs(allBIC[,2:length(allBIC)])
+plotWMC_BIC = plotWeightedICs(wmc_BIC, seed = 115,inset = -.29)
+mtext("BIC", side = 3, line = 1)
+```
+```{r warning = FALSE}
+source(here("compareMM-ICs.R"))
+
+par(omi=rep(0.1, 4), mar=c(4.5,3,1.5,2), mfrow=c(1,2))
+
+MMComparisonPlot(
+  wmc_AIC,
+  models1 = c("simple",
+              "a-linear",
+              "a-power",
+              "a-exp",
+              "a-delayed-power",
+              "a-delayed-exp",
+              "v-linear",
+              "v-power",
+              "v-exp"),
+  models2 = c("v-delayed-pow",
+              "v-delayed-exp",
+              "v-a-exp", 
+              "v-dExp-a-exp",
+              "v-dExp-a-pow",
+              "v-dPow-a-exp",
+              "v-dPow-a-Pow"),
+  groupNames = c("1 param models", "2 param models")
+)
+mtext("AIC", side = 3, line = 1)
+
+MMComparisonPlot(
+  wmc_BIC,
+  models1 = c(#"simple",
+              "a-linear",
+              "a-power",
+              "a-exp",
+              "a-delayed-power",
+              "a-delayed-exp",
+              "v-linear",
+              "v-power",
+              "v-exp"),
+  models2 = c("v-delayed-pow",
+              "v-delayed-exp",
+              "v-a-exp", 
+              "v-dExp-a-exp",
+              "v-dExp-a-pow",
+              "v-dPow-a-exp",
+              "v-dPow-a-Pow"),
+  groupNames = c("1 process", "2 processes"),
+  inset = c(-0.5,-.26)
+)
+mtext("BIC", side = 3, line = 1)
+```
+
+
+
+#### What were the best single models?
+
+What were the best 4 single models? That can inform what 2 parameter models I should run. 
+
+```{r}
+# what were the best single models 
+bestAICsingle = apply(allAIC[,-c(1,12)],1,which.min)
+bestAICsingle
+# what were the best single models 
+bestBICsingle = apply(allBIC[,-c(1,12)],1,which.min)
+bestBICsingle
+```
+
+Looks like the v-exp-delayed was actually the best single model.
+
+```{r}
+# what was the second best model?
+secBestAICsingle = apply(allAIC[,-c(1,11,12)],1,which.min)
+secBestAICsingle
+
+secBestBICsingle = apply(allBIC[,-c(1,11,12)],1,which.min)
+secBestBICsingle
+```
+
+Followed by v-pow-delayed. Seems like the v models are all doing better than the a models. But what a models performed best? 
+
+
+```{r}
+# what was the best a model?
+best_a_AICsingle = apply(allAIC[,2:6],1,which.min)
+best_a_AICsingle
+
+best_a_BICsingle = apply(allBIC[,2:6],1,which.min)
+best_a_BICsingle
+```
+
+best a model is a-exp
+
+```{r}
+# what was the next best a model?
+secBest_a_AICsingle = apply(allAIC[,c(2,3,5,6)],1,which.min)
+secBest_a_AICsingle
+
+secBest_a_BICsingle = apply(allBIC[,c(2,3,5,6)],1,which.min)
+secBest_a_BICsingle
+```
+
+second best a model is a-pow
+
+#### What 2-parameter change models should I run?
+
+It seems like the delay functions best describe the v- models, but the a- models are better described by the normal power/exponential models. So, I think the best 2 param models to run would be: 
+
+```{r}
+bestA = c("a_exp", "a_pow")
+bestB = c("v_delayed_exp","v-delayed-pow")
+expand.grid(bestA,bestB)
+```
+
+
+# Visualise Parameters of Best Model (BIC)
+
+```{r}
+source(here("modelling/knowlesetal-19/08_param-plot-functions.R"))
+v_a_exp_thresh = thresholdPlot("v-a-exp", as.numeric(names(bestBIC[bestBIC == 12])))
+v_a_exp_drift = driftPlot("v-a-exp", as.numeric(names(bestBIC[bestBIC == 12])))
+gridExtra::grid.arrange(v_a_exp_drift,v_a_exp_thresh, top = "Participants Best Fit by Exponential Threshold + Drift Model")
+
+```
+
+Keep in mind that for the below participant, AIC favored the A+V exponential model. 
+
+```{r}
+v_simple = driftPlot("simple",as.numeric(names(bestBIC[bestBIC == 4])))
+a_exp = thresholdPlot("a-exp",as.numeric(names(bestBIC[bestBIC == 4])))
+gridExtra::grid.arrange(v_simple, a_exp, top = "Participants Best Fit by Exponential Threshold Model")
+```
+
+```{r}
+a_power = thresholdPlot("a-power",as.numeric(names(bestBIC[bestBIC == 3])))
+gridExtra::grid.arrange(v_simple, a_power, top = "Participants Best Fit by Power Threshold Model")
+```
+
+Keep in mind that for the below participant, AIC favored the Exponential V model. 
+
+```{r}
+a_simple = thresholdPlot("simple",as.numeric(names(bestBIC[bestBIC == 7])))
+v_linear = driftPlot("v-linear",as.numeric(names(bestBIC[bestBIC == 7])))
+gridExtra::grid.arrange(v_linear, a_simple, top = "Participants Best Fit by Linear Drift Rate Model")
+```
+
+# Visualising parameters of all models for each participant
+
+Bringing up which participants were fit best by which model again for reference
+
+```{r}
+bestAIC
+bestBIC
+```
+
+### Threshold
+
+I've only plotted the simple, linear, power, and exponential models here for clarity. But you can see below that the only participant that doesn't show an obvious effect of threshold across trials in the plot was participant 9, which makes sense since they were best fit by model 7 (linear drift rate model). So it seems like the model fits are corresponding to the parameter estimates. 
+
+
+```{r echo = FALSE}
+par(omi=rep(0.1, 4), mar=c(1.5,1.5,1.5,1.5), mfrow=c(3,3))
+singleParticipant_a(1,models = c("simple","a-linear","a-power","a-exp"))
+singleParticipant_a(2,models = c("simple","a-linear","a-power","a-exp"))
+singleParticipant_a(3,models = c("simple","a-linear","a-power","a-exp"))
+singleParticipant_a(4,models = c("simple","a-linear","a-power","a-exp"))
+singleParticipant_a(5,models = c("simple","a-linear","a-power","a-exp"))
+singleParticipant_a(6,models = c("simple","a-linear","a-power","a-exp"))
+singleParticipant_a(7,models = c("simple","a-linear","a-power","a-exp"))
+singleParticipant_a(8,models = c("simple","a-linear","a-power","a-exp"))
+singleParticipant_a(9,models = c("simple","a-linear","a-power","a-exp"))
+
+
+```
+
+### Drift
+
+Some strange things going on below. For example, most of the change models don't line up with the estimates of the simple model at all. 
+
+```{r echo = FALSE}
+par(omi=rep(0.1, 4), mar=c(1.5,1.5,1.5,1.5), mfrow=c(3,3))
+singleParticipant_v(1,models = c("simple","v-linear","v-power","v-a-exp"))
+singleParticipant_v(2,models = c("simple","v-linear","v-power","v-a-exp"))
+singleParticipant_v(3,models = c("simple","v-linear","v-power","v-a-exp"))
+singleParticipant_v(4,models = c("simple","v-linear","v-power","v-a-exp"))
+singleParticipant_v(5,models = c("simple","v-linear","v-power","v-a-exp"))
+singleParticipant_v(6,models = c("simple","v-linear","v-power","v-a-exp"))
+singleParticipant_v(7,models = c("simple","v-linear","v-power","v-a-exp"))
+singleParticipant_v(8,models = c("simple","v-linear","v-power","v-a-exp"))
+singleParticipant_v(9,models = c("simple","v-linear","v-power","v-a-exp"))
+```
+
+## Same as above for exp/power/exp-delay/power-delay models
+
+### Threshold
+
+```{r}
+par(omi=rep(0.1, 4), mar=c(1.5,1.5,1.5,1.5), mfrow=c(3,3))
+singleParticipant_a(1,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
+singleParticipant_a(2,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
+singleParticipant_a(3,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
+singleParticipant_a(4,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
+singleParticipant_a(5,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
+singleParticipant_a(6,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
+singleParticipant_a(7,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
+singleParticipant_a(8,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
+singleParticipant_a(9,models = c("a-power","a-exp","a-delayed-power","a-delayed-exp"))
+
+
+```
+
+### Drift
+
+```{r}
+par(omi=rep(0.1, 4), mar=c(1.5,1.5,1.5,1.5), mfrow=c(3,3))
+singleParticipant_v(1,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(2,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(3,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(4,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(5,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(6,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(7,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(8,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+singleParticipant_v(9,models = c("v-power","v-exp","v-delayed-pow","v-delayed-exp"))
+```
+
+
+
+# Model Fits (I'm not 100% sure if I've done these right)
+
+```{r}
+source(here("modelling/knowlesetal-19/11_model-fits.R"))
+par(omi=rep(0.1, 4), mar=c(1.5,1.5,1.5,1.5), mfrow=c(3,4))
+
+plotQuantiles(allSimQuantiles[[models[1]]])
+
+plotQuantiles(allSimQuantiles[[models[2]]])
+
+plotQuantiles(allSimQuantiles[[models[3]]])
+
+plotQuantiles(allSimQuantiles[[models[4]]])
+
+plotQuantiles(allSimQuantiles[[models[5]]])
+
+plotQuantiles(allSimQuantiles[[models[6]]])
+
+plotQuantiles(allSimQuantiles[[models[7]]])
+
+plotQuantiles(allSimQuantiles[[models[8]]])
+
+plotQuantiles(allSimQuantiles[[models[9]]])
+
+plotQuantiles(allSimQuantiles[[models[10]]])
+
+plotQuantiles(allSimQuantiles[[models[11]]])
+
+plotQuantiles(allSimQuantiles[[models[12]]])
+
+
+
+```
+
