@@ -3,7 +3,7 @@ lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library
 library(here, lib.loc = lib)
 library(modelProb)
 
-n = 7
+n = 147
 # round 1 models 
 
 v_models <- c("simple", 
@@ -22,7 +22,7 @@ a_models <- c(
               "a-blocked-simple",
               #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
               "a-blocked-exp-sb",
-              "a-delayed-exp-blocked",
+              #"a-delayed-exp-blocked",
               "a-step")
 
 models <- c(a_models, v_models)
@@ -137,7 +137,50 @@ for (i in 1:length(best[,1])){
 
 # what are the 2-parameter models that need to be made? 
 unique_2p_best <- unique(models_2p_best)
-#save(file = here("data/knowlesetal-19/derived/round-2-models.Rdata"), unique_2p_best)
+
+BIC_weights <- modelProb::weightedICs(allBIC)
+BICmeans <- apply(BIC_weights, 2, mean)
+barplot(BICmeans)
+AIC_weights <- modelProb::weightedICs(allAIC)
+AICmeans <- apply(AIC_weights, 2, mean)
+barplot(AICmeans)
+
+
+modelProb::plotWeightedICs(weightedAICs)
+
+# Best model vesus simple model
+rank_no_simple <- rank_models(dplyr::select(allBIC, -simple) )
+best_models <- rank_no_simple[,1]
+
+best_BICs <- c()
+for ( i in 1:length(allBIC[,1])){
+  best_BICs[i] <- allBIC[i,best_models[i]]
+}
+
+simple = allBIC[,"simple"]
+simpleVbest = cbind(best_BICs, simple)
+weighted_simpleVbest <- weightedICs(simpleVbest)
+modelProb::MMComparisonPlot(weighted_simpleVbest, "simple", "best_BICs", groupNames = c("simple", "best alternative"))
+
+a_exp_models <- models[grep("a-exp", models)]
+non_a_exp_models <- models[!(models %in% a_exp_models)]
+modelProb::MMComparisonPlot(BIC_weights, a_exp_models, non_a_exp_models, groupNames = c("a-exp Models", "Other Models"))
+
+a_dExp_models <- models[grep("a-dExp", models)]
+non_a_dExp_models <- models[!(models %in% a_dExp_models)]
+modelProb::MMComparisonPlot(BIC_weights, a_dExp_models, non_a_dExp_models, groupNames = c("a-delayed exp Models", "Other Models"))
+
+v_exp_models <- models[c(grep("v-exp", models), grep("v-a-exp", models))]
+non_v_exp_models <- models[!(models %in% v_exp_models)]
+modelProb::MMComparisonPlot(BIC_weights, v_exp_models, non_v_exp_models, groupNames = c("v-exp Models", "Other Models"))
+
+v_linear_models <- models[c(grep("v-linear", models))]
+non_v_linear_models <- models[!(models %in% v_linear_models)]
+modelProb::MMComparisonPlot(BIC_weights, v_linear_models, non_v_linear_models, groupNames = c("v-linear Models", "Other Models"))
+
+v_dExp_models <- models[grep("v-dExp", models)]
+non_v_dExp_models <- models[!(models %in% v_dExp_models)]
+modelProb::MMComparisonPlot(BIC_weights, v_dExp_models, non_v_dExp_models, groupNames = c("v-delayed exp Models", "Other Models"))
 
 
 ## FIT PLOT

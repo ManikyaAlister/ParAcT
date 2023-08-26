@@ -4,21 +4,21 @@ library(here, lib.loc = lib)
 source(file = here("modelling/knowlesetal-19/round-2/05_run-models/5.0.0_load-packages.R"))
 source(file = here("modelling/knowlesetal-19/round-2/02_deep-background.R"))
 
-blocks = 1:24
 conds=1 # number of conditions to loop over
 model = "v-linear-a-blocked-simple"
 print(model)
 nSub = 7 # number of subjects to run (if looping over participants)
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 
-for (useSub in 7) {
+for (useSub in subj) {
   # Run DDM for each subject in n Subjects
-  
   load(here(
     paste("data/knowlesetal-19/clean/P",useSub, ".Rdata", sep = "")
   ))
   newSeed = Sys.time()
   set.seed(as.numeric(newSeed))
+  blocks = unique(data$Block)
+  
   
   
   log.dens.like = function (x, data, par.names) {
@@ -61,7 +61,7 @@ for (useSub in 7) {
   savefile=here(paste("modelling/knowlesetal-19/round-2/06_output/P",useSub,"_",model,".Rdata",sep=""))
   saveIC = here(paste("data/knowlesetal-19/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
-source(here("modelling/knowlesetal-19/round-2/03_priors.R"))
+  source(here("modelling/knowlesetal-19/round-2/03_priors.R"))
   source(here("modelling/knowlesetal-19/round-2/04_iterative-process.R"))
   
   n.pars = length(theta.names)

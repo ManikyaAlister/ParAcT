@@ -14,14 +14,14 @@ model = "simple"
 print(model)
 subj = commandArgs(trailingOnly = TRUE)
 print(subj)
-nSub = 7 # number of subjects to run (if looping instead of parallel)
+nSub = 147 # number of subjects to run (if looping instead of parallel)
 
 ####################
 #### Simple Model###
 ####################
 
 
-for (useSub in subj) {
+for (useSub in 101:nSub) {
   # Run DDM for each subject in n Subjects
   
   load(here(
