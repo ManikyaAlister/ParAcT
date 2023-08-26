@@ -6,12 +6,10 @@
 modelling/evansetal-17/round_2/06_output/*
 modelling/knowlesetal-19/round-1/06_output/*
 modelling/knowlesetal-19/round_2/06_output/*
-
-
 slurm_output/*
 **.out
 **.DS_Store
 .Rproj.user/shared/notebooks/paths
 ../../../../.Rproj.user/shared/notebooks/paths
 .Rproj.user/shared/notebooks/paths
-Presentations/*
+Presentations/*cat .gitignore
