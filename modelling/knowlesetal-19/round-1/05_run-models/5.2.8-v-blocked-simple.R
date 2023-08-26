@@ -4,7 +4,7 @@ library(here, lib.loc = lib)
 source(file = here("modelling/knowlesetal-19/round-1/05_run-models/5.0.0_load-packages.R"))
 source(file = here("modelling/knowlesetal-19/round-1/02_deep-background.R"))
 
-blocks = 1:24
+blocks = 1:4
 conds=1 # number of conditions to loop over
 model = "v-blocked-simple"
 print(model) # so I can see what model is running in the output
