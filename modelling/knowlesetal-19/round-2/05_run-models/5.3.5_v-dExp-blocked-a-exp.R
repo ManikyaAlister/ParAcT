@@ -40,7 +40,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
                 "v.start","v.asym","v.rate","v.delay")
 
   savefile=here(paste("modelling/knowlesetal-19/round-2/06_output/P",useSub,"_",model,".Rdata",sep=""))
-  saveIC = here(paste("data/knowleseteal-19/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  saveIC = here(paste("data/knowlesetal-19/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
   
   source(here("modelling/knowlesetal-19/round-2/03_priors.R"))
   source(here("modelling/knowlesetal-19/round-2/04_iterative-process.R"))
