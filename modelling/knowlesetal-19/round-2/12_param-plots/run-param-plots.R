@@ -1,7 +1,7 @@
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
 source(here("modelling/knowlesetal-19/round-2/12_param-plots/param-plot-functions.R"))
-n = c(1,2,3,4,6) # participants who you want to plot 
+n = 1:10 # participants who you want to plot 
 
 # Drift rate
 
