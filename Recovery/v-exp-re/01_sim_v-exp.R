@@ -37,7 +37,7 @@ colnames(use.range)=c("Min","Max")
 use.range["v.start",]=c(0.1,6)
 use.range["v.asym",]=c(0,6)     
 use.range["v.rate",]=c(0.001,0.6)
-use.range["a",]=c(0.45,1.75)
+use.range["a",]=c(0.45,1.75) 
 use.range["t0",]=c(0.1,0.6)
 
 for (useParam in colnames(use.LHS)) {
