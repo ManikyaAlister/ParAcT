@@ -13,7 +13,7 @@ subj = commandArgs(trailingOnly = TRUE) # if running in parallel, this will be a
 #### Exponential Threshold Model ###
 ####################################
 
-for (useSub in 1:10) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
+for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
   load(paste("Recovery/",model,"/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
