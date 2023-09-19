@@ -51,7 +51,7 @@ driftPlot = function(model,nRange){
 
 library(here)
 library(ggplot2)
-driftPlot("v-exp", 1:8)
+driftPlot("v-exp", 60:70)
 plot_gen = function(participant){
   load(here(paste0("Recovery/v-exp-re/Fits_recovery/P",participant,"_v-exp-re.Rdata")))
   gen = as.vector(genParams)
@@ -62,4 +62,4 @@ plot_gen = function(participant){
   plot(data$Trial, drift_gen, "l")
 }
 
-plot_gen(8)
+plot_gen(1)
