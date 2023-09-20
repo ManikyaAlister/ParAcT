@@ -41,7 +41,7 @@ fi
 # Run the job from the directory where it was launched (default)
 
 # The modules to load:
-module load r/4.2.0
+module load foss/2022a R/4.2.1
 
 # Define the list of models and participants
 models=("5.1.1-simple" "5.1.2_a-linear") #  "5.1.3_a-power" "5.1.5_a-delayed-exp" "5.1.6_a-delayed-pow" "5.1.7_a-exp-mir" "5.2.2_v-linear" "5.2.3_v-power" "5.2.4_v-exp" "5.2.5_v-delayed-pow" "5.2.6_v-delayed-exp" "5.1.8-a-simple-blocked" "5.1.9-a-complex-blocked" "5.2.8-v-simple-blocked" "5.2.9-v-complex-blocked")

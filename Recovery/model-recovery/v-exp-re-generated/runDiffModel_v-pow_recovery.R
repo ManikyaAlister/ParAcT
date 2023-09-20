@@ -10,7 +10,7 @@ print(model)
 nSub = 100 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
 print(subj)
-generating_data = "v-exp-generated"
+generating_data = "v-exp-re-generated"
 
 ####################################
 #### Exponential Threshold Model ###

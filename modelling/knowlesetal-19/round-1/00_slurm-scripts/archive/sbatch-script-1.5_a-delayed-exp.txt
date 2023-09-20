@@ -41,7 +41,7 @@ fi
 # Run the job from the directory where it was launched (default)
 
 # The modules to load:
-module load r/4.2.0
+module load foss/2022a R/4.2.1
 
 # The job command(s):
 Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/knowlesetal-19/05_run-models/5.1.5_a-delayed-exp.R

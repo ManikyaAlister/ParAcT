@@ -14,7 +14,7 @@ generating_data = "v-exp-re-generated"
 #### Exponential Threshold Model ###
 ####################################
 
-for (useSub in 1:nSub) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
+for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
   load(paste("Recovery/v-exp-re/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()

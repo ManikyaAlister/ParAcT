@@ -43,7 +43,7 @@ fi
 # Run the job from the directory where it was launched (default)
 
 # The modules to load:
-module load r/4.2.0
+module load foss/2022a R/4.2.1
 
 # The job command(s):
 Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/v-exp-re/run-parallel/06_runDiffModel_v-exp_recovery1-10.R
