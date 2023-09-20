@@ -34,7 +34,7 @@ colnames(use.range)=c("Min","Max")
 
 # Define ranges for parameters for hypercube sampling
 
-use.range["v.start",]=c(1,3)
+use.range["v.start",]=c(0.1,3)
 use.range["v.asym",]=c(0,3)     
 use.range["v.rate",]=c(0.001,0.3)
 use.range["a",]=c(0.45,1.75)
