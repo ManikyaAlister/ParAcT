@@ -1,4 +1,4 @@
-driftPlot = function(model,nRange){
+driftPlot = function(model,nRange, gen  = FALSE){
   
   driftDf = as.data.frame(matrix(nrow = 0, ncol = 3))
   
@@ -7,7 +7,13 @@ driftPlot = function(model,nRange){
     load(here(paste("Recovery/v-exp-re/Fits_recovery/P", i,"_v-exp-re.Rdata", sep = "")))
     
     trials = 1:length(data$Trial)
-    x =  apply(theta, 2, mean)
+    if (gen){
+      x = as.vector(genParams[,1])
+      names(x) = rownames(genParams)
+    } else {
+      x =  apply(theta, 2, mean)
+    }
+    
 
     if (model == "v-power"){
       
@@ -51,7 +57,11 @@ driftPlot = function(model,nRange){
 
 library(here)
 library(ggplot2)
-driftPlot("v-exp", 60:70)
+driftPlot("v-exp", 1)
+driftPlot("v-exp", 1:10, gen = TRUE)
+
+
+
 plot_gen = function(participant){
   load(here(paste0("Recovery/v-exp-re/Fits_recovery/P",participant,"_v-exp-re.Rdata")))
   gen = as.vector(genParams)

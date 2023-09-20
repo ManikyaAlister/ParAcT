@@ -122,8 +122,8 @@ models <- c(recovering_model,
 generating <- c(FALSE, TRUE)
 
 
-allAIC <- IC_array(models,"AIC", generating, grouping_param = "v.rate")
-allBIC <- IC_array(models,"BIC", generating, grouping_param = "v.rate")
+allAIC <- IC_array(models,"AIC", generating, grouping_param = "v.start")
+allBIC <- IC_array(models,"BIC", generating, grouping_param = "v.start")
 
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
