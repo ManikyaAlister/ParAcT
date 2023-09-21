@@ -58,7 +58,7 @@ driftPlot = function(model,nRange, gen  = FALSE){
 library(here)
 library(ggplot2)
 driftPlot("v-exp", 1)
-driftPlot("v-exp", 1:10, gen = TRUE)
+driftPlot("v-exp", 1, gen = TRUE)
 
 
 

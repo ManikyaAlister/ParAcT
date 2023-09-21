@@ -50,6 +50,7 @@ IC_array = function(models, criterion, generating, grouping_param) {
         IC <- BIC
       }
       allIC[i, model] = IC
+      print(gen_param[order(gen_param)])
       
     }
   }
@@ -64,6 +65,14 @@ IC_array = function(models, criterion, generating, grouping_param) {
 
 n = 100
 
+plotComparison = function(models, generating, criterion, grouping_param = "v.rate"){
+  allIC <- IC_array(models,criterion, generating, grouping_param = grouping_param)
+  weighted <- modelProb::weightedICs(allIC, bySubject = TRUE)
+  colours <- c("red", "blue", "darkseagreen", "yellow")
+  print(apply(weighted, 2, mean))
+  modelProb::plotWeightedICs(weighted, main = paste0(criterion, " v-exp-re generating data"), colours = colours)
+}
+
 # power - exp comparison
 
 recovering_model <- "v-power"
@@ -74,19 +83,9 @@ models <- c(recovering_model,
 
 generating <- c(FALSE, TRUE)
 
+plotComparison(models, generating, "AIC")
+plotComparison(models, generating, "BIC")
 
-allAIC <- IC_array(models,"AIC", generating, grouping_param = "v.start")
-allBIC <- IC_array(models,"BIC", generating, grouping_param = "v.start")
-
-weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
-weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
-
-apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum))
-apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
-
-
-modelProb::plotWeightedICs(weightedBIC, main = "BIC v-exp-re generating data", seed = 9)
-modelProb::plotWeightedICs(weightedAIC, main = "AIC v-exp-re generating data", seed = 9)
 
 # linear - exp comparison
 
@@ -98,18 +97,8 @@ models <- c(recovering_model,
 
 generating <- c(FALSE, TRUE)
 
-
-allAIC <- IC_array(models,"AIC", generating, grouping_param = "v.start")
-allBIC <- IC_array(models,"BIC", generating, grouping_param = "v.start")
-
-weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
-weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
-
-apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum))
-apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
-
-modelProb::plotWeightedICs(weightedAIC, main = "AIC v-exp-re generating data", seed = 9)
-modelProb::plotWeightedICs(weightedBIC, main = "BIC v-exp-re generating data", seed = 9)
+plotComparison(models, generating, "AIC", grouping_param = "v.start")
+plotComparison(models, generating, "BIC", grouping_param = "v.start")
 
 # simple - exp comparison
 
@@ -122,17 +111,47 @@ models <- c(recovering_model,
 generating <- c(FALSE, TRUE)
 
 
-allAIC <- IC_array(models,"AIC", generating, grouping_param = "v.start")
-allBIC <- IC_array(models,"BIC", generating, grouping_param = "v.start")
+plotComparison(models, generating, "AIC", grouping_param = "v.start")
+plotComparison(models, generating, "BIC", grouping_param = "v.start")
 
-apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum))
-apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
+# simple + linear
 
-weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
-weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
+recovering_model <- c("simple", "v-linear")
+generating_model <- "v-exp-re"
 
-modelProb::plotWeightedICs(weightedAIC, main = "AIC v-exp-re generating data", seed = 9)
-modelProb::plotWeightedICs(weightedBIC, main = "BIC v-exp-re generating data", seed = 9)
+models <- c(recovering_model,
+            generating_model)
+
+generating <- c(FALSE, FALSE, TRUE)
+
+plotComparison(models, generating, "AIC")
+plotComparison(models, generating, "BIC")
+
+# simple + linear
+
+recovering_model <- c("simple", "v-linear")
+generating_model <- "v-exp-re"
+
+models <- c(recovering_model,
+            generating_model)
+
+generating <- c(FALSE, FALSE, TRUE)
+
+plotComparison(models, generating, "AIC")
+plotComparison(models, generating, "BIC")
+
+# all
+
+recovering_model <- c("simple", "v-linear", "v-power")
+generating_model <- "v-exp-re"
+
+models <- c(recovering_model,
+            generating_model)
+
+generating <- c(FALSE, FALSE, FALSE, TRUE)
+
+plotComparison(models, generating, "AIC")
+plotComparison(models, generating, "BIC")
 
 # see if there are any gen param correlations
 
@@ -183,8 +202,9 @@ gen_param_array = function(model, generating) {
     params
     
 }
-
 params <- gen_param_array(model = "v-exp-re", TRUE)
+
+allBIC <- IC_array(models, criterion = "BIC", generating)
 BIC_ordered <- allBIC[order(as.numeric(rownames(allBIC))),] 
 BIC_ordered$best <- apply(BIC_ordered, 1, which.min)
 params_BIC <- cbind(params, BIC_ordered)
