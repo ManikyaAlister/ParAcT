@@ -1,7 +1,7 @@
 
-x=1:100
+x=1:1000
 
-r=0.1
+r=0.01
 a=4
 b=2
 
@@ -12,7 +12,7 @@ plot(x,a+b*exp(r*x),type="l",main="Your Exponential Increase")
 plot(x,a-b*exp(-r*x),type="l",main="Mirrored Exponential Decay")
 
 
-t=0
+t=30
 
 plot(x,a+b*((t+1)/(t+exp(r*x))),type="l",main="Classic Transition Exponential Decay")
 
