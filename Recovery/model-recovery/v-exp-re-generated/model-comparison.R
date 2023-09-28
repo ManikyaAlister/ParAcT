@@ -50,8 +50,7 @@ IC_array = function(models, criterion, generating, grouping_param) {
         IC <- BIC
       }
       allIC[i, model] = IC
-      print(gen_param[order(gen_param)])
-      
+
     }
   }
   
