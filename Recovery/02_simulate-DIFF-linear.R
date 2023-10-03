@@ -12,14 +12,14 @@ simulate.DIFF=function(N,params,maxCounter,stepSize,varyV,varyA,varyZ,varyT0,use
   resps=rep(0,N)
   
   if (varyV) {
-    v=(params["v.asym"]+params["v.start"])-params["v.start"]*exp(-params["v.rate"]*(1:N))
+    v=(params["v.b"]*(1:N))+params["v.c"] 
     
   } else {
     v=rep(params["v"],N)
   }
   
   if (varyA) {
-    a = params["a.asym"]+params["a.start"]*exp(-params["a.rate"]*(1:N))
+    a = ((-params["a.b"])*(1:N))+params["a.c"]
     
   } else {
     a=rep(params["a"],N)

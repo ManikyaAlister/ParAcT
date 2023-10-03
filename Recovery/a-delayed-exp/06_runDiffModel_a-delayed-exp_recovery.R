@@ -8,6 +8,8 @@ conds= 1 # number of experimental conditions to loop over
 model = "a-delayed-exp" 
 nSub = 2 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
+print(model)
+print(subj)
 
 ####################################
 #### Exponential Threshold Model ###
