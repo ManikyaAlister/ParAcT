@@ -10,7 +10,7 @@
 #SBATCH --nodes=1
 
 # The name of the job:
-#SBATCH --job-name="recovery"
+#SBATCH --job-name="simple-gen"
 
 # Maximum number of tasks/CPU cores used by the job:
 #SBATCH --ntasks=1
