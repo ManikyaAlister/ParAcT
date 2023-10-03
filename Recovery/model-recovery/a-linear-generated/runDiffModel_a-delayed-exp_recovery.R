@@ -5,12 +5,12 @@ source(file = here("Recovery/5.0.0_load-packages.R"))
 source(file = here("Recovery/02_deep-background.R"))
 
 conds= 1 # number of experimental conditions to loop over
-model = "v-exp" 
-print(model)
-nSub = 100 # number of subjects to run 
+model = "a-delayed-exp" 
+nSub = 2 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
+generating_data = "a-linear"
+print(model)
 print(subj)
-generating_data = "v-exp-generated"
 
 ####################################
 #### Exponential Threshold Model ###
@@ -18,19 +18,20 @@ generating_data = "v-exp-generated"
 
 for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
-  load(paste("Recovery/v-exp/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
+  load(paste("Recovery/",generating_data,"/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
+  data$Trial = 1:length(data$time)
   
   log.dens.like = function (x,data,par.names) {
     out=0
     names(x)=par.names
     
     for (cond in conds) {
-      a=x["a"]
+      a=x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*data$Trial))))
       t0=x["t0"]
-      v=(x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
-      z=x["z"]
+      v=x["v"]
+      z = x["z"]
       sv=0
       sz=0
       st0=0
@@ -41,18 +42,20 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out
   }
   
-  theta.names = c("z", "a","t0",
-                "v.start","v.asym","v.rate")
+  theta.names = c("z", "v","t0",
+                "a.start","a.asym","a.rate", "a.delay")
   
-  savefile=here(paste("Recovery/model-recovery/",generating_data,"/fits/P",useSub,"_",model,".Rdata",sep=""))
-
-  source(here("Recovery/03_priors/03.2.3_v-priors-pow-exp.R"))
+  savefile=here(paste("Recovery/model-recovery/",generating_data,"-generated/fits/P",useSub,"_",model,".Rdata",sep=""))
+  #saveIC = here(paste("data/evansetal-17/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  
+  source(here("Recovery/03_priors.R"))
   source(here("Recovery/04_iterative-process.R"))
   
   n.pars = length(theta.names)
   
   AIC = -2*max(weight)+ 2*n.pars 
   BIC = log(length(data$time))*n.pars-2*max(weight)
+  #save(AIC,BIC,file = saveIC)
   save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds, genParams,
        file=savefile)
 }

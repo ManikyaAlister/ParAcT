@@ -5,10 +5,12 @@ source(file = here("Recovery/5.0.0_load-packages.R"))
 source(file = here("Recovery/02_deep-background.R"))
 
 conds= 1 # number of experimental conditions to loop over
-model = "v-linear" 
+model = "v-exp" 
+print(model)
 nSub = 100 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
-generating_data = "v-exp-re"
+print(subj)
+generating_data = "v-delayed-exp"
 
 ####################################
 #### Exponential Threshold Model ###
@@ -19,7 +21,6 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
   load(paste("Recovery/",generating_data,"/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
-  data$Trial = 1:length(data$Resp)
   
   log.dens.like = function (x,data,par.names) {
     out=0
@@ -28,7 +29,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     for (cond in conds) {
       a=x["a"]
       t0=x["t0"]
-      v=(x["v.b"]*data$Trial)+x["v.c"] 
+      v=(x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
       z=x["z"]
       sv=0
       sz=0
@@ -40,13 +41,12 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out
   }
   
-  
   theta.names = c("z", "a","t0",
-                  "v.b","v.c")
+                "v.start","v.asym","v.rate")
   
   savefile=here(paste("Recovery/model-recovery/",generating_data,"-generated/fits/P",useSub,"_",model,".Rdata",sep=""))
 
-  source(here("Recovery/03_priors.R"))
+  source(here("Recovery/03_priors/03.2.3_v-priors-pow-exp.R"))
   source(here("Recovery/04_iterative-process.R"))
   
   n.pars = length(theta.names)

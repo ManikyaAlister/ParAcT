@@ -5,10 +5,10 @@ source(file = here("Recovery/5.0.0_load-packages.R"))
 source(file = here("Recovery/02_deep-background.R"))
 
 conds= 1 # number of experimental conditions to loop over
-model = "v-linear" 
-nSub = 100 # number of subjects to run 
+model = "a-exp" 
+nSub = 1 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
-generating_data = "v-exp-re"
+generating_data = "a-linear"
 
 ####################################
 #### Exponential Threshold Model ###
@@ -16,19 +16,18 @@ generating_data = "v-exp-re"
 
 for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
+  # load data generated from the a exponential model
   load(paste("Recovery/",generating_data,"/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
-  data$Trial = 1:length(data$Resp)
-  
   log.dens.like = function (x,data,par.names) {
     out=0
     names(x)=par.names
     
     for (cond in conds) {
-      a=x["a"]
+      a=x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
       t0=x["t0"]
-      v=(x["v.b"]*data$Trial)+x["v.c"] 
+      v=x["v"]
       z=x["z"]
       sv=0
       sz=0
@@ -40,19 +39,21 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out
   }
   
-  
-  theta.names = c("z", "a","t0",
-                  "v.b","v.c")
+  theta.names = c("z", "v","t0","z",
+                "a.start","a.asym","a.rate")
   
   savefile=here(paste("Recovery/model-recovery/",generating_data,"-generated/fits/P",useSub,"_",model,".Rdata",sep=""))
-
-  source(here("Recovery/03_priors.R"))
+  #saveIC = here(paste("data/evansetal-17/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  
+  
+  source(here("Recovery/03_priors/03.1.3_a-priors-pow-exp.R"))
   source(here("Recovery/04_iterative-process.R"))
   
   n.pars = length(theta.names)
   
   AIC = -2*max(weight)+ 2*n.pars 
   BIC = log(length(data$time))*n.pars-2*max(weight)
+  #save(AIC,BIC,file = saveIC)
   save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds, genParams,
        file=savefile)
 }

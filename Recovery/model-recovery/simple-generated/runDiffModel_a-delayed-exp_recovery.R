@@ -5,10 +5,12 @@ source(file = here("Recovery/5.0.0_load-packages.R"))
 source(file = here("Recovery/02_deep-background.R"))
 
 conds= 1 # number of experimental conditions to loop over
-model = "v-linear" 
-nSub = 100 # number of subjects to run 
+model = "a-delayed-exp" 
+nSub = 2 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
-generating_data = "v-exp-re"
+generating_data = "simple"
+print(model)
+print(subj)
 
 ####################################
 #### Exponential Threshold Model ###
@@ -19,17 +21,17 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
   load(paste("Recovery/",generating_data,"/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
-  data$Trial = 1:length(data$Resp)
+  data$Trial = 1:length(data$time)
   
   log.dens.like = function (x,data,par.names) {
     out=0
     names(x)=par.names
     
     for (cond in conds) {
-      a=x["a"]
+      a=x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*data$Trial))))
       t0=x["t0"]
-      v=(x["v.b"]*data$Trial)+x["v.c"] 
-      z=x["z"]
+      v=x["v"]
+      z = x["z"]
       sv=0
       sz=0
       st0=0
@@ -40,12 +42,12 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out
   }
   
-  
-  theta.names = c("z", "a","t0",
-                  "v.b","v.c")
+  theta.names = c("z", "v","t0",
+                "a.start","a.asym","a.rate", "a.delay")
   
   savefile=here(paste("Recovery/model-recovery/",generating_data,"-generated/fits/P",useSub,"_",model,".Rdata",sep=""))
-
+  #saveIC = here(paste("data/evansetal-17/derived/P",useSub,"_",model,"-IC.Rdata",sep=""))
+  
   source(here("Recovery/03_priors.R"))
   source(here("Recovery/04_iterative-process.R"))
   
@@ -53,6 +55,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
   
   AIC = -2*max(weight)+ 2*n.pars 
   BIC = log(length(data$time))*n.pars-2*max(weight)
+  #save(AIC,BIC,file = saveIC)
   save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds, genParams,
        file=savefile)
 }

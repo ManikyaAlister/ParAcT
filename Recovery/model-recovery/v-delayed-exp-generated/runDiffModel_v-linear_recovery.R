@@ -6,20 +6,16 @@ source(file = here("Recovery/02_deep-background.R"))
 
 conds= 1 # number of experimental conditions to loop over
 model = "v-linear" 
-nSub = 100 # number of subjects to run 
+nSub = 2 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE)
-generating_data = "v-exp-re"
+generating_data = "v-delayed-exp"
 
-####################################
-#### Exponential Threshold Model ###
-####################################
 
 for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
   load(paste("Recovery/",generating_data,"/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
   set.seed(as.numeric(newSeed))
-  data$Trial = 1:length(data$Resp)
   
   log.dens.like = function (x,data,par.names) {
     out=0
@@ -46,7 +42,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
   
   savefile=here(paste("Recovery/model-recovery/",generating_data,"-generated/fits/P",useSub,"_",model,".Rdata",sep=""))
 
-  source(here("Recovery/03_priors.R"))
+  source(here("modelling/evansetal-17/optim/round-1/03_priors.R"))
   source(here("Recovery/04_iterative-process.R"))
   
   n.pars = length(theta.names)
