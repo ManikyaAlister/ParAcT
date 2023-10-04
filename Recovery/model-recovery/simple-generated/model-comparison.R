@@ -46,7 +46,6 @@ IC_array = function(models, criterion, generating, grouping_param) {
         IC <- BIC
       }
       allIC[i, model] = IC
-      
     }
   }
   
@@ -54,6 +53,8 @@ IC_array = function(models, criterion, generating, grouping_param) {
   #allIC <- cbind(allIC, gen_param)
   
   allIC <- allIC[order(gen_param),]
+  print(gen_param)
+  
 }
 
 
@@ -61,17 +62,18 @@ n = 100
 
 # power - exp comparison
 
-recovering_model <- "a-power"
-generating_model <- "a-exp"
+recovering_model <- c("a-exp", "a-delayed-exp", "a-linear", "v-linear", "v-exp", "v-delayed-exp")
+generating_model <- "simple"
 
 models <- c(recovering_model,
             generating_model)
 
-generating <- c(FALSE, TRUE)
+generating <- c(rep(FALSE, length(recovering_model)), TRUE)
 
 
-allAIC <- IC_array(models,"AIC", generating, grouping_param = "a.asym")
-allBIC <- IC_array(models,"BIC", generating, grouping_param = "a.asym")
+
+allAIC <- IC_array(models,"AIC", generating, grouping_param = "z")
+allBIC <- IC_array(models,"BIC", generating, grouping_param = "z")
 
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)

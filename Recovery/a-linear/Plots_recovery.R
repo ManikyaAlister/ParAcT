@@ -14,7 +14,7 @@ allMeanTheta=NULL
 n = 100
 model = "a-linear"
 
-for (p in 1:n) { #Loop in each data set
+for (p in 1:26) { #Loop in each data set
   load(paste0("Recovery/",model,"/Fits_recovery/P",p,"_",model,".RData"))
   #load(paste0("Recovery/Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
   #Rearrange and take out unnecessary values from the generated parameters 
@@ -32,19 +32,16 @@ for (p in 1:n) { #Loop in each data set
 allGenParams= as.data.frame(allGenParams)
 allMeanTheta= as.data.frame(allMeanTheta)
 
-cor(allGenParams$a.start, allMeanTheta$a.start)
-cor(allGenParams$a.asym, allMeanTheta$a.asym)
-cor(allGenParams$a.rate, allMeanTheta$a.rate)
+cor(allGenParams$a.b, allMeanTheta$a.b)
+cor(allGenParams$a.c, allMeanTheta$a.c)
 cor(allGenParams$v, allMeanTheta$v)
 cor(allGenParams$ter, allMeanTheta$t0)
 #cor(allGenParams$z, allMeanTheta$z)
 
 
-plot(allGenParams$a.start, allMeanTheta$a.start)
-plot(allGenParams$a.asym, allMeanTheta$a.asym)
-plot(allGenParams$a.rate, allMeanTheta$a.rate)
+plot(allGenParams$a.b, allMeanTheta$a.b)
+plot(allGenParams$a.c, allMeanTheta$a.c)
 plot(allGenParams$v, allMeanTheta$v)
 plot(allGenParams$ter, allMeanTheta$t0)
-#plot(allGenParams$z, allMeanTheta$z)
-
+plot(allGenParams$z, allMeanTheta$z)
 

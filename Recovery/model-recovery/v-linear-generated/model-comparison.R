@@ -61,17 +61,17 @@ n = 100
 
 # power - exp comparison
 
-recovering_model <- "a-power"
-generating_model <- "a-exp"
+recovering_model <- c("simple", "v-exp", "v-delayed-exp")
+generating_model <- "v-linear"
 
 models <- c(recovering_model,
             generating_model)
 
-generating <- c(FALSE, TRUE)
+generating <- c(rep(FALSE, length(recovering_model)), TRUE)
 
 
-allAIC <- IC_array(models,"AIC", generating, grouping_param = "a.asym")
-allBIC <- IC_array(models,"BIC", generating, grouping_param = "a.asym")
+allAIC <- IC_array(models,"AIC", generating, grouping_param = "v.c")
+allBIC <- IC_array(models,"BIC", generating, grouping_param = "v.b")
 
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
