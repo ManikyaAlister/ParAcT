@@ -1,8 +1,8 @@
 
 x=1:1000
 
-r=0.01
-a=4
+r=0.02
+a=3
 b=2
 
 plot(x,a+b*exp(-r*x),type="l",main="Classic Exponential Decay")

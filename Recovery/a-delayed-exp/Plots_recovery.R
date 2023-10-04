@@ -14,7 +14,7 @@ allMeanTheta=NULL
 n = 100
 model = "a-delayed-exp"
 
-for (p in 1:n) { #Loop in each data set
+for (p in 3:n) { #Loop in each data set
   load(paste0("Recovery/",model,"/Fits_recovery/P",p,"_",model,".RData"))
   #load(paste0("Recovery/Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
   #Rearrange and take out unnecessary values from the generated parameters 
@@ -44,6 +44,7 @@ cor(allGenParams$ter, allMeanTheta$t0)
 plot(allGenParams$a.start, allMeanTheta$a.start)
 plot(allGenParams$a.asym, allMeanTheta$a.asym)
 plot(allGenParams$a.rate, allMeanTheta$a.rate)
+plot(allGenParams$a.delay, allMeanTheta$a.delay)
 plot(allGenParams$v, allMeanTheta$v)
 plot(allGenParams$ter, allMeanTheta$t0)
 #plot(allGenParams$z, allMeanTheta$z)

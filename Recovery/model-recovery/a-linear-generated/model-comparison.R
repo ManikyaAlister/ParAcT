@@ -67,7 +67,7 @@ generating_model <- "a-linear"
 models <- c(recovering_model,
             generating_model)
 
-generating <- c(FALSE, TRUE)
+generating <- c(FALSE, FALSE, FALSE, TRUE)
 
 
 allAIC <- IC_array(models,"AIC", generating, grouping_param = "a.b")
