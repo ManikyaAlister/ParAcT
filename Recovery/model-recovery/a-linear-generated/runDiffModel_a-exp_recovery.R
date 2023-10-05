@@ -39,7 +39,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out
   }
   
-  theta.names = c("z", "v","t0","z",
+  theta.names = c("z", "v","t0",
                 "a.start","a.asym","a.rate")
   
   savefile=here(paste("Recovery/model-recovery/",generating_data,"-generated/fits/P",useSub,"_",model,".Rdata",sep=""))
