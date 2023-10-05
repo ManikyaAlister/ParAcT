@@ -67,6 +67,8 @@ generating_model <- "simple"
 models <- c(recovering_model,
             generating_model)
 
+a_models <- 
+
 generating <- c(rep(FALSE, length(recovering_model)), TRUE)
 
 
