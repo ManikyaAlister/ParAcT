@@ -74,5 +74,9 @@ allBIC <- IC_array(models, "BIC", generating)
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
 
+apply(weightedAIC[-68,],2, mean)
+apply(weightedBIC,2, mean)
+
+
 modelProb::plotWeightedICs(weightedAIC, main = "AIC a-power generating data", seed = 9)
 modelProb::plotWeightedICs(weightedBIC, main = "BIC a-power generating data", seed = 9)

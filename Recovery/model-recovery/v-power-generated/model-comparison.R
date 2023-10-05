@@ -61,7 +61,7 @@ n = 100
 
 # power - exp comparison
 
-recovering_model <- "simple"
+recovering_model <- "v-exp"
 generating_model <- "v-power"
 
 models <- c(recovering_model,
