@@ -53,14 +53,13 @@ IC_array = function(models, criterion, generating, grouping_param) {
   #allIC <- cbind(allIC, gen_param)
   
   allIC <- allIC[order(gen_param),]
-  print(gen_param)
+  #print(gen_param)
+  allIC
   
 }
 
 
 n = 100
-
-# power - exp comparison
 
 recovering_model <- c("a-exp", "a-delayed-exp", "a-linear", "v-linear", "v-exp", "v-delayed-exp")
 generating_model <- "simple"
@@ -78,32 +77,20 @@ allBIC <- IC_array(models,"BIC", generating, grouping_param = "z")
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
 
+# Average performance of model across participant
 apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum))
 apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
-
 
 modelProb::plotWeightedICs(weightedBIC, main = "BIC a-exp generating data", seed = 9)
 modelProb::plotWeightedICs(weightedAIC, main = "AIC a-exp generating data", seed = 9)
 
-# linear - exp comparison
+# Function to count the number of times an index is the max and return a named vector
+count_max_indices <- function(matrix, model_names) {
+  max_indices <- colnames(matrix[,apply(matrix, 1, which.max)])
+  counts <- table(max_indices)
+  counts
+}
 
-recovering_model <- "a-linear"
-generating_model <- "a-exp"
+count_max_indices(weightedAIC, models)
+count_max_indices(weightedBIC, models)
 
-models <- c(recovering_model,
-            generating_model)
-
-generating <- c(FALSE, TRUE)
-
-
-allAIC <- IC_array(models,"AIC", generating, grouping_param = "a.rate")
-allBIC <- IC_array(models,"BIC", generating, grouping_param = "a.rate")
-
-weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
-weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
-
-apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum))
-apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
-
-modelProb::plotWeightedICs(weightedAIC, main = "AIC a-power generating data", seed = 9)
-modelProb::plotWeightedICs(weightedBIC, main = "BIC a-power generating data", seed = 9)
