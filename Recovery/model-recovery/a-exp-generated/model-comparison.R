@@ -1,4 +1,4 @@
-
+library(here)
 
 IC_array = function(models, criterion, generating, grouping_param) {
   # set up empty array
@@ -83,15 +83,15 @@ apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
 modelProb::plotWeightedICs(weightedBIC, main = "BIC a-exp generating data", seed = 9)
 modelProb::plotWeightedICs(weightedAIC, main = "AIC a-exp generating data", seed = 9)
 
-# linear - exp comparison
+# simple - linear - exp comparison
 
-recovering_model <- "a-linear"
+recovering_model <- c("simple", "a-linear")
 generating_model <- "a-exp"
 
 models <- c(recovering_model,
             generating_model)
 
-generating <- c(FALSE, TRUE)
+generating <- c(FALSE, FALSE, TRUE)
 
 
 allAIC <- IC_array(models,"AIC", generating, grouping_param = "a.rate")

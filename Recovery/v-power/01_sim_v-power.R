@@ -21,7 +21,7 @@ model = "v-power"
 
 use.LHS=randomLHS(n=100, k=nParams) # = n params
 
-colnames(use.LHS)=c("v.start","v.asym", "v.rate", # v. center/change params? Maybe not because we're not looking at diffs across conditions
+colnames(use.LHS)=c("v.start","v.asym", "v.rate", 
                     "a","t0")
 
 use.range=array(NA,c(nParams,2)) #c(nparams, 2)

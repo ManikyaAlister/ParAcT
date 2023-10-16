@@ -9,17 +9,18 @@ IC_array = function(models, criterion, generating, grouping_param) {
   allIC <- as.data.frame(matrix(ncol = length(models)))
   colnames(allIC) = c(models)
   gen_param <- c()
+  #generating_data <- paste0(models[generating == TRUE], "-generated")
+  generating_data <- models[generating == TRUE]
   for (j in 1:length(models)) {
     model <- models[j]
     gen <- generating[j]
-    generating_data <- paste0(models[generating == TRUE], "-generated")
     for (i in 1:n) {
       if (!gen) {
         load(here(
           paste(
             "Recovery/model-recovery/",
             generating_data,
-            "/fits/P",
+            "-generated/fits/P",
             i,
             "_",
             model,
@@ -86,18 +87,18 @@ plotComparison(models, generating, "AIC")
 plotComparison(models, generating, "BIC")
 
 
-# linear - exp comparison
+# simple - linear - exp comparison
 
-recovering_model <- "v-linear"
+recovering_model <- c("simple", "v-linear")
 generating_model <- "v-exp-re"
 
 models <- c(recovering_model,
             generating_model)
 
-generating <- c(FALSE, TRUE)
+generating <- c(FALSE, FALSE, TRUE)
 
 plotComparison(models, generating, "AIC", grouping_param = "v.start")
-plotComparison(models, generating, "BIC", grouping_param = "v.start")
+plotComparison(models, generating, "BIC" , grouping_param = "v.start")
 
 # simple - exp comparison
 
