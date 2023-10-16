@@ -1,15 +1,20 @@
 
-
-IC_array = function(models, criterion, generating, grouping_param) {
-  # set up empty array
-  allIC <- as.data.frame(matrix(ncol = length(models)))
-  colnames(allIC) = c(models)
-  gen_param <- c()
+IC_array = function(models, criterion, generating, grouping_param, bad_datasets = "") {
+  # Set up an empty data frame with named columns for models
+  allIC <- data.frame(matrix(ncol = length(models)))
+  colnames(allIC) <- models
+  gen_param <- numeric(n)  # Initialize gen_param as a numeric vector
+  
   for (j in 1:length(models)) {
     model <- models[j]
     gen <- generating[j]
     generating_data <- paste0(models[generating == TRUE], "-generated")
+    
     for (i in 1:n) {
+      if (i %in% bad_datasets) {
+        next
+      }
+      
       if (!gen) {
         load(here(
           paste(
@@ -23,9 +28,7 @@ IC_array = function(models, criterion, generating, grouping_param) {
             sep = ""
           )
         ))
-        
-      gen_param[i] <- genParams[grouping_param, 1]
-      
+        gen_param[i] <- genParams[grouping_param, 1]
       } else {
         load(here(
           paste(
@@ -40,25 +43,27 @@ IC_array = function(models, criterion, generating, grouping_param) {
           )
         ))
       }
+      
       if (criterion == "AIC") {
         IC <- AIC
       } else if (criterion == "BIC") {
         IC <- BIC
       }
       allIC[i, model] = IC
-      
     }
   }
   
-  
-  #allIC <- cbind(allIC, gen_param)
-  
+  # Clean the data frame by removing rows with NAs
   allIC <- allIC[order(gen_param),]
+  allIC <- allIC[complete.cases(allIC),]
+  
+  
+  return(allIC)  # Return the cleaned data frame
 }
 
 
 n = 100
-
+bad_datasets = c(7,22,46,53,65,75,93) # there was am error generating these data sets
 # power - exp comparison
 
 recovering_model <- c("simple", "v-exp", "v-delayed-exp")
@@ -70,8 +75,8 @@ models <- c(recovering_model,
 generating <- c(rep(FALSE, length(recovering_model)), TRUE)
 
 
-allAIC <- IC_array(models,"AIC", generating, grouping_param = "v.c")
-allBIC <- IC_array(models,"BIC", generating, grouping_param = "v.b")
+allAIC <- IC_array(models,"AIC", generating, grouping_param = "v.b", bad_datasets)
+allBIC <- IC_array(models,"BIC", generating, grouping_param = "v.b", bad_datasets)
 
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
@@ -83,25 +88,3 @@ apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
 modelProb::plotWeightedICs(weightedBIC, main = "BIC a-exp generating data", seed = 9)
 modelProb::plotWeightedICs(weightedAIC, main = "AIC a-exp generating data", seed = 9)
 
-# linear - exp comparison
-
-recovering_model <- "a-linear"
-generating_model <- "a-exp"
-
-models <- c(recovering_model,
-            generating_model)
-
-generating <- c(FALSE, TRUE)
-
-
-allAIC <- IC_array(models,"AIC", generating, grouping_param = "a.rate")
-allBIC <- IC_array(models,"BIC", generating, grouping_param = "a.rate")
-
-weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
-weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
-
-apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum))
-apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
-
-modelProb::plotWeightedICs(weightedAIC, main = "AIC a-power generating data", seed = 9)
-modelProb::plotWeightedICs(weightedBIC, main = "BIC a-power generating data", seed = 9)

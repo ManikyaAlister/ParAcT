@@ -90,13 +90,13 @@ modelProb::plotWeightedICs(weightedAIC, main = "AIC a-exp-rr generating data", s
 
 # simple - linear - exp comparison
 
-recovering_model <- c("simple", "a-linear")
+recovering_model <- c("simple", "a-linear", "a-delayed-exp")
 generating_model <- "a-exp-rr"
 
 models <- c(recovering_model,
             generating_model)
 
-generating <- c(FALSE, FALSE, TRUE)
+generating <- c(FALSE, FALSE, FALSE, TRUE)
 
 
 allAIC <- IC_array(models,"AIC", generating, grouping_param = "a.rate", bad_datasets)
