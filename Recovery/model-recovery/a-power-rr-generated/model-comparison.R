@@ -24,7 +24,7 @@ IC_array = function(models, criterion, generating) {
     model <- models[j]
     gen <- generating[j]
     
-    for (i in c(42:n)) {
+    for (i in c(1:n)) {
       if (!gen) {
         generating_data <- paste0(model, "-generated")
         load(here(

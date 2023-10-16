@@ -76,7 +76,7 @@ for (i in 1:nrow(use.LHS)) {
     
     N=1000
     # Actually simulate
-    tmp=simulate.DIFF(N=N,params=genParams[,paste(cond)],maxCounter=10000,stepSize=0.001,
+    tmp=simulate.DIFF(N=N,params=genParams[,paste(cond)],maxCounter=15000,stepSize=0.001,
                       varyV=F,varyA=T,varyZ=F,varyT0=F,use.table=use.table,n.table.options=n.table.options)
     
     # Store sim data
