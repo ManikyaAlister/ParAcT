@@ -7,12 +7,12 @@ source(file = here("Recovery/02_deep-background.R"))
 conds= 1 # number of experimental conditions to loop over
 model = "a-exp-rr" 
 nSub = 100 # number of subjects to run 
-
+subj = commandArgs(trailingOnly = TRUE) # subjects to run from command line
 ####################################
 #### Exponential Threshold Model ###
 ####################################
 
-for (useSub in 35:nSub) { # Run DDM for each subject in n Subjects
+for (useSub in subj) { # Run DDM for each subject in n Subjects
   
   load(paste("Recovery/",model,"/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
