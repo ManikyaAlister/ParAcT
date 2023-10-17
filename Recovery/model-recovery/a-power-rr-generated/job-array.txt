@@ -10,7 +10,7 @@
 #SBATCH --nodes=1
 
 # The name of the job:
-#SBATCH --job-name="a-exp-gen"
+#SBATCH --job-name="a-pow-gen"
 
 # Maximum number of tasks/CPU cores used by the job:
 #SBATCH --ntasks=1
