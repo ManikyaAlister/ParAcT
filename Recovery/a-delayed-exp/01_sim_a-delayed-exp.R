@@ -5,7 +5,7 @@ rm(list = ls())
 library(msm)
 
 
-source("Recovery/02_simulate-DIFF-exp.R")
+source("Recovery/02_simulate-DIFF-exp-delay.R")
 library(lhs)
 
 
@@ -80,7 +80,7 @@ for (i in 1:nrow(use.LHS)) {
     N <- 1000
     # Actually simulate
     tmp <- simulate.DIFF(
-      N = N, params = genParams[, paste(cond)], maxCounter = 10000, stepSize = 0.001,
+      N = N, params = genParams[, paste(cond)], maxCounter = 20000, stepSize = 0.001,
       varyV = F, varyA = T, varyZ = F, varyT0 = F, use.table = use.table, n.table.options = n.table.options
     )
 
