@@ -78,6 +78,20 @@ generating <- c(FALSE, TRUE)
 allAIC <- IC_array(models,"AIC", generating, grouping_param = "a.asym", bad_datasets = bad_datasets)
 allBIC <- IC_array(models,"BIC", generating, grouping_param = "a.asym", bad_datasets = bad_datasets)
 
+get_n = function(allIC){
+  n_IC <- table(apply(allIC, 1, which.min))
+  if (length(n_IC) == length(colnames(allIC))){
+    names(n_IC) = colnames(allIC)
+  }
+  n_IC
+}
+
+n_AIC <- get_n(allAIC) 
+n_BIC <- get_n(allBIC)
+
+n_AIC
+n_BIC
+
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
 
@@ -102,11 +116,17 @@ generating <- c(FALSE, FALSE, FALSE, TRUE)
 allAIC <- IC_array(models,"AIC", generating, grouping_param = "a.rate", bad_datasets)
 allBIC <- IC_array(models,"BIC", generating, grouping_param = "a.rate", bad_datasets)
 
+n_AIC <- get_n(allAIC) 
+n_BIC <- get_n(allBIC)
+
+n_AIC
+n_BIC
+
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
 
 apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum))
 apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
 
-modelProb::plotWeightedICs(weightedAIC, main = "AIC a-power generating data", seed = 9)
-modelProb::plotWeightedICs(weightedBIC, main = "BIC a-power generating data", seed = 9)
+modelProb::plotWeightedICs(weightedAIC, main = "AIC a-exp-rr generating data", seed = 9)
+modelProb::plotWeightedICs(weightedBIC, main = "BIC a-exp-rr generating data", seed = 9)

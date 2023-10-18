@@ -86,6 +86,20 @@ bad_datasets = c(42) # there was am error generating these data sets
 allAIC <- IC_array(models, "AIC", generating,grouping_param = "a.rate", bad_datasets)
 allBIC <- IC_array(models, "BIC", generating, grouping_param = "a.rate", bad_datasets)
 
+get_n = function(allIC){
+  n_IC <- table(apply(allIC, 1, which.min))
+  if (length(n_IC) == length(colnames(allIC))){
+    names(n_IC) = colnames(allIC)
+  }
+  n_IC
+}
+
+n_AIC <- get_n(allAIC) 
+n_BIC <- get_n(allBIC)
+
+n_AIC
+n_BIC
+
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
 

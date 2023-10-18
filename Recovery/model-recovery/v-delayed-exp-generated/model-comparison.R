@@ -1,4 +1,4 @@
-
+library(here)
 
 IC_array = function(models, criterion, generating, grouping_param, bad_datasets = "") {
   # Set up an empty data frame with named columns for models
@@ -97,6 +97,12 @@ names(n_BIC) <- models
 
 n_AIC
 n_BIC
+
+perc_AIC <- n_AIC/sum(n_AIC)
+perc_BIC <- n_BIC/sum(n_BIC)
+
+perc_AIC
+perc_BIC
 
 
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)

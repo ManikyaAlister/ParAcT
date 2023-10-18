@@ -73,6 +73,22 @@ generating <- c(FALSE, TRUE)
 allAIC <- IC_array(models,"AIC", generating, grouping_param = "v.asym")
 allBIC <- IC_array(models,"BIC", generating, grouping_param = "v.asym")
 
+# number of participants best fit to each model
+get_n = function(allIC){
+  n_IC <- table(apply(allIC, 1, which.min))
+  if (length(n_IC) == length(colnames(allIC))){
+    names(n_IC) = colnames(allIC)
+  }
+  n_IC
+}
+
+n_AIC <- get_n(allAIC) 
+n_BIC <- get_n(allBIC)
+
+n_AIC
+n_BIC
+
+# relative probability of each model collapsed across participants
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
 

@@ -33,7 +33,7 @@ colnames(use.range) <- c("Min", "Max")
 
 # Define ranges for parameters for hypercube sampling
 
-use.range["a.c", ] <- c(0.5, 4)
+use.range["a.c", ] <- c(0.5, 5)
 use.range["a.b", ] <- c(0.001, 0.03)
 use.range["v", ] <- c(0.1, 4)
 use.range["t0", ] <- c(0.1, 0.6)
@@ -58,7 +58,7 @@ linear_fun = function(x, row) {
 # for each row of use.LHS, find the max value of the linear function
 smallest_param <- apply(use.LHS, 1, function(x) min(linear_fun(x)))
 
-# if largest param is greater than 4, then resample use.LHS for that row
+# if smallest param is less than 0, then re sample use.LHS for that row
 while (any(smallest_param < min_value)) {
   # find the rows that need to be resampled
   resample_rows <- which(smallest_param < min_value)
@@ -104,7 +104,7 @@ for (i in 1:nrow(use.LHS)) {
     N <- 1000
     # Actually simulate
     tmp <- simulate.DIFF(
-      N = N, params = genParams[, paste(cond)], maxCounter = 10000, stepSize = 0.001,
+      N = N, params = genParams[, paste(cond)], maxCounter = 20000, stepSize = 0.001,
       varyV = F, varyA = T, varyZ = F, varyT0 = F, use.table = use.table, n.table.options = n.table.options
     )
 
