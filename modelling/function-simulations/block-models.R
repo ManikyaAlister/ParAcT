@@ -50,7 +50,7 @@ a = sort(blocks - step, decreasing = TRUE)
 plot(1:100,a, "l", ylim = c(0,10))
 x_points <- seq(1, 100, 10)
 segments(x_points, par("usr")[3], x_points, par("usr")[4], col = "black", lty = "dashed")
-
+trials = 1:100
 # blocked delay model
 r=0.6
 a=5

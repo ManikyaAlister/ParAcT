@@ -57,7 +57,7 @@ IC_array = function(models, criterion, generating, grouping_param, bad_datasets 
   
   # Clean the data frame by removing rows with NAs
   allIC <- allIC[order(gen_param),]
-  #allIC <- allIC[complete.cases(allIC),]
+  allIC <- allIC[complete.cases(allIC),]
   
   
   return(allIC)  # Return the cleaned data frame

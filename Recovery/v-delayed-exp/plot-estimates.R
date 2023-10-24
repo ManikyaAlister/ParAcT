@@ -1,13 +1,18 @@
-driftPlot = function(model,nRange){
+driftPlot = function(model,nRange, plotGen = FALSE){
   
   driftDf = as.data.frame(matrix(nrow = 0, ncol = 3))
-  
   for (i in nRange) {
-    
     load(here(paste("Recovery/v-delayed-exp/Fits_recovery/P", i,"_v-delayed-exp.Rdata", sep = "")))
-    
     trials = 1:length(data$Trial)
-    x =  apply(theta, 2, mean)
+    if (plotGen){
+      gen = as.vector(genParams)
+      x = c(genParams)
+      names(x) = rownames(genParams)
+      names(gen) = rownames(genParams)
+    } else {
+      x =  apply(theta, 2, mean)
+    }
+
 
     if (model == "v-power"){
       
@@ -45,17 +50,19 @@ driftPlot = function(model,nRange){
   a_plot = ggplot(data = driftDf) +
     geom_line(aes(x = Trial, y = Drift, group = Participant)) +
     theme_classic()
-  
+  print(genParams)
+  print(apply(theta, 2, mean))
   return(a_plot)
 }
-x = c(genParams)
-names(x) = rownames(genParams)
+
 library(here)
 library(ggplot2)
 
 plot_gen = function(participant){
   load(here(paste0("Recovery/v-delayed-exp/Fits_recovery/P",participant,"_v-delayed-exp.Rdata")))
   gen = as.vector(genParams)
+  x = c(genParams)
+  names(x) = rownames(genParams)
   names(gen) = rownames(genParams)
   drift_gen = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*data$Trial)))
   print(genParams)
@@ -63,5 +70,8 @@ plot_gen = function(participant){
   plot(data$Trial, drift_gen, "l")
 }
 
-plot_gen(9)
-driftPlot("v-delayed-exp", 4)
+plot_gen(4)
+driftPlot("v-delayed-exp", 1, plotGen = T)
+driftPlot("v-delayed-exp", 1, plotGen = F)
+
+
