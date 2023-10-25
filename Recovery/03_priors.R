@@ -86,8 +86,8 @@ start.points[tmpP3.5]=3
 start.points[tmpP3.6]=.5
 
 # transition/delay models
-start.points[tmpP1.7]=.4
-start.points[tmpP3.7]=.5
+start.points[tmpP1.7]=20
+start.points[tmpP3.7]=20
 
 # block models 
 start.points[tmpP5]=1
@@ -130,7 +130,7 @@ start.points.sd[tmpP3.5]=1
 start.points.sd[tmpP3.6]=1
 
 # transition/delay models
-start.points.sd[tmpP1.7]=0.5
+start.points.sd[tmpP1.7]=1
 start.points.sd[tmpP3.7]=1
 
 # block models 

@@ -34,7 +34,7 @@ colnames(use.range) <- c("Min", "Max")
 # Define ranges for parameters for hypercube sampling
 
 use.range["v.c", ] <- c(0.001, 3)
-use.range["v.b", ] <- c(0.001, 0.03)
+use.range["v.b", ] <- c(0.0001, 0.005)
 use.range["a", ] <- c(0.1, 4)
 use.range["t0", ] <- c(0.1, 0.6)
 use.range["z", ] <- c(0.3, 0.7)
@@ -104,7 +104,7 @@ for (i in 1:nrow(use.LHS)) {
     N <- 1000
     # Actually simulate
     tmp <- simulate.DIFF(
-      N = N, params = genParams[, paste(cond)], maxCounter = 10000, stepSize = 0.001,
+      N = N, params = genParams[, paste(cond)], maxCounter = 50000, stepSize = 0.001,
       varyV = T, varyA = F, varyZ = F, varyT0 = F, use.table = use.table, n.table.options = n.table.options
     )
 
