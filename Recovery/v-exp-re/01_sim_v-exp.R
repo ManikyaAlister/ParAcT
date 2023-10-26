@@ -10,7 +10,7 @@ source("Recovery/02_simulate-DIFF-exp.R")
 library(lhs)
 
 
-nParams = 5
+nParams = 6
 model = "v-exp-re"
 
 
@@ -22,12 +22,12 @@ model = "v-exp-re"
 use.LHS=randomLHS(n=100, k=nParams) # = n params
 
 colnames(use.LHS)=c("v.start","v.asym", "v.rate", # v. center/change params? Maybe not because we're not looking at diffs across conditions
-                    "a","t0")
+                    "a","t0", "z")
 
 use.range=array(NA,c(nParams,2)) #c(nparams, 2)
 
 rownames(use.range)=c("v.start","v.asym", "v.rate", # v. center/change models
-                      "a","t0")
+                      "a","t0", "z")
 colnames(use.range)=c("Min","Max") 
 
 
@@ -35,10 +35,12 @@ colnames(use.range)=c("Min","Max")
 # Define ranges for parameters for hypercube sampling
 
 use.range["v.start",]=c(1.5,3)
-use.range["v.asym",]=c(0,3)     
+use.range["v.asym",]=c(0.45,2)     
 use.range["v.rate",]=c(0.001,0.05)
 use.range["a",]=c(0.45,1.75)
 use.range["t0",]=c(0.1,0.6)
+use.range["z",]=c(0.1,0.6)
+
 
 for (useParam in colnames(use.LHS)) {
   use.LHS[,useParam]=use.range[useParam,"Min"]+
@@ -59,14 +61,14 @@ for (i in 1:nrow(use.LHS)) {
   data=list(time=NULL,Resp=NULL,Cond=NULL,Trial=NULL)
   
   # Set up generating parameters storage
-  genParams=array(NA,c(10,length(conds)),dimnames=list(c("z","a","ter","v.start","v.asym", "v.rate","stoch.s","sz","sv","ster"),conds))
+  genParams=array(NA,c(nParams + 4,length(conds)),dimnames=list(c("z","a","ter","v.start","v.asym", "v.rate","stoch.s","sz","sv","ster"),conds))
   
   # Loop over conditions
   for (cond in conds) {
     
     
     # Define generating parameters for this condition
-    genParams[,paste(cond)] = c(0.5,
+    genParams[,paste(cond)] = c(as.numeric(use.LHS[i,"z"]),
                                 as.numeric(use.LHS[i,"a"]),
                                 as.numeric(use.LHS[i,"t0"]),
                                 as.numeric(use.LHS[i,"v.start"]),
@@ -76,7 +78,7 @@ for (i in 1:nrow(use.LHS)) {
     
     N=1000
     # Actually simulate
-    tmp=simulate.DIFF(N=N,params=genParams[,paste(cond)],maxCounter=10000,stepSize=0.001,
+    tmp=simulate.DIFF(N=N,params=genParams[,paste(cond)],maxCounter=50000,stepSize=0.001,
                       varyV=T,varyA=F,varyZ=F,varyT0=F,use.table=use.table,n.table.options=n.table.options)
     
     # Store sim data

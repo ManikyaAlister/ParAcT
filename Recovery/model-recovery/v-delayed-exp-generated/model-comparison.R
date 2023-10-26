@@ -64,7 +64,7 @@ IC_array = function(models, criterion, generating, grouping_param, bad_datasets 
 }
 
 
-bad_datasets = c(44) # there was am error generating these data sets
+bad_datasets = c() # there was am error generating these data sets
 # power - exp comparison
 
 n = 100

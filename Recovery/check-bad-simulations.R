@@ -1,4 +1,4 @@
-model <- "v-linear"
+model <- "a-power-rr"
 dir <- paste0("~/Documents/Projects/ParAcT/Recovery/",model,"/Datasets/")
 
 bad_d <- NULL
@@ -10,3 +10,4 @@ for (i in 1:100){
     
   }
 }
+print(bad_d)

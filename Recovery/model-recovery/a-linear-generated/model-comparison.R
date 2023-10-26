@@ -63,7 +63,7 @@ IC_array = function(models, criterion, generating, grouping_param, bad_datasets 
   return(allIC)  # Return the cleaned data frame
 }
 
-bad_datasets = c(16)
+#bad_datasets = c(16)
 
 n_sub= 100
 

@@ -63,7 +63,7 @@ IC_array = function(models, criterion, generating, grouping_param, bad_datasets 
 
 
 n = 100
-bad_datasets = c(7,22,46,53,65,75,93) # there was am error generating these data sets
+bad_datasets = c() # there was am error generating these data sets
 # power - exp comparison
 
 recovering_model <- c("simple", "v-exp", "v-delayed-exp")
@@ -99,6 +99,6 @@ apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum))
 apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
 
 
-modelProb::plotWeightedICs(weightedBIC, main = "BIC a-linear generating data", seed = 9)
-modelProb::plotWeightedICs(weightedAIC, main = "AIC a-linear generating data", seed = 9)
+modelProb::plotWeightedICs(weightedBIC, main = "BIC v-linear generating data", seed = 9)
+modelProb::plotWeightedICs(weightedAIC, main = "AIC v-linear generating data", seed = 9)
 
