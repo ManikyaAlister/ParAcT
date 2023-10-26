@@ -56,10 +56,11 @@ IC_array = function(models, criterion, generating, grouping_param, bad_datasets 
   }
   
   # Clean the data frame by removing rows with NAs
+  allIC$gen_param <- gen_param
   allIC <- allIC[order(gen_param),]
   allIC <- allIC[complete.cases(allIC),]
   
-  
+
   return(allIC)  # Return the cleaned data frame
 }
 
@@ -76,9 +77,13 @@ models <- c(recovering_model,
 
 generating <- c(FALSE, FALSE, FALSE, TRUE)
 
-
 allAIC <- IC_array(models,"AIC", generating, grouping_param = "a.b", bad_datasets)
 allBIC <- IC_array(models,"BIC", generating, grouping_param = "a.b", bad_datasets)
+
+gen_param <- allBIC$gen_param
+
+allAIC <- allAIC[,1:4]
+allBIC <- allBIC[,1:4]
 
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)

@@ -34,7 +34,7 @@ colnames(use.range) <- c("Min", "Max")
 # Define ranges for parameters for hypercube sampling
 
 use.range["v.c", ] <- c(0.001, 3)
-use.range["v.b", ] <- c(0.0001, 0.005)
+use.range["v.b", ] <- c(0.0003, 0.005)
 use.range["a", ] <- c(0.1, 1.75)
 use.range["t0", ] <- c(0.1, 0.6)
 use.range["z", ] <- c(0.3, 0.7)

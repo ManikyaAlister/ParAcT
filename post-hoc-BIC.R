@@ -1,7 +1,7 @@
 library(here)
 rm(list = ls())
 model = "a-exp-rr"
-bad_datasets = c(25,60,84)
+bad_datasets = c(25, 60, 84)
 for ( useSub in 1:100) {
   if(useSub %in% bad_datasets){
     next

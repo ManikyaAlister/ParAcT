@@ -62,7 +62,7 @@ IC_array = function(models, criterion, generating, grouping_param, bad_datasets 
 
 
 nSub = 100
-bad_datasets = c(1) # there was am error generating these data sets
+bad_datasets = c() # there was am error generating these data sets
 # power - exp comparison
 
 recovering_model <- "v-power"
