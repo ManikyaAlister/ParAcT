@@ -2,11 +2,11 @@
 trial=1:1000
 
 r=0.05
-a=1.97
-b=1.97
+a=1.282
+b=0.0029
 
-beta = 0.005
-c = 1
+beta = 0.0029
+c = 1.282
 
 # linear 
 plot(trial, c+beta*trial, "l", ylab = "v")

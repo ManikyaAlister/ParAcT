@@ -22,7 +22,16 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out=0
     names(x)=par.names
     
+    # parameters should never be negative
     for (cond in conds) {
+      if (x["v.b"] < 0) {
+        return(-Inf)
+      }
+      
+      if (x["v.c"] < 0) {
+        return(-Inf)
+      }
+      
       a=x["a"]
       t0=x["t0"]
       v=(x["v.b"]*data$Trial)+x["v.c"] 

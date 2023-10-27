@@ -50,7 +50,7 @@ for (useParam in colnames(use.LHS)) {
 
 min_value <- 0
 
-linear_fun = function(x, row) {
+linear_fun = function(x) {
   a = -x["a.b"] * 1:1000 + x["a.c"]
   a
 }
@@ -69,7 +69,7 @@ while (any(smallest_param < min_value)) {
     use.LHS[resample_rows, useParam] <- use.range[useParam, "Min"] +
       use.LHS[resample_rows, useParam] * (use.range[useParam, "Max"] - use.range[useParam, "Min"])
   }
-  # recalculate the largest param
+  # recalculate the smallest param
   smallest_param <- apply(use.LHS, 1, function(x) max(linear_fun(x)))
 }
 
