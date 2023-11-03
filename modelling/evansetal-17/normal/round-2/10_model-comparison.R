@@ -34,7 +34,8 @@ models_2p = c(
   #"v-linear-a-blocked-complex",
   "v-linear-a-exp",
   "v-linear-a-blocked-simple",
-  "v-a-linear"
+  "v-a-linear",
+  "v-exp-a-dExp-blocked"
 
 )
 
@@ -127,7 +128,6 @@ models = colnames(allAIC)
 
 # Best model vesus simple model
 best_models <- rankBIC[,1]
-apply(AIC)
 models_1p <- models[!(models %in% models_2p)]
 modelProb::MMComparisonPlot(BIC_weights, models_1p, models_2p, groupNames = c("Single Parameter Models", "2 Parameter Models"))
 

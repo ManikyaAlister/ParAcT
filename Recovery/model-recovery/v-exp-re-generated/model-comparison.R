@@ -137,5 +137,5 @@ n_BIC <- get_n(allBIC)
 n_AIC
 n_BIC
 
-modelProb::plotWeightedICs(weightedAIC, main = "AIC v-power generating data", seed = 9)
-modelProb::plotWeightedICs(weightedBIC, main = "BIC v-power generating data", seed = 9)
+modelProb::plotWeightedICs(weightedAIC, main = "AIC v-exp generating data", seed = 9)
+modelProb::plotWeightedICs(weightedBIC, main = "BIC v-exp generating data", seed = 9)

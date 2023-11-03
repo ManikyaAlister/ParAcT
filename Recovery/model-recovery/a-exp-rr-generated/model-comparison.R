@@ -125,8 +125,8 @@ n_BIC
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
 
-apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum))
-apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
+round(apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum)),2)
+round(apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum)),2)
 
 modelProb::plotWeightedICs(weightedAIC, main = "AIC a-exp-rr generating data", seed = 9)
 modelProb::plotWeightedICs(weightedBIC, main = "BIC a-exp-rr generating data", seed = 9)

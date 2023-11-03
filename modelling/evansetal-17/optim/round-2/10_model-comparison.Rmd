@@ -14,7 +14,7 @@ library(here, lib.loc = lib)
 library(modelProb)
 
 n = 9
-v_models <- c("simple", 
+v_models <- c(#"simple", 
               "v-linear",
               #"v-power",
               "v-exp",
@@ -22,11 +22,12 @@ v_models <- c("simple",
               "v-delayed-exp",
               "v-blocked-simple",
               #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
-              "v-blocked-exp-sb",
               #"v-blocked-exp-ul",
-              "v-delayed-exp-blocked")
+              "v-delayed-exp-blocked",
+                "v-blocked-exp-sb"
+)
 
-a_models <- c(#"simple",
+a_models <- c("simple",
               "a-linear",
               #"a-power",
               "a-exp",
@@ -34,9 +35,9 @@ a_models <- c(#"simple",
               "a-delayed-exp",
               "a-blocked-simple",
               #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
-              "a-blocked-exp-sb",
               #"a-blocked-exp-ul",
               "a-delayed-exp-blocked",
+              "a-blocked-exp-sb",
               "a-step-fixed")
 
 models_2p = c(
@@ -50,7 +51,10 @@ models_2p = c(
 )
 
 models <- c(a_models, v_models, models_2p)
+
+full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "a Step", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + Constant Block", "a + v Exponential", "a Exp + v Linear", "a Delayed Exp + v-linear", "a Constant Block + v Linear", "a Exp + v Delayed Exp", "a Delayed Exp Blocked + v Delayed Exp")
 ```
+
 
 ```{r}
 IC_array <- function(models, criterion) {
@@ -151,6 +155,37 @@ save(allBIC, file = here("data/evansetal-17/derived/optim/allBIC.Rdata"))
 BIC_weights <- modelProb::weightedICs(allBIC)
 AIC_weights <- modelProb::weightedICs(allAIC)
 
+getNBest = function(allIC){
+  n_IC = table(full_names[apply(allIC, 1, which.min)])
+n = rep(0, length(full_names))
+names(n) = full_names
+n[names(n_IC)] <- n_IC
+n
+}
+n_best <- getNBest(allBIC)
+group_level_probs <- round(apply(BIC_weights, 2, mean), 3)
+group_level_probs[group_level_probs == 0] <- "< .001"
+
+combined <- cbind(full_names, unname(n_best), unname(group_level_probs))
+colnames(combined) <- c("Models", "n Best Fit", "Probability")
+
+# Apply regex substitution to convert "<" to "$<" in the third column
+combined[, 3] <- gsub("<", "$<$", combined[, 3])
+
+# Apply regex substitution to convert "0.03" to ".03" in the third column
+combined[, 3] <- gsub("\\b0\\.", ".", combined[, 3])
+
+# Apply regex substitution to convert "a" and "v" to "$a$" $v$ in the third column
+
+combined[, 1] <- gsub("(^|\\s)([av])($|\\s)", "\\1$\\2$\\3", combined[, 1])
+
+# print as latex table
+
+# Create a LaTeX table conforming to APA formatting standards
+latex_table <- xtable(combined, caption = "Table Caption Here", label = "tab:table_label")
+
+# Print the LaTeX table
+print(latex_table, include.rownames = TRUE, sanitize.text.function = function(x) x)
 ```
 
 ```{r}

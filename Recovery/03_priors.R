@@ -130,8 +130,8 @@ start.points.sd[tmpP3.5]=1
 start.points.sd[tmpP3.6]=1
 
 # transition/delay models
-start.points.sd[tmpP1.7]=1
-start.points.sd[tmpP3.7]=1
+start.points.sd[tmpP1.7]=10
+start.points.sd[tmpP3.7]=10
 
 # block models 
 start.points.sd[tmpP5]=0.5
@@ -376,7 +376,7 @@ tmp = grep("a.delay", theta.names, value = TRUE)
 if (length(tmp) > 0) {
   for (n in 1:length(tmp)) {
     tmp2 = tmp[n]
-    prior[[tmp2]] = c(0.5, 0.5)
+    prior[[tmp2]] = c(20, 10)
   }
 }
 
@@ -384,7 +384,7 @@ tmp = grep("v.delay", theta.names, value = TRUE)
 if (length(tmp) > 0) {
   for (n in 1:length(tmp)) {
     tmp2 = tmp[n]
-    prior[[tmp2]] = c(0.5, 0.5)
+    prior[[tmp2]] = c(20, 10)
   }
 }
 
