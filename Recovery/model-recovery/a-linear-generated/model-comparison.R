@@ -67,7 +67,7 @@ IC_array = function(models, criterion, generating, grouping_param, bad_datasets 
 #bad_datasets = c(16)
 
 n_sub= 100
-
+bad_datasets = c()
 
 recovering_model <- c("a-exp", "a-delayed-exp", "simple")
 generating_model <- "a-linear"

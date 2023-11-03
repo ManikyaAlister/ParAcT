@@ -37,7 +37,7 @@ for (useSub in 1) { # Run DDM for each subject in nSubj, or a specific subject i
   }
   
   theta.names = c("z", "v.start","v.asym","v.rate","t0",
-                  "a.start","a.asym","a.rate","a.delay")
+                  "a.start","a.asym","a.rate","v.delay")
   
   savefile=here(paste("modelling/evansetal-17/normal/round-2/06_output/P",useSub,"_",model,".Rdata",sep=""))
   saveIC = here(paste("data/evansetal-17/derived/normal/P",useSub,"_",model,"-IC.Rdata",sep=""))
@@ -49,7 +49,7 @@ for (useSub in 1) { # Run DDM for each subject in nSubj, or a specific subject i
   
   AIC = -2*max(weight)+ 2*n.pars 
   BIC = log(length(data$Time))*n.pars-2*max(weight)
-  #save(AIC,BIC,file = saveIC)
-  #save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds,
-  #     file=savefile)
+  save(AIC,BIC,file = saveIC)
+  save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds,
+      file=savefile)
 }

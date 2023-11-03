@@ -47,7 +47,7 @@ module load foss/2022a R/4.2.1
 
 
 # Set the model script names
-models=("5.3.11_v-linear-a-blocked-simple")
+models=("v-exp-a-dExp-blocked.R")
    #"5.3.1_v-a-exp" "5.3.7_v-linear-a-dExp" "5.3.5_v-dExp-blocked-a-exp")
 #("5.3.2_v-a-linear" "5.3.4_v-dExp-a-dExp" "5.3.5_v-dExp-blocked-a-exp" "5.3.7_v-linear-a-dExp" "5.3.7_v-linear-a-exp" "5.3.7_v-linear-a-exp")
  

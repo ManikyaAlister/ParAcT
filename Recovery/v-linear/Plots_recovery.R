@@ -32,17 +32,22 @@ for (p in 1:100) { #Loop in each data set
 allGenParams= as.data.frame(allGenParams)
 allMeanTheta= as.data.frame(allMeanTheta)
 
-cor(allGenParams$v.b, allMeanTheta$v.b)
-cor(allGenParams$v.c, allMeanTheta$v.c)
-cor(allGenParams$a, allMeanTheta$a)
-cor(allGenParams$ter, allMeanTheta$t0)
-#cor(allGenParams$z, allMeanTheta$z)
+# Start a PDF device to save the plots to a PDF file
+pdf(paste0("Recovery/figures/recovery-",model,".pdf"), width = 10, height = 10)
+
+# Set the layout for multiple plots in a 2x4 grid (2 rows and 4 columns)
+par(mfrow = c(2, 3))
+corr = cor(allGenParams$v.c, allMeanTheta$v.c, use= "complete")
+plot(allGenParams$v.c, allMeanTheta$v.c, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(corr, 2)), main = "v c (intercept)")
+corr = cor(allGenParams$v.b, allMeanTheta$v.b, use = "complete")
+plot(allGenParams$v.b, allMeanTheta$v.b, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(corr, 2)), main = "v b (slope)")
+corr = cor(allGenParams$ter, allMeanTheta$t0)
+plot(allGenParams$ter, allMeanTheta$t0, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(corr, 2)), main = "t0")
+corr = cor(allGenParams$z, allMeanTheta$z)
+plot(allGenParams$z, allMeanTheta$z, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(corr, 2)), main = "z")
+corr = cor(allGenParams$a, allMeanTheta$a)
+plot(allGenParams$a, allMeanTheta$a, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(corr, 2)), main = "a")
 
 
-plot(allGenParams$v.b, allMeanThetxa$v.b)
-plot(allGenParams$v.c, allMeanTheta$v.c)
-plot(allGenParams$v, allMeanTheta$v)
-plot(allGenParams$ter, allMeanTheta$t0)
-#plot(allGenParams$z, allMeanTheta$z)
-
+dev.off()
 
