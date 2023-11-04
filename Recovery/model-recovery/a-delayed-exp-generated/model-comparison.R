@@ -64,7 +64,7 @@ IC_array = function(models, criterion, generating, grouping_param, bad_datasets 
 }
 
 
-bad_datasets = c(67, 89, 93) # there was am error generating these data sets
+bad_datasets = c() # there was am error generating these data sets
 # power - exp comparison
 
 
@@ -98,8 +98,26 @@ n_BIC
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
 
-apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum))
-apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
+desired_order <- c("simple", models[grep("linear", models)], models[models == models[grep("exp", models)] & models != models[grep("delayed", models)]], models[grep("delayed", models)])
+
+printLatexRow = function(meanBIC, meanAIC, desired_order){
+  # Reorder the vector
+  rv_AIC <- meanAIC[desired_order]
+  rv_AIC[rv_AIC == 0] <- "$<$ .01"
+  rv_BIC <- meanBIC[desired_order]
+  rv_BIC[rv_BIC == 0] <- "$<$ .01"
+  
+  # Format for LaTeX table row
+  latex_table_row <- sprintf("%s (%s) & %s (%s) & %s (%s) & %s (%s)", rv_BIC[1], rv_AIC[1], rv_BIC[2], rv_AIC[2],rv_BIC[3], rv_AIC[3],rv_BIC[4], rv_AIC[4])
+  
+  # Print the formatted row
+  cat(latex_table_row)
+}
+
+meanAIC = round(apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum)),2)
+meanBIC = round(apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum)),2)
+
+printLatexRow(meanBIC,meanAIC, desired_order)
 
 
 modelProb::plotWeightedICs(weightedBIC, main = "BIC a-exp generating data", seed = 9)

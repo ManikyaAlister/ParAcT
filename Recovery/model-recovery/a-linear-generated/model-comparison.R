@@ -88,8 +88,40 @@ allBIC <- allBIC[,1:4]
 weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
 weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
 
-apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum))
-apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum))
+get_n = function(allIC){
+  n_IC <- table(apply(allIC, 1, which.min))
+  if (length(n_IC) == length(colnames(allIC))){
+    names(n_IC) = colnames(allIC)
+  }
+  n_IC
+}
+
+n_AIC <- get_n(allAIC) 
+n_BIC <- get_n(allBIC)
+
+n_AIC
+n_BIC
+
+desired_order <- c("simple", models[grep("linear", models)], models[models == models[grep("exp", models)] & models != models[grep("delayed", models)]], models[grep("delayed", models)])
+
+printLatexRow = function(meanBIC, meanAIC, desired_order){
+  # Reorder the vector
+  rv_AIC <- meanAIC[desired_order]
+  rv_AIC[rv_AIC == 0] <- "$<$ .01"
+  rv_BIC <- meanBIC[desired_order]
+  rv_BIC[rv_BIC == 0] <- "$<$ .01"
+  
+  meanAIC = round(apply(weightedAIC, 2, sum)/sum(apply(weightedAIC, 2, sum)),2)
+  meanBIC = round(apply(weightedBIC, 2, sum)/sum(apply(weightedBIC, 2, sum)),2)
+  
+  # Format for LaTeX table row
+  latex_table_row <- sprintf("%s (%s) & %s (%s) & %s (%s) & %s (%s)", rv_BIC[1], rv_AIC[1], rv_BIC[2], rv_AIC[2],rv_BIC[3], rv_AIC[3],rv_BIC[4], rv_AIC[4])
+  
+  # Print the formatted row
+  cat(latex_table_row)
+}
+
+printLatexRow(meanBIC,meanAIC, desired_order)
 
 
 modelProb::plotWeightedICs(weightedBIC, main = "BIC a-linear generating data", seed = 9)
