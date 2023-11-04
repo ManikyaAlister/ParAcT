@@ -15,7 +15,7 @@ print(subj)
 #### Exponential Threshold Model ###
 ####################################
 
-for (useSub in 1) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
+for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
   load(paste("Recovery/",model,"/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub,".Rdata",sep=""))
   newSeed=Sys.time()
@@ -53,7 +53,7 @@ for (useSub in 1) { # Run DDM for each subject in nSubj, or a specific subject i
   
   AIC = -2*max(weight)+ 2*n.pars 
   BIC = log(length(data$time))*n.pars-2*max(weight)
-  #save(AIC,BIC,file = saveIC)
-  # save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds, genParams,
-  #      file=savefile)
+  save(AIC,BIC,file = saveIC)
+  save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds, genParams,
+       file=savefile)
 }
