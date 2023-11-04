@@ -70,9 +70,16 @@ while (any(smallest_param < min_value)) {
       use.LHS[resample_rows, useParam] * (use.range[useParam, "Max"] - use.range[useParam, "Min"])
   }
   # recalculate the smallest param
-  smallest_param <- apply(use.LHS, 1, function(x) max(linear_fun(x)))
+  smallest_param <- apply(use.LHS, 1, function(x) min(linear_fun(x)))
 }
 
+
+linear_fun_check = function(x) {
+  a = -x["a.b"] * 1:1000 + x["a.c"]
+  any(a< 0) 
+}
+
+#apply(use.LHS, 1, linear_fun_check)
 
 conds <- c(1)
 

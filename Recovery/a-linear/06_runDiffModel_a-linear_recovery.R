@@ -27,7 +27,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
       a=((-x["a.b"])*data$Trial)+x["a.c"] # -bx + c = linear function
       
       # params should never be negative
-      if (any(a) < 0) {
+      if (any(a < 0)) {
         return(-Inf)
       }
     
