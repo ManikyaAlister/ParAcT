@@ -29,6 +29,10 @@ for (useSub in subj) {
     
     for (cond in conds) {
       a=((-x["a.b"])*data$Trial)+x["a.c"] # -bx + c = linear function
+      # params should never be negative
+      if (any(a < 0)) {
+        return(-Inf)
+      }
       t0=x["t0"]
       v=x["v"]
       z = x["z"]
