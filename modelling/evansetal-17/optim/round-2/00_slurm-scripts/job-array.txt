@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set up job array (make sure the array length is nModels * nParticipants)
-#SBATCH --array=1-23
+#SBATCH --array=1-18
 
 # Partition for the job:
 #SBATCH --partition=cascade
@@ -47,7 +47,8 @@ module load foss/2022a R/4.2.1
 
 
 # Set the model script names
-models=("5.3.1_v-a-exp" "5.3.4_v-dExp-a-dExp" "5.3.5_v-dExp-blocked-a-exp")
+models=("v-dExp-a-exp" "v-exp-a-step-fixed")
+n_models=2
  
 # Models not run (put below)
 #"5.3.7_v-linear-a-dExp" "5.3.7_v-linear-a-exp" "5.3.11_v-linear-a-blocked-simple"
@@ -56,8 +57,8 @@ models=("5.3.1_v-a-exp" "5.3.4_v-dExp-a-dExp" "5.3.5_v-dExp-blocked-a-exp")
 participants=(1 2 3 4 5 6 7 8 9)
 
 # Calculate the model and participant indices from the job array task ID
-model_idx=$(((SLURM_ARRAY_TASK_ID-1) % 3)) # make sure you correctly indicate the number of models after '%'
-participant_idx=$(((SLURM_ARRAY_TASK_ID-1) / 3)) # make sure you correctly indicate the number of models after '/'
+model_idx=$(((SLURM_ARRAY_TASK_ID-1) % n_models)) # make sure you correctly indicate the number of models after '%'
+participant_idx=$(((SLURM_ARRAY_TASK_ID-1) / n_models)) # make sure you correctly indicate the number of models after '/'
 
 # Run the R script with the input and output files and the participant number as a command line argument
 Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-17/optim/round-2/05_run-models/${models[$model_idx]}.R ${participants[$participant_idx]}

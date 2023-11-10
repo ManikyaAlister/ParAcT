@@ -11,7 +11,7 @@ print(model)
 nSub = 7 # number of subjects to run (if looping over participants)
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
 
-for (useSub in 7) {
+for (useSub in subj) {
   # Run DDM for each subject in n Subjects
   
   load(here(

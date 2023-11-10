@@ -45,11 +45,13 @@ a_models <- c("simple",
 
 models_2p = c(
   "v-a-exp",
-  "v-a-linear",
+  #"v-a-linear",
   "v-linear-a-exp",
   "v-linear-a-blocked-simple",
-  "v-exp-a-dExp-blocked"
-
+  "v-exp-a-dExp-blocked",
+  "v-linear-a-dExp",
+  "v-dExp-blocked-a-blocked-simple",
+  "v-dExp-blocked+a-dExp" 
 )
 
 

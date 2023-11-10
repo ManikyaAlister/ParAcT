@@ -5,7 +5,7 @@ source(file = here("modelling/evansetal-17/normal/round-2/05_run-models/5.0.0_lo
 source(file = here("modelling/evansetal-17/normal/round-2/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
-model = "v-linear-a-exp"
+model = "v-linear-a-dExp"
 print(model)
 nSub = 9 # number of subjects to run 
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
@@ -22,7 +22,7 @@ for (useSub in subj) { # Run DDM for each subject in nSub, or a specific subject
     names(x)=par.names
     
     for (cond in conds) {
-      a=x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
+      a=x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*data$Trial))))
       t0=x["t0"]
       v=(x["v.b"]*data$Trial)+x["v.c"] 
       z = x["z"]
@@ -37,7 +37,7 @@ for (useSub in subj) { # Run DDM for each subject in nSub, or a specific subject
     out
   }
   
-  theta.names = c("z", "a.start","a.asym","a.rate","t0",
+  theta.names = c("z", "a.start","a.asym","a.rate","a.delay","t0",
                 "v.b","v.c")
   
   savefile=here(paste("modelling/evansetal-17/normal/round-2/06_output/P",useSub,"_",model,".Rdata",sep=""))
