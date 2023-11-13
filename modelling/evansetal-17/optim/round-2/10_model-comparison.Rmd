@@ -12,6 +12,7 @@ rm(list=ls())
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
 library(modelProb)
+library(xtable)
 
 n = 9
 v_models <- c(#"simple", 
@@ -53,7 +54,7 @@ models_2p = c(
 
 models <- c(a_models, v_models, models_2p)
 
-full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "a Step", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + Constant Block", "a + v Exponential", "a Exp + v Linear", "a Delayed Exp + v-linear", "a Constant Block + v Linear", "a Exp + v Delayed Exp", "a Delayed Exp Blocked + v Delayed Exp")
+full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "a Step", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + Constant Block", "a + v Exponential", "a Exp + v Linear", "a Constant Block + v Linear", "a Exp + v Delayed Exp", "a Step + v Exp")
 ```
 
 

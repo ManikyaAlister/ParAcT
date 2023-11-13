@@ -27,7 +27,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     
     for (block in blocks) {
       b = x["b.bump"]*(block-1)
-      a=(x["a.asym"]+x["a.start"])-(b+x["a.start"]*exp(x["a.rate"]*data$Trial))
+      a=x["a.asym"]+(b+x["a.start"])*exp(-x["a.rate"]*data$Trial)
       t0=x["t0"]
       v=x["v"]
       z = x["z"]

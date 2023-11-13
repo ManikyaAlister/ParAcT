@@ -4,8 +4,8 @@ block = 10
 x=1:100
 
 r=0.1
-a=4
-b=2
+a=2
+b=.2
 
 x1 = 1:100
 x2=1:100
@@ -14,7 +14,7 @@ for (i in 1:block) {
   x2[(block*(i-1)+1):(block*(i-1)+block)]=x2[(block*(i-1)+1):(block*(i-1)+block)]-(trialUnlearing*(i-1))
 }
 
-b.bump=1.4
+b.bump=4
 b2=rep(b,100)
 for (i in 1:block) {
   b2[(block*(i-1)+1):(block*(i-1)+block)]=b2[(block*(i-1)+1):(block*(i-1)+block)]+(b.bump*(i-1))

@@ -39,9 +39,9 @@ a_models <- c("simple",
               "a-delayed-exp-blocked",
 
               #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
-              "a-blocked-exp-sb",
+              "a-blocked-exp-sb"
               #"a-blocked-exp-ul",
-              "a-step")
+    )
 
 models_2p = c(
   "v-a-exp",
@@ -57,7 +57,7 @@ models_2p = c(
 
 models <- c(a_models, v_models, models_2p)
 
-full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "a Step", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + Constant Block", "a + v Exponential", "a + v Linear", "a Exp + v Linear", "a Constant Block + v Linear", "a Delayed Exp Blocked + v Exp")
+full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + a Constant Block", "a + v Exponential", "a Exp + v Linear", "a Constant Block + v Linear", "v Exp + a Delayed Exp Blocked", "a Delayed Exp + v Linear", "a Constant Blocked + v Delelayed Exp Blocked", "a Delayed Exp + v Delayed Exp Blocked")
 
 ```
 

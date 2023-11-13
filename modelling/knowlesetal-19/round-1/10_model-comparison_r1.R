@@ -67,8 +67,8 @@ IC_array = function(models, criterion) {
 allAIC <- IC_array(models,"AIC")
 allBIC <- IC_array(models,"BIC")
 
-save(allAIC, file = here("data/knowlesetal-19/derived/allAIC.Rdata"))
-save(allBIC, file = here("data/knowlesetal-19/derived/allBIC.Rdata"))
+#save(allAIC, file = here("data/knowlesetal-19/derived/allAIC.Rdata"))
+#save(allBIC, file = here("data/knowlesetal-19/derived/allBIC.Rdata"))
 
 allAIC_v <- IC_array(v_models, "AIC")
 allAIC_a <- IC_array(a_models, "AIC")
