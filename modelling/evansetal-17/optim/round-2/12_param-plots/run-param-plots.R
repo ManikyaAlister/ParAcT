@@ -4,42 +4,38 @@ source(here("modelling/evansetal-17/optim/round-2/12_param-plots/param-plot-func
 n = 1 # participants who you want to plot 
 
 # Drift rate
-
-v_power = driftPlot("v-power",n)
-ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/v-power.png"), plot = v_power)
-
 n = c(5,9)
 v_linear = driftPlot("v-linear",n, complex = TRUE, mean = TRUE)
-
-
-
-v_dExp = driftPlot("v-dExp-a-Exp",n, round = 2, complex = TRUE, mean = TRUE)
-
-v_exp = driftPlot("v-a-exp",n, round = 2,complex = TRUE, mean = TRUE)
-
-
+v_linear
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/v-linear.png"), plot = v_linear)
 
-n = c(2, 4, 6, 8)
-v_exp = driftPlot("v-exp",n, complex = TRUE, mean = TRUE)
+n = c(2,7)
+v_dExp = driftPlot("v-delayed-exp",n, round = 1, complex = TRUE, mean = TRUE)
+v_dExp
+ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/v-dExp.png"), plot = v_dExp)
+
+
+n = c(3,4,6,8)
+v_exp = driftPlot("v-exp",n, round = 1,complex = TRUE, mean = TRUE)
+v_exp
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/v-exp.png"), plot = v_exp)
 
+
 # Threshold
-
-power = thresholdPlot("a-power",n)
-ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-pow.png"),plot = power)
-
-n = c(2, 3, 4, 5, 6, 7, 8)
-exp = thresholdPlot("a-exp",n, complex = TRUE, mean = TRUE)
-ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/a-exp.png"),plot = exp)
+n = c(2,4, 5, 6, 7, 8)
+a_exp = thresholdPlot("a-exp",n, complex = TRUE, mean = TRUE)
+a_exp
+ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/a-exp.png"),plot = a_exp)
 
 linear = thresholdPlot("a-linear",n, complex = TRUE, mean = TRUE)
 ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/a-linear.png"),plot = linear)
 
+n = 9
 simple = thresholdPlot("simple",n)
+simple
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-simple.png"),plot = simple)
 
-n = 2
+n = 1
 thresholdPlot("a-step-fixed",n, complex = TRUE, mean = TRUE)
 
 a_exp = thresholdPlot("a-exp",n)
