@@ -42,8 +42,10 @@ tmpP6=grep("step",theta.names,perl=TRUE)
 tmpP7=grep("trialUnlearn",theta.names,perl=TRUE)
 
 # step models
-tmpP8.1= grep("when",theta.names,perl=TRUE)
+tmpP8.1= grep("step.v",theta.names,perl=TRUE)
 tmpP8.2= grep("initial",theta.names,perl=TRUE)
+tmpP8.3= grep("initial.v",theta.names,perl=TRUE)
+
 
 if (exists("blocks")) {
   # for each block, create a new variable tmpP1.8, tmpP1,9, etc based on the value of the block for v and a
@@ -95,8 +97,10 @@ start.points[tmpP6]=0.05
 start.points[tmpP7]=1
 
 # step models 
-start.points[tmpP8.1]=30
+start.points[tmpP8.1]=0.05
 start.points[tmpP8.2]=0.05
+start.points[tmpP8.3]=0.05
+
 
 # for block in blocks, create a new starting point corresponding to the v and a block variables (tmpP1.8, tmpP1.9, etc)
 if (exists("blocks")){
@@ -139,8 +143,10 @@ start.points.sd[tmpP6]=0.5
 start.points.sd[tmpP7]=0.5
 
 # step models
-start.points.sd[tmpP8.1]=3
+start.points.sd[tmpP8.1]=0.5
 start.points.sd[tmpP8.2]=0.5
+start.points.sd[tmpP8.3]=0.5
+
 
 # for block in blocks, create a new starting point.sd corresponding to the v and a block variables (tmpP1.8, tmpP1.9, etc)
 if (exists("blocks")){
@@ -186,6 +192,8 @@ lower.bounds[tmpP7]=0
 # step models 
 lower.bounds[tmpP8.1]=0
 lower.bounds[tmpP8.2]=0
+lower.bounds[tmpP8.3]=0
+
 
 if (exists("blocks")){
 for(block in blocks){
@@ -229,6 +237,8 @@ upper.bounds[tmpP7]=Inf
 # step models 
 upper.bounds[tmpP8.1]=max(data$Trial)
 upper.bounds[tmpP8.2]=Inf
+upper.bounds[tmpP8.3]=Inf
+
 
 if (exists("blocks")){
 for(block in blocks){
@@ -422,11 +432,19 @@ if (length(tmp) > 0) {
   }
 }
 
-tmp = grep("when", theta.names, value = TRUE)
+tmp = grep("initial.v", theta.names, value = TRUE)
 if (length(tmp) > 0) {
   for (n in 1:length(tmp)) {
     tmp2 = tmp[n]
-    prior[[tmp2]] = c(3, 1)
+    prior[[tmp2]] = c(0.05, 0.5)
+  }
+}
+
+tmp = grep("step.v", theta.names, value = TRUE)
+if (length(tmp) > 0) {
+  for (n in 1:length(tmp)) {
+    tmp2 = tmp[n]
+    prior[[tmp2]] = c(0.05, .5)
   }
 }
 

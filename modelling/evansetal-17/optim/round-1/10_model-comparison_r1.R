@@ -16,7 +16,8 @@ v_models <- c("simple",
               #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
               "v-blocked-exp-sb",
               #"v-blocked-exp-ul",
-              "v-delayed-exp-blocked")
+              "v-delayed-exp-blocked",
+              "v-step-fixed")
 
 a_models <- c("simple",
               "a-linear",
