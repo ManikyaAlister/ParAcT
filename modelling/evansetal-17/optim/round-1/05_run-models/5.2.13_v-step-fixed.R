@@ -6,7 +6,7 @@ source(file = here("modelling/evansetal-17/optim/round-1/02_deep-background.R"))
 
 conds = 1
 blocks = 1:24 # blocks to loop over 
-model = "a-step-fixed" 
+model = "v-step-fixed" 
 print(model) # so I can see what model is running in the output
 nSub = 9 # number of subjects to run (only used if looping instead of parallel)
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
@@ -42,7 +42,7 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
     out
   }
   
-  theta.names = c("z", "v","t0","step","initial")
+  theta.names = c("z", "a","t0","step","initial")
 
   savefile=here(paste("modelling/evansetal-17/optim/round-1/06_output/P",useSub,"_",model,".Rdata",sep=""))
   saveIC = here(paste("data/evansetal-17/derived/optim/P",useSub,"_",model,"-IC.Rdata",sep=""))

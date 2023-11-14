@@ -38,10 +38,4 @@ ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-simple.p
 n = 1
 thresholdPlot("a-step-fixed",n, complex = TRUE, mean = TRUE)
 
-a_exp = thresholdPlot("a-exp",n)
-ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-exp-mir.png"), plot = a_exp_mir)
-
-a_delayed_pow = thresholdPlot("a-delayed-power",n)
-
-a_delayed_exp = thresholdPlot("a-delayed-exp",n, complex = TRUE)
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a_delayed-exp.png"), plot = a_delayed_exp)
