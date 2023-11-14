@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set up job array (make sure the array length is nModels * nParticipants)
-#SBATCH --array=1-18
+#SBATCH --array=1-9
 
 # Partition for the job:
 #SBATCH --partition=cascade
@@ -47,8 +47,8 @@ module load foss/2022a R/4.2.1
 
 
 # Set the model script names
-models=("v-dExp-a-exp" "v-exp-a-step-fixed")
-n_models=2
+models=("v-dExp-a-exp")
+n_models=1
  
 # Models not run (put below)
 #"5.3.7_v-linear-a-dExp" "5.3.7_v-linear-a-exp" "5.3.11_v-linear-a-blocked-simple"
