@@ -102,15 +102,15 @@ thresholdPlot = function(model,nRange, round = 1, complex = FALSE, mean = FALSE)
 
 getDriftChange = function(model, parameters, data){
   x = parameters
-  if (model == "v-power"){
+  if (grepl("v-power", model)){
     
     drift = (x["v.asym"]+x["v.start"])-x["v.start"]*data$Trial^(-x["v.rate"])
     
-  } else if (model == "v-exp" | model == "v-a-exp"){
+  } else if (grepl("v-exp", model) | model == "v-a-exp"){
     
     drift = (x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
     
-  } else if (model == "v-linear"){
+  } else if (grepl("v-linear", model)){
     
     drift = (x["v.b"]*data$Trial)+x["v.c"] 
     
@@ -118,11 +118,11 @@ getDriftChange = function(model, parameters, data){
     
     drift = rep(x["a"],length(trials))
     
-  } else if (model == "v-delayed-pow"){
+  } else if (grepl("v-delayed-pow", model)){
     
     drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+data$Trial^(x["v.rate"])))
     
-  } else if (model == "v-delayed-exp"){
+  } else if (grepl("v-delayed-exp", model) | grepl("v-dExp", model)){
     
     drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*data$Trial)))
     

@@ -1,7 +1,7 @@
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
 source(here("modelling/evansetal-17/optim/round-2/12_param-plots/param-plot-functions.R"))
-n = 1:9 # participants who you want to plot 
+n = 1 # participants who you want to plot 
 
 # Drift rate
 
@@ -10,6 +10,14 @@ ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/v-power.pn
 
 n = c(5,9)
 v_linear = driftPlot("v-linear",n, complex = TRUE, mean = TRUE)
+
+
+
+v_dExp = driftPlot("v-dExp-a-Exp",n, round = 2, complex = TRUE, mean = TRUE)
+
+v_exp = driftPlot("v-a-exp",n, round = 2,complex = TRUE, mean = TRUE)
+
+
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/v-linear.png"), plot = v_linear)
 
 n = c(2, 4, 6, 8)
@@ -31,10 +39,10 @@ ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/a-linear.p
 simple = thresholdPlot("simple",n)
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-simple.png"),plot = simple)
 
-n = 1
+n = 2
 thresholdPlot("a-step-fixed",n, complex = TRUE, mean = TRUE)
 
-a_exp_mir = thresholdPlot("a-exp-mir",n)
+a_exp = thresholdPlot("a-exp",n)
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-exp-mir.png"), plot = a_exp_mir)
 
 a_delayed_pow = thresholdPlot("a-delayed-power",n)

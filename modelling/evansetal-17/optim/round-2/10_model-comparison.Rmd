@@ -14,7 +14,7 @@ library(here, lib.loc = lib)
 library(modelProb)
 library(xtable)
 
-n = 9
+subjects = 9
 v_models <- c(#"simple", 
               "v-linear",
               #"v-power",
@@ -65,7 +65,9 @@ IC_array <- function(models, criterion) {
   colnames(allIC) <- c(models)
   
   for (model in models) {
-    for (i in 1:n) {
+    for (i in 1:subjects) {
+      AIC <- NA
+      BIC <- NA
       load(here(
         paste(
           "data/evansetal-17/derived/optim/P",
@@ -123,7 +125,7 @@ models_1p <- models[!(models %in% models_2p)]
 # make a function that returns the best IC for a given set of models and IC
 best_IC_from_models = function(models, ICs = c("AIC", "BIC")) {
   # set up empty array to fill with best models and their ICs
-  best_IC <- as.data.frame(matrix(ncol = length(ICs) * 2, nrow = n))
+  best_IC <- as.data.frame(matrix(ncol = length(ICs) * 2, nrow = subjects))
   colnames(best_IC) <- c(ICs, paste0("best_model_", ICs))
   
   for (IC in ICs) {
