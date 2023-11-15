@@ -47,7 +47,7 @@ module load foss/2022a R/4.2.1
 
 
 # Set the model script names
-models=("a-v-step-fixed")
+models=("v-a-step-fixed")
 n_models=1
  
 # Models not run (put below)

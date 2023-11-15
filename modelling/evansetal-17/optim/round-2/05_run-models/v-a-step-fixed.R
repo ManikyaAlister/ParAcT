@@ -6,7 +6,7 @@ source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 
 conds = 1
 blocks = 1:24 # blocks to loop over 
-model = "a-v-step-fixed" 
+model = "v-a-step-fixed" 
 print(model) # so I can see what model is running in the output
 nSub = 9 # number of subjects to run (only used if looping instead of parallel)
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
@@ -16,7 +16,7 @@ subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject 
 #### Exponential Threshold Model ###
 ####################################
 
-for (useSub in 1) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
+for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
   load(here(paste("data/evansetal-17/clean/P",useSub,"-Optim-Trial.Rdata",sep="")))
   newSeed=Sys.time()
