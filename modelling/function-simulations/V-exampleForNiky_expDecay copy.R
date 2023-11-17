@@ -7,7 +7,6 @@ a=4
 b=2
 
 z = 1:100
-
 x = c(4,2,0.1,0)
 names(x) = c("v.asym","v.start","v.rate","v.delay")
 
@@ -30,10 +29,13 @@ plot(1:length(data$Trial),x["v.rate"]-x["v.start"]*((x["v.delay"]+1)/(x["v.delay
 
 plot(1:length(data$Trial),x["v.rate"]+x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(-x["v.rate"]*data$Trial))),type="l",main="Classic Transition Exponential Increase")
 
-plot(1:length(data$Trial),x["v.rate"]-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(-x["v.rate"]*data$Trial))),type="l",main="Mirrored Transition Exponential Increase")
-
-
-
+plot(1:length(data$Trial),x["v.rate"]-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(-x["v.rate"]*data$Trial))),type="l",main="Mirrored Transition Exponential Increase")90
+subj = 5
+load(here(paste0("Recovery/a-delayed-exp/Fits_recovery/P",subj,"_a-delayed-exp.Rdata")))
+x = as.vector(genParams[,1])
+names(x) = rownames(genParams)
+a=x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*data$Trial))))
+plot(data$Trial, a, "l", main = paste0("Delay: ", round(x["a.delay"], 3), ", Rate: ", round(x["a.rate"],3), " Subj: ", subj))
 
 # plot(data$Trial,a+b*((t+1)/(t*+exp(r*z))),type="l",main="Classic Transition exponential Decay")
 # 

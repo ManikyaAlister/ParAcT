@@ -28,10 +28,6 @@ getThresholdChange = function(model, parameters, data) {
   threshold
 }
 
-
-
-
-
 # Threshold
 
 thresholdPlot = function(model,nRange, round = 1, complex = FALSE, mean = FALSE){
@@ -51,7 +47,7 @@ thresholdPlot = function(model,nRange, round = 1, complex = FALSE, mean = FALSE)
       allParams = rbind(allParams, params)
     } else {
       paramChange = getThresholdChange(model, x, data)
-      threshold = as.data.frame(paramChange)
+      paramChange= as.data.frame(paramChange)
       paramChange$Participant =  i
       paramChange$Trial = trials
       df = rbind(df, paramChange)
@@ -116,7 +112,7 @@ getDriftChange = function(model, parameters, data){
     
   } else if (model == "simple") {
     
-    drift = rep(x["a"],length(trials))
+    drift = rep(x["v"],length(data$Trial))
     
   } else if (grepl("v-delayed-pow", model)){
     
@@ -126,6 +122,11 @@ getDriftChange = function(model, parameters, data){
     
     drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*data$Trial)))
     
+  }  else if (model == "v-step-fixed" | model == "v-a-step-fixed"){
+    
+    noFeedbackTrials = length(data$Trial[data$Block%in% c(1,2,3,4)])
+    
+    drift = c(rep(x["initial"], noFeedbackTrials), rep(x["initial"] + x["step"], length(data$Trial)-noFeedbackTrials))
   }
   
   drift
@@ -227,6 +228,8 @@ singleParticipant_a = function(participant,
                                trials = 1000,
                                ymin = 1,
                                ymax = 7,
+                               round = 1,
+                               complex = TRUE,
                                models = c(
                                  "simple",
                                  "a-linear",
@@ -241,40 +244,30 @@ singleParticipant_a = function(participant,
                                  "v-delayed-exp",
                                  "v-a-exp"
                                )) {
-  plot(-1,-1,ylim = c(ymin,ymax),xlab = "trial",ylab = "a", xlim = c(0,trials), main = paste0(participant))
+  plot(-1,-1,ylim = c(ymin,ymax),xlab = "trial",ylab = "a", xlim = c(0,trials), main = paste0("Participant ", participant))
   for(model in models){
-    load(here(paste("modelling/evansetal-17/optim/round-2/06_output/P", participant,"_",model,".Rdata", sep = "")))
+    load(here(paste("modelling/evansetal-17/optim/round-",round,"/06_output/P", participant,"_",model,".Rdata", sep = "")))
     x =  apply(theta, 2, mean)
-    if (model == "a-power"){
-      
-      threshold = x["a.asym"]+x["a.start"]*data$Trial^(-x["a.rate"])
-      
-    } else if (model == "a-exp" | model == "v-a-exp"){
-      
-      threshold = x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
-      
-    } else if (model == "a-linear"){
-      
-      threshold = ((-x["a.b"])*data$Trial)+x["a.c"]
-      
-    } else if (model == "simple") {
-      
-      threshold = rep(x["a"],length(data$Trial))
-      
-    } else if (model == "a-delayed-power"){
-      
-      threshold = x["a.asym"]+x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+data$Trial^(x["a.rate"])))
-      
-    } else if (model == "a-delayed-exp") {
-      
-      x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*data$Trial))))
-      
-    } else if (model == "a-exp-mir"){
-      
-      threshold = (x["a.asym"]+x["a.start"])-x["a.start"]*exp(x["a.rate"]*data$Trial)
-      
-    } 
+    
+    threshold = getThresholdChange(model = model, parameters = x, data = data)
+    
+    if(complex){
+    # load complex block model that estimates a different parameter each block 
+    load(here(paste("modelling/evansetal-17/optim/round-1/06_output/P", participant,"_a-blocked-complex.Rdata", sep = "")))
+    
+    meanComplexParams = apply(theta, 2, mean)
+    meanComplexParams = meanComplexParams[grep("a.", names(meanComplexParams))]
+    trial = seq(1,max(data$Trial), length.out = max(data$Block))
+    
+    complexData = as.data.frame(cbind(meanComplexParams, trial))
+    }
+    
     lines(data$Trial,threshold)
+    
+    if(complex){
+      points(trial,complexData$meanComplexParams)
+    }
+    
   }
   
   
@@ -285,6 +278,8 @@ singleParticipant_v = function(participant,
                                trials = 1000,
                                ymin = 0,
                                ymax = 4,
+                               round = 1,
+                               complex = TRUE,
                                models = c(
                                  "simple",
                                  "a-linear",
@@ -299,36 +294,28 @@ singleParticipant_v = function(participant,
                                  "v-delayed-exp",
                                  "v-a-exp"
                                )) {
-  plot(-1,-1,ylim = c(ymin,ymax),xlab = "trial",ylab = "v", xlim = c(0,trials), main = paste0(participant))
+  plot(-1,-1,ylim = c(ymin,ymax),xlab = "trial",ylab = "v", xlim = c(0,trials), main = paste0("Participant ", participant))
   for(model in models){
-    load(here(paste("modelling/evansetal-17/optim/round-2/06_output/P", participant,"_",model,".Rdata", sep = "")))
+    load(here(paste("modelling/evansetal-17/optim/round-",round,"/06_output/P", participant,"_",model,".Rdata", sep = "")))
     x =  apply(theta, 2, mean)
-    if (model == "v-power"){
+    
+    drift = getDriftChange(model = model, parameters = x, data = data)
+    
+    if(complex){
+      # load complex block model that estimates a different parameter each block 
+      load(here(paste("modelling/evansetal-17/optim/round-1/06_output/P", participant,"_v-blocked-complex.Rdata", sep = "")))
       
-      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*data$Trial^(-x["v.rate"])
+      meanComplexParams = apply(theta, 2, mean)
+      meanComplexParams = meanComplexParams[grep("v.", names(meanComplexParams))]
+      complex_trials = seq(1,max(data$Trial), length.out = max(data$Block))
       
-    } else if (model == "v-exp" | model == "v-a-exp"){
-      
-      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
-      
-    } else if (model == "v-linear"){
-      
-      drift = (x["v.b"]*data$Trial)+x["v.c"] 
-      
-    } else if (model == "simple") {
-      
-      drift = rep(x["a"],length(data$Trial))
-      
-    } else if (model == "v-delayed-pow"){
-      
-      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+data$Trial^(x["v.rate"])))
-      
-    } else if (model == "v-delayed-exp"){
-      
-      drift = (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*data$Trial)))
-      
+      complexData = as.data.frame(cbind(meanComplexParams, complex_trials))
     }
+    
     lines(data$Trial,drift)
+    if(complex){
+      points(complex_trials,complexData$meanComplexParams)
+    }
   }
   
   

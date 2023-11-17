@@ -34,16 +34,61 @@ pdf(paste0("Recovery/figures/recovery-",model,".pdf"), width = 10, height = 10)
 
 # Set the layout for multiple plots in a 2x4 grid (2 rows and 4 columns)
 par(mfrow = c(2, 3))
-corr = cor(allGenParams$a.c, allMeanTheta$a.c, use= "complete")
-plot(allGenParams$a.c, allMeanTheta$a.c, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(corr, 2)), main = "a c (intercept)")
+corr = cor(allGenParams$a.c, allMeanTheta$a.c, use = "complete")
+plot(
+  allGenParams$a.c,
+  allMeanTheta$a.c,
+  xlab = "Generating",
+  ylab = "Estimated",
+  sub = paste0("r = ", round(corr, 2)),
+  main = expression(paste("a ", alpha, " (intercept)"))
+)
+abline(a = 0, b = 1, col = "red")  
+
 corr = cor(allGenParams$a.b, allMeanTheta$a.b, use = "complete")
-plot(allGenParams$a.b, allMeanTheta$a.b, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(corr, 2)), main = "a b (slope)")
+plot(
+  allGenParams$a.b,
+  allMeanTheta$a.b,
+  xlab = "Generating",
+  ylab = "Estimated",
+  sub = paste0("r = ", round(corr, 2)),
+  main = expression(paste("a ", beta, " (slope)"))
+)
+abline(a = 0, b = 1, col = "red")  
+
 corr = cor(allGenParams$ter, allMeanTheta$t0)
-plot(allGenParams$ter, allMeanTheta$t0, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(corr, 2)), main = "t0")
+plot(
+  allGenParams$ter,
+  allMeanTheta$t0,
+  xlab = "Generating",
+  ylab = "Estimated",
+  sub = paste0("r = ", round(corr, 2)),
+  main = "t0"
+)
+abline(a = 0, b = 1, col = "red")  
+
 corr = cor(allGenParams$z, allMeanTheta$z)
-plot(allGenParams$z, allMeanTheta$z, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(corr, 2)), main = "z")
+plot(
+  allGenParams$z,
+  allMeanTheta$z,
+  xlab = "Generating",
+  ylab = "Estimated",
+  sub = paste0("r = ", round(corr, 2)),
+  main = "z"
+)
+abline(a = 0, b = 1, col = "red")  
+
 corr = cor(allGenParams$v, allMeanTheta$v)
-plot(allGenParams$v, allMeanTheta$v, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(corr, 2)), main = "a")
+plot(
+  allGenParams$v,
+  allMeanTheta$v,
+  xlab = "Generating",
+  ylab = "Estimated",
+  sub = paste0("r = ", round(corr, 2)),
+  main = "v"
+)
+abline(a = 0, b = 1, col = "red")  
+
 
 
 dev.off()

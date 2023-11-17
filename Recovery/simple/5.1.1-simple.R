@@ -1,12 +1,8 @@
 rm(list=ls())
-#renv::deactivate() 
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
-#renv::install(c("msm"))
-#library(here)
-#library(rtdists)
-#library(msm)
-source(file = here("modelling/knowlesetal-19/round-1/05_run-models/5.0.0_load-packages.R"))
+library(rtdists)
+library(msm)
 source(file = here("modelling/knowlesetal-19/round-1/02_deep-background.R"))
 
 conds=1 # number of conditions to loop over
@@ -27,6 +23,7 @@ for (useSub in 1:nSub) {
   load(here(
     paste("Recovery/simple/Datasets/RECOVERY_DATA-DIFF_LHS-",useSub, ".Rdata", sep = "")
   ))
+  #data$Trial <= 1:length(data$Resp)
   newSeed = Sys.time()
   set.seed(as.numeric(newSeed))
   
@@ -45,8 +42,8 @@ for (useSub in 1:nSub) {
       st0 = 0
       s = 1
       tmp = ddiffusion(
-        rt = data$time[data$Cond == cond],
-        response = data$Resp[data$Cond == cond],
+        rt = data$time[data$Cond == cond], 
+        response=(3-data$Resp[data$Cond == cond]), # 3- because the simulated data ass correct as 2 and incorrect as 1
         z = z * a,
         a = a,
         v = v,
@@ -66,7 +63,7 @@ for (useSub in 1:nSub) {
   
   savefile=here(paste("Recovery/simple/Fits_recovery/P",useSub,"_",model,".Rdata",sep=""))
   
-  source(here("modelling/knowlesetal-19/round-1/03_priors.R"))
+  source(here("Recovery/03_priors.R"))
   source(here("modelling/knowlesetal-19/round-1/04_iterative-process.R"))
   
   n.pars = length(theta.names)
@@ -83,6 +80,7 @@ for (useSub in 1:nSub) {
        nmc,
        n.chains,
        theta.names,
+       genParams,
        conds,
        file = savefile)
 }

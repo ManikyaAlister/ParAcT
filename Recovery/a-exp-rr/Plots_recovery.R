@@ -39,18 +39,70 @@ pdf(paste0("Recovery/figures/recovery-",model,".pdf"), width = 10, height = 10)
 # Set the layout for multiple plots in a 2x4 grid (2 rows and 4 columns)
 par(mfrow = c(3, 3))
 cor = cor(allGenParams$a.start, allMeanTheta$a.start)
-plot(allGenParams$a.start, allMeanTheta$a.start, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(cor, 2)), main = "a beta")
+plot(
+  allGenParams$a.start,
+  allMeanTheta$a.start,
+  xlab = "Generating",
+  ylab = "Estimated",
+  sub = paste0("r = ", round(cor, 2)),
+  main = expression(paste("a ", beta, " (start)"))
+)
+abline(a = 0, b = 1, col = "red")
 cor = cor(allGenParams$a.asym, allMeanTheta$a.asym)
-plot(allGenParams$a.asym, allMeanTheta$a.asym, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(cor, 2)), main = "a alpha")
+plot(
+  allGenParams$a.asym,
+  allMeanTheta$a.asym,
+  xlab = "Generating",
+  ylab = "Estimated",
+  sub = paste0("r = ", round(cor, 2)),
+  main = expression(paste("a ", alpha, " (asymptote)"))
+)
+abline(a = 0, b = 1, col = "red")
+
 cor = cor(allGenParams$a.rate, allMeanTheta$a.rate)
-plot(allGenParams$a.rate, allMeanTheta$a.rate, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(cor, 2)), main = "a rate")
-plot(allGenParams$a.rate, allMeanTheta$a.rate, xlab = "Generating", ylab = "Estimated", ylim = c(0,0.05), main = "a rate (restricted y axis)")
+plot(
+  allGenParams$a.rate,
+  allMeanTheta$a.rate,
+  xlab = "Generating",
+  ylab = "Estimated",
+  sub = paste0("r = ", round(cor, 2)),
+  main = expression(paste("a ", eta, " (rate)"))
+)
+abline(a = 0, b = 1, col = "red")
+
 cor = cor(allGenParams$ter, allMeanTheta$t0)
-plot(allGenParams$ter, allMeanTheta$t0, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(cor, 2)), main = "t0")
+plot(
+  allGenParams$ter,
+  allMeanTheta$t0,
+  xlab = "Generating",
+  ylab = "Estimated",
+  sub = paste0("r = ", round(cor, 2)),
+  main = "t0"
+)
+abline(a = 0, b = 1, col = "red")
+
 cor = cor(allGenParams$z, allMeanTheta$z)
-plot(allGenParams$z, allMeanTheta$z, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(cor, 2)), main = "z")
+plot(
+  allGenParams$z,
+  allMeanTheta$z,
+  xlab = "Generating",
+  ylab = "Estimated",
+  sub = paste0("r = ", round(cor, 2)),
+  main = "z"
+)
+abline(a = 0, b = 1, col = "red")
+
 cor = cor(allGenParams$v, allMeanTheta$v)
-plot(allGenParams$v, allMeanTheta$v, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(cor, 2)), main = "v")
+plot(
+  allGenParams$v,
+  allMeanTheta$v,
+  xlab = "Generating",
+  ylab = "Estimated",
+  sub = paste0("r = ", round(cor, 2)),
+  main = "v"
+)
+abline(a = 0, b = 1, col = "red")
+
 
 
 dev.off()

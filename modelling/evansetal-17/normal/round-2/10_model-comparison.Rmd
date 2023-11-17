@@ -205,9 +205,9 @@ rankAIC <- rank_models(allAIC)
 
 # Get the best model for each participant
 best_BIC <- rankBIC[, 1]
-save(best_BIC, file = here("data/evansetal-17/derived/normal/best_BIC"))
+save(best_BIC, file = here("data/evansetal-17/derived/normal/best_BIC.Rdata"))
 best_AIC <- rankAIC[, 1]
-save(best_AIC, file = here("data/evansetal-17/derived/normal/best_AIC"))
+save(best_AIC, file = here("data/evansetal-17/derived/normal/best_AIC.Rdata"))
 ```
 
 ## Best change model versus the simple model for each participant

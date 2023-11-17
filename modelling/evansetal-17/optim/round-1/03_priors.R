@@ -227,7 +227,7 @@ upper.bounds[tmpP6]=Inf
 upper.bounds[tmpP7]=Inf
 
 # step models 
-upper.bounds[tmpP8.1]=max(data$Trial)
+upper.bounds[tmpP8.1]=Inf
 upper.bounds[tmpP8.2]=Inf
 
 if (exists("blocks")){

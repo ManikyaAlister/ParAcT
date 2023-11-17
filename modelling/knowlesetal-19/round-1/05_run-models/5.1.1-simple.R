@@ -21,7 +21,7 @@ nSub = 147 # number of subjects to run (if looping instead of parallel)
 ####################
 
 
-for (useSub in 101:nSub) {
+for (useSub in subj) {
   # Run DDM for each subject in n Subjects
   
   load(here(

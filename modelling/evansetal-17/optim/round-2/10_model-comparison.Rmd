@@ -49,12 +49,12 @@ models_2p = c(
   "v-linear-a-blocked-simple",
   #"v-dExp-blocked-a-exp"
   "v-dExp-a-Exp",
-  "v-exp-a-step-fixed"
+  "v-a-step-fixed"
 )
 
 models <- c(a_models, v_models, models_2p)
 
-full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "a Step", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + Constant Block", "a + v Exponential", "a Exp + v Linear", "a Constant Block + v Linear", "a Exp + v Delayed Exp", "a Step + v Exp")
+full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "a Step", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + Constant Block", "a + v Exponential", "a Exp + v Linear", "a Constant Block + v Linear", "a Exp + v Delayed Exp", "a + v Step")
 ```
 
 
@@ -199,9 +199,9 @@ rankAIC <- rank_models(allAIC)
 
 # Get the best model for each participant
 best_BIC <- rankBIC[, 1]
-save(best_BIC, file = here("data/evansetal-17/derived/optim/best_BIC"))
+save(best_BIC, file = here("data/evansetal-17/derived/optim/best_BIC.Rdata"))
 best_AIC <- rankAIC[, 1]
-save(best_AIC, file = here("data/evansetal-17/derived/optim/best_AIC"))
+save(best_AIC, file = here("data/evansetal-17/derived/optim/best_AIC.Rdata"))
 ```
 
 ## Best change model versus the simple model for each participant

@@ -156,14 +156,14 @@ for(block in blocks){
 lower.bounds=rep(NA,n.pars)
 lower.bounds[tmpP1]=0
 lower.bounds[tmpP2]=0
-lower.bounds[tmpP3]=-Inf
+lower.bounds[tmpP3]=0
 lower.bounds[tmpP4]=0
 
 # linear model
 lower.bounds[tmpP1.2]=0
 lower.bounds[tmpP1.3]=0
-lower.bounds[tmpP3.2]=-Inf
-lower.bounds[tmpP3.3]=-Inf
+lower.bounds[tmpP3.2]=0
+lower.bounds[tmpP3.3]=0
 
 # power + exponential models
 lower.bounds[tmpP1.4]=0
@@ -227,7 +227,7 @@ upper.bounds[tmpP6]=Inf
 upper.bounds[tmpP7]=Inf
 
 # step models 
-upper.bounds[tmpP8.1]=max(data$Trial)
+upper.bounds[tmpP8.1]=Inf
 upper.bounds[tmpP8.2]=Inf
 
 if (exists("blocks")){
