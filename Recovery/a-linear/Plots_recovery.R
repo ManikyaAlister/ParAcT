@@ -33,7 +33,7 @@ allMeanTheta= as.data.frame(allMeanTheta)
 pdf(paste0("Recovery/figures/recovery-",model,".pdf"), width = 10, height = 10)
 
 # Set the layout for multiple plots in a 2x4 grid (2 rows and 4 columns)
-par(mfrow = c(2, 3))
+par(mfrow = c(3, 3))
 corr = cor(allGenParams$a.c, allMeanTheta$a.c, use = "complete")
 plot(
   allGenParams$a.c,

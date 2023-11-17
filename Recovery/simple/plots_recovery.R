@@ -36,7 +36,7 @@ allMeanTheta= as.data.frame(allMeanTheta)
 pdf(paste0("Recovery/figures/recovery-",model,".pdf"), width = 10, height = 10)
 
 # Set the layout for multiple plots in a 2x4 grid (2 rows and 4 columns)
-par(mfrow = c(2, 2))
+par(mfrow = c(3, 3))
 corr = cor(allGenParams$v, allMeanTheta$v, use= "complete")
 plot((allGenParams$v), allMeanTheta$v, xlab = "Generating", ylab = "Estimated", sub = paste0("r = ", round(corr, 2)), main = "v")
 abline(a = 0, b = 1, col = "red")  

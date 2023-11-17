@@ -45,7 +45,7 @@ plot(
   xlab = "Generating",
   ylab = "Estimated",
   sub = paste0("r = ", round(cor, 2)),
-  main = "a beta"
+  main = expression(paste("a ", beta, " (start)"))
 )
 abline(a = 0, b = 1, col = "red")
 
@@ -57,7 +57,7 @@ plot(
   xlab = "Generating",
   ylab = "Estimated",
   sub = paste0("r = ", round(cor, 2)),
-  main = "a alpha"
+  main = expression(paste("a ", alpha, " (asymtote)"))
 )
 abline(a = 0, b = 1, col = "red")
 
@@ -68,7 +68,7 @@ plot(
   xlab = "Generating",
   ylab = "Estimated",
   sub = paste0("r = ", round(cor, 2)),
-  main = "a delay"
+  main = expression(paste("a ", tao, " (Delay)"))
 )
 abline(a = 0, b = 1, col = "red")
 
@@ -79,7 +79,7 @@ plot(
   xlab = "Generating",
   ylab = "Estimated",
   sub = paste0("r = ", round(cor, 2)),
-  main = "a rate"
+  main = expression(paste("a ", eta, " (rate)"))
 )
 abline(a = 0, b = 1, col = "red")
 
