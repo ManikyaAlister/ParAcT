@@ -62,7 +62,7 @@ thresholdPlot = function(model,nRange){
 
 # Drift rate
 
-driftPlot = function(model,nRange){
+driftPlot = function(model,nRange, subtitle = paste0("n = ", length(nRange))){
   
   driftDf = as.data.frame(matrix(nrow = 0, ncol = 3))
   
@@ -108,6 +108,7 @@ driftPlot = function(model,nRange){
   
   a_plot = ggplot(data = driftDf) +
     geom_line(aes(x = Trial, y = Drift, group = Participant)) +
+    labs(subtitle = subtitle)
     theme_classic()
   
   return(a_plot)

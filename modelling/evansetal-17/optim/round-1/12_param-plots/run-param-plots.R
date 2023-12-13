@@ -1,6 +1,7 @@
 lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library")
 library(here, lib.loc = lib)
 source(here("modelling/evansetal-17/optim/round-1/12_param-plots/param-plot-functions.R"))
+load(here("data/evansetal-17/derived/normal/best_BIC.Rdata"))
 n = 1:9 # participants who you want to plot 
 
 # Drift rate
@@ -11,7 +12,8 @@ ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/v-power.pn
 v_linear = driftPlot("v-linear",n)
 ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/v-linear.png"), plot = v_linear)
 
-v_exp = driftPlot("v-exp",n)
+n = c(grep("v-exp", best_BIC), grep("v-a-exp", best_BIC))
+v_exp = driftPlot("v-exp",n, complex = TRUE)
 ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/v-exp.png"), plot = v_exp)
 
 # Threshold

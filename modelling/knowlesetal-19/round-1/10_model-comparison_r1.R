@@ -123,7 +123,10 @@ unique_2p <- unique(models_2p)
 
 # Narrow that down to the best model because best two results in a lot of models
 best_v <- rankBIC_v[,1]
+save(best_v, file = here("data/knowlesetal-19/derived/best_v_1p_BIC"))
 best_a <- rankBIC_a[,1]
+save(best_a, file = here("data/knowlesetal-19/derived/best_a_1p_BIC"))
+
 
 best <- cbind(best_a, best_v)
 

@@ -29,7 +29,7 @@ v_models <- c(#"simple",
 
               )
 
-a_models <- c("simple",
+a_models <- c(
               "a-linear",
               #"a-power",
               "a-exp",
@@ -55,7 +55,7 @@ models_2p = c(
 )
 
 
-models <- c(a_models, v_models, models_2p)
+models <- c("simple", a_models, v_models, models_2p)
 
 full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + a Constant Block", "a + v Exponential", "a Exp + v Linear", "a Constant Block + v Linear", "v Exp + a Delayed Exp Blocked", "a Delayed Exp + v Linear", "a Constant Blocked + v Delelayed Exp Blocked", "a Delayed Exp + v Delayed Exp Blocked")
 
@@ -146,6 +146,19 @@ best_IC_from_models = function(models, ICs = c("AIC", "BIC")) {
   best_IC
 }
 
+getNBest = function(allIC){
+  allIC <- as.data.frame(allIC)
+  model_names <- colnames(allIC)
+  if(is.null(model_names)){
+    model_names <- 1:length(ncol(allIC))
+  }
+  n_IC = table(model_names[apply(allIC, 1, which.min)])
+n = rep(0, length(model_names))
+names(n) = model_names
+n[names(n_IC)] <- n_IC
+n
+}
+
 ```
 
 ```{r}
@@ -154,9 +167,6 @@ allBIC <- IC_array(models, "BIC")
 save(allAIC, file = here("data/evansetal-17/derived/normal/allAIC.Rdata"))
 save(allBIC, file = here("data/evansetal-17/derived/normal/allBIC.Rdata"))
 
-colnames(allAIC) <- full_names
-colnames(allBIC) <- full_names
-
 ```
 
 ```{r}
@@ -164,44 +174,15 @@ colnames(allBIC) <- full_names
 BIC_weights <- modelProb::weightedICs(allBIC)
 AIC_weights <- modelProb::weightedICs(allAIC)
 
-getNBest = function(allIC){
-  n_IC = table(full_names[apply(allIC, 1, which.min)])
-n = rep(0, length(full_names))
-names(n) = full_names
-n[names(n_IC)] <- n_IC
-n
-}
-n_best <- getNBest(allBIC)
-group_level_probs <- round(apply(BIC_weights, 2, mean), 3)
-group_level_probs[group_level_probs == 0] <- "< .001"
-
-combined <- cbind(full_names, unname(n_best), unname(group_level_probs))
-colnames(combined) <- c("Models", "n Best Fit", "Probability")
-
-# Apply regex substitution to convert "<" to "$<" in the third column
-combined[, 3] <- gsub("<", "$<$", combined[, 3])
-
-# Apply regex substitution to convert "0.03" to ".03" in the third column
-combined[, 3] <- gsub("\\b0\\.", ".", combined[, 3])
-
-# Apply regex substitution to convert "a" and "v" to "$a$" $v$ in the third column
-
-combined[, 1] <- gsub("(^|\\s)([av])($|\\s)", "\\1$\\2$\\3", combined[, 1])
-
-# print as latex table
-
-# Create a LaTeX table conforming to APA formatting standards
-latex_table <- xtable(combined, caption = "Table Caption Here", label = "tab:table_label")
-
-# Print the LaTeX table
-print(latex_table, include.rownames = TRUE, sanitize.text.function = function(x) x)
-
 ```
 
 ```{r}
 # Rank the best models for each participant
 rankBIC <- rank_models(allBIC)
 rankAIC <- rank_models(allAIC)
+save(rankBIC, file = here("data/evansetal-17/derived/normal/rank_BIC.Rdata"))
+save(rankAIC, file = here("data/evansetal-17/derived/normal/rank_AIC.Rdata"))
+
 
 # Get the best model for each participant
 best_BIC <- rankBIC[, 1]
@@ -231,8 +212,8 @@ plotWeightedICs(weighted_simpleVbest_AIC, main = "AIC")
 plotWeightedICs(weighted_simpleVbest_BIC, main = "BIC")
 
 
-apply(weighted_simpleVbest_AIC,2, mean)
-apply(weighted_simpleVbest_BIC,2, mean)
+round(apply(weighted_simpleVbest_AIC,2, mean),3)
+round(apply(weighted_simpleVbest_BIC,2, mean),3)
 
 
 
@@ -249,23 +230,29 @@ best_IC_2p <- best_IC_from_models(models_2p)
 
 # plot best 1p v best 2p
 n_param_comparison_BIC <-
-  cbind(best_IC_1p[, "BIC"], best_IC_2p[, "BIC"])
+  cbind(allBIC[,"simple"], best_IC_1p[, "BIC"], best_IC_2p[, "BIC"])
+
+colnames(n_param_comparison_BIC) <-
+  c("Standard DDM","Best 1 parameter model", "Best 2 parameter model")
+
 n_param_comparison_weights_BIC <-
   weightedICs(n_param_comparison_BIC)
-colnames(n_param_comparison_weights_BIC) <-
-  c("Best 1 parameter model", "Best 2 parameter model")
-plotWeightedICs(n_param_comparison_weights_BIC, main = "BIC")
 
 n_param_comparison_AIC <-
-  cbind(best_IC_1p[, "AIC"], best_IC_2p[, "AIC"])
+  cbind(allAIC[,"simple"],best_IC_1p[, "AIC"], best_IC_2p[, "AIC"])
+colnames(n_param_comparison_AIC) <-
+  c("Standard DDM","Best 1 parameter model", "Best 2 parameter model")
 n_param_comparison_weights_AIC <-
   weightedICs(n_param_comparison_AIC)
-colnames(n_param_comparison_weights_AIC) <-
-  c("Best 1 parameter model", "Best 2 parameter models")
-plotWeightedICs(n_param_comparison_weights_AIC, main = "AIC")
 
-apply(n_param_comparison_weights_AIC, 2, mean)
-apply(n_param_comparison_weights_BIC, 2, mean)
+getNBest(n_param_comparison_AIC)
+getNBest(n_param_comparison_BIC)
+
+round(apply(n_param_comparison_weights_AIC, 2, mean),2)
+round(apply(n_param_comparison_weights_BIC, 2, mean),2)
+
+plotWeightedICs(n_param_comparison_weights_BIC, main = "BIC", colours = c("red","blue", "seagreen"))
+plotWeightedICs(n_param_comparison_weights_AIC, main = "AIC", colours = c("red","blue", "seagreen"))
 
 ```
 
@@ -338,12 +325,24 @@ trial_models <- models[!models %in% blocked_models] # <--
 best_blocked <- best_IC_from_models(blocked_models)
 best_trial <- best_IC_from_models(trial_models)
 
-groups <- c("Best block change", "Best trial change")
-weighted_blockVtrial_AIC <- weightedICs(cbind(best_blocked$AIC, best_trial$AIC))
+groups <- c("Standard DDM", "Best block change", "Best trial change")
+
+weighted_blockVtrial_AIC <- weightedICs(cbind(allAIC[,"simple"],best_blocked$AIC, best_trial$AIC))
+
 colnames(weighted_blockVtrial_AIC) <- groups
 
-weighted_blockVtrial_BIC <- weightedICs(cbind(best_blocked$BIC, best_trial$BIC))
-colnames(weighted_blockVtrial_BIC) <- groups
+weighted_blockVtrial_BIC <- weightedICs(cbind(allAIC[,"simple"],best_blocked$BIC, best_trial$BIC))
+
+colnames(weighted_blockVtrial_BIC) <- colnames(weighted_blockVtrial_AIC)
+
+weightedBlockVTrial <- list(AIC = weighted_blockVtrial_AIC, BIC = weighted_blockVtrial_BIC)
+save(weightedBlockVTrial, file = here("data/evansetal-17/derived/normal/weighted-blocked-v-trial.Rdata"))
+
+getNBest(weighted_blockVtrial_AIC)
+getNBest(weighted_blockVtrial_AIC)
+
+round(apply(weighted_blockVtrial_AIC,2, mean),2)
+round(apply(weighted_blockVtrial_BIC,2, mean),2)
 
 plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC")
 plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC")
@@ -358,6 +357,47 @@ count_blockedVtrial <- c(blocked = sum(count_blockedVtrial == 1), trial = sum(co
 count_blockedVtrial
 barplot(count_blockedVtrial)
 
+
+```
+```{r}
+colnames(allAIC) <- full_names
+colnames(allBIC) <- full_names
+
+getNBest <- function(allIC){
+  n_IC = table(full_names[apply(allIC, 1, which.min)])
+  n = rep(0, length(full_names))
+  names(n) = full_names
+  n[names(n_IC)] <- n_IC
+  n
+}
+
+n_best_BIC <- getNBest(allBIC)
+n_best_AIC <- getNBest(allAIC)
+
+group_level_probs_BIC <- round(apply(BIC_weights, 2, mean), 3)
+group_level_probs_AIC <- round(apply(AIC_weights, 2, mean), 3)
+
+group_level_probs_BIC[group_level_probs_BIC == 0] <- "< .001"
+group_level_probs_AIC[group_level_probs_AIC == 0] <- "< .001"
+
+combined <- cbind(full_names, unname(n_best_BIC), unname(n_best_AIC), 
+                  unname(group_level_probs_BIC), unname(group_level_probs_AIC))
+
+colnames(combined) <- c("Models", "n Best Fit (BIC)", "n Best Fit (AIC)", 
+                        "Probability (BIC)", "Probability (AIC)")
+
+combined[, 4] <- gsub("<", "$<$", combined[, 4])
+combined[, 5] <- gsub("<", "$<$", combined[, 5])
+
+combined[, 4] <- gsub("\\b0\\.", ".", combined[, 4])
+combined[, 5] <- gsub("\\b0\\.", ".", combined[, 5])
+
+combined[, 1] <- gsub("(^|\\s)([av])($|\\s)", "\\1$\\2$\\3", combined[, 1])
+
+# Print as a LaTeX table
+latex_table <- xtable(combined, caption = "Table Caption Here", label = "tab:table_label")
+
+print(latex_table, include.rownames = TRUE, sanitize.text.function = function(x) x)
 
 ```
 

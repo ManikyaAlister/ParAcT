@@ -14,7 +14,7 @@ allMeanTheta=NULL
 n = 100
 model = "a-delayed-exp"
 
-for (p in 3:n) { #Loop in each data set
+for (p in 1:n) { #Loop in each data set
   load(paste0("Recovery/",model,"/Fits_recovery/P",p,"_",model,".RData"))
   #load(paste0("Recovery/Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
   #Rearrange and take out unnecessary values from the generated parameters 
@@ -122,7 +122,7 @@ plot(
   xlab = "Generating",
   ylab = "Estimated",
   sub = paste0("r = ", round(cor, 2)),
-  main = "a"
+  main = "v"
 )
 abline(a = 0, b = 1, col = "red")
 

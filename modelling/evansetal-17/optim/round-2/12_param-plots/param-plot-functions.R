@@ -30,7 +30,7 @@ getThresholdChange = function(model, parameters, data) {
 
 # Threshold
 
-thresholdPlot = function(model,nRange, round = 1, complex = FALSE, mean = FALSE){
+thresholdPlot = function(model,nRange, round = 1, complex = FALSE, mean = FALSE, title = "", subtitle = paste0("n = ", length(nRange))){
   
   df = as.data.frame(matrix(nrow = 0, ncol = 3))
   complexAll = NULL
@@ -91,6 +91,12 @@ thresholdPlot = function(model,nRange, round = 1, complex = FALSE, mean = FALSE)
       geom_point(data = complexData, aes(x = trial, y = meanComplexParams))
   }
   
+  plot <- plot + 
+    labs(subtitle = subtitle, y = "Threshold (a)", title = title)+
+    # add red line where feedback begins for optim condition 
+    geom_vline(aes(xintercept = 5*40), colour = "red")
+  
+  
   return(plot)
 }
 
@@ -133,7 +139,7 @@ getDriftChange = function(model, parameters, data){
 }
 
 
-driftPlot = function(model,nRange, round = 1, complex = FALSE, mean = FALSE){
+driftPlot = function(model,nRange, round = 1, complex = FALSE, mean = FALSE, title = "",subtitle = paste0("n = ", length(nRange))){
   
   df = as.data.frame(matrix(nrow = 0, ncol = 3))
   complexAll = NULL
@@ -192,6 +198,11 @@ driftPlot = function(model,nRange, round = 1, complex = FALSE, mean = FALSE){
     plot <- plot +
       geom_point(data = complexData, aes(x = trial, y = meanComplexParams))
   }
+  
+  plot <- plot + 
+    labs(subtitle = subtitle, y = "Drift Rate (v)", title = title)+
+    # add red line where feedback begins for optim condition 
+    geom_vline(aes(xintercept = 5*40), colour = "red")
   
   return(plot)
 }

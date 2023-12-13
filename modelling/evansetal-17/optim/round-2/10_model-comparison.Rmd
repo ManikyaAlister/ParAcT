@@ -159,36 +159,40 @@ save(allBIC, file = here("data/evansetal-17/derived/optim/allBIC.Rdata"))
 BIC_weights <- modelProb::weightedICs(allBIC)
 AIC_weights <- modelProb::weightedICs(allAIC)
 
-getNBest = function(allIC){
+getNBest <- function(allIC){
   n_IC = table(full_names[apply(allIC, 1, which.min)])
-n = rep(0, length(full_names))
-names(n) = full_names
-n[names(n_IC)] <- n_IC
-n
+  n = rep(0, length(full_names))
+  names(n) = full_names
+  n[names(n_IC)] <- n_IC
+  n
 }
-n_best <- getNBest(allBIC)
-group_level_probs <- round(apply(BIC_weights, 2, mean), 3)
-group_level_probs[group_level_probs == 0] <- "< .001"
 
-combined <- cbind(full_names, unname(n_best), unname(group_level_probs))
-colnames(combined) <- c("Models", "n Best Fit", "Probability")
+n_best_BIC <- getNBest(allBIC)
+n_best_AIC <- getNBestAIC(allAIC)
 
-# Apply regex substitution to convert "<" to "$<" in the third column
-combined[, 3] <- gsub("<", "$<$", combined[, 3])
+group_level_probs_BIC <- round(apply(BIC_weights, 2, mean), 3)
+group_level_probs_AIC <- round(apply(AIC_weights, 2, mean), 3)
 
-# Apply regex substitution to convert "0.03" to ".03" in the third column
-combined[, 3] <- gsub("\\b0\\.", ".", combined[, 3])
+group_level_probs_BIC[group_level_probs_BIC == 0] <- "< .001"
+group_level_probs_AIC[group_level_probs_AIC == 0] <- "< .001"
 
-# Apply regex substitution to convert "a" and "v" to "$a$" $v$ in the third column
+combined <- cbind(full_names, unname(n_best_BIC), unname(n_best_AIC), 
+                  unname(group_level_probs_BIC), unname(group_level_probs_AIC))
+
+colnames(combined) <- c("Models", "n Best Fit (BIC)", "n Best Fit (AIC)", 
+                        "Probability (BIC)", "Probability (AIC)")
+
+combined[, 4] <- gsub("<", "$<$", combined[, 4])
+combined[, 5] <- gsub("<", "$<$", combined[, 5])
+
+combined[, 4] <- gsub("\\b0\\.", ".", combined[, 4])
+combined[, 5] <- gsub("\\b0\\.", ".", combined[, 5])
 
 combined[, 1] <- gsub("(^|\\s)([av])($|\\s)", "\\1$\\2$\\3", combined[, 1])
 
-# print as latex table
-
-# Create a LaTeX table conforming to APA formatting standards
+# Print as a LaTeX table
 latex_table <- xtable(combined, caption = "Table Caption Here", label = "tab:table_label")
 
-# Print the LaTeX table
 print(latex_table, include.rownames = TRUE, sanitize.text.function = function(x) x)
 ```
 
@@ -220,6 +224,10 @@ colnames(weighted_simpleVbest_AIC) = c("simple", "best alternative")
 weighted_simpleVbest_BIC <- weightedICs(cbind(simple_BIC, best_no_simple$BIC))
 colnames(weighted_simpleVbest_BIC) = c("simple", "best alternative")
 
+round(apply(weighted_simpleVbest_AIC, 2, mean), 2)
+round(apply(weighted_simpleVbest_BIC, 2, mean), 2)
+
+
 # plot 
 plotWeightedICs(weighted_simpleVbest_AIC, main = "AIC")
 plotWeightedICs(weighted_simpleVbest_BIC, main = "BIC")
@@ -237,20 +245,29 @@ best_IC_2p <- best_IC_from_models(models_2p)
 
 # plot best 1p v best 2p
 n_param_comparison_BIC <-
-  cbind(best_IC_1p[, "BIC"], best_IC_2p[, "BIC"])
+  cbind(allBIC[,"simple"], best_IC_1p[, "BIC"], best_IC_2p[, "BIC"])
+
+colnames(n_param_comparison_BIC) <-
+  c("Standard DDM","Best 1 parameter model", "Best 2 parameter model")
+
 n_param_comparison_weights_BIC <-
   weightedICs(n_param_comparison_BIC)
-colnames(n_param_comparison_weights_BIC) <-
-  c("Best 1 parameter model", "Best 2 parameter model")
-plotWeightedICs(n_param_comparison_weights_BIC, main = "BIC")
 
 n_param_comparison_AIC <-
-  cbind(best_IC_1p[, "AIC"], best_IC_2p[, "AIC"])
+  cbind(allAIC[,"simple"],best_IC_1p[, "AIC"], best_IC_2p[, "AIC"])
+colnames(n_param_comparison_AIC) <-
+  c("Standard DDM","Best 1 parameter model", "Best 2 parameter model")
 n_param_comparison_weights_AIC <-
   weightedICs(n_param_comparison_AIC)
-colnames(n_param_comparison_weights_AIC) <-
-  c("Best 1 parameter model", "Best 2 parameter models")
-plotWeightedICs(n_param_comparison_weights_AIC, main = "AIC")
+
+getNBest(n_param_comparison_AIC)
+getNBest(n_param_comparison_BIC)
+
+round(apply(n_param_comparison_weights_AIC, 2, mean),2)
+round(apply(n_param_comparison_weights_BIC, 2, mean),2)
+
+plotWeightedICs(n_param_comparison_weights_BIC, main = "BIC", colours = c("red","blue", "seagreen"))
+plotWeightedICs(n_param_comparison_weights_AIC, main = "AIC", colours = c("red","blue", "seagreen"))
 ```
 
 ## Best a change models v best v change models 
@@ -314,10 +331,10 @@ barplot(count_a_v)
 ## Block varying models versus trial-only varying models
 
 ```{r}
-blocked_models <- models[grep("blocked", models)]
-trial_models <- models[!models %in% blocked_models] # <--
+blocked_models <- models[grep("blocked|step", models)]
+trial_models <- models[!models %in% blocked_models & models != "simple"] 
 
-# because there are more trial models thhan blocked models, more apropriate to compare the best trial/block model for each participant. 
+# because there are more trial models than blocked models, more appropriate to compare the best trial/block model for each participant. 
 
 best_blocked <- best_IC_from_models(blocked_models)
 best_trial <- best_IC_from_models(trial_models)
@@ -328,6 +345,10 @@ colnames(weighted_blockVtrial_AIC) <- groups
 
 weighted_blockVtrial_BIC <- weightedICs(cbind(best_blocked$BIC, best_trial$BIC))
 colnames(weighted_blockVtrial_BIC) <- groups
+
+round(apply(weighted_blockVtrial_AIC,2 ,mean),2)
+round(apply(weighted_blockVtrial_BIC,2 ,mean),2)
+
 
 plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC")
 plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC")
