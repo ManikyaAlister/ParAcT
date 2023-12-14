@@ -6,33 +6,33 @@ library(modelProb)
 n = 10
 # round 1 models 
 
-v_models <- c("simple", 
+v_models <- c(
               "v-linear",
               #"v-power",
               "v-exp",
               #"v-delayed-pow",
               "v-delayed-exp",
-              "a-blocked-simple",
+              "v-blocked-simple",
               #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
               "v-blocked-exp-sb",
               #"v-blocked-exp-ul",
-              #"v-delayed-exp-blocked",
+              "v-delayed-exp-blocked",
               "v-step-fixed")
 
-a_models <- c("simple",
+a_models <- c(
               "a-linear",
               #"a-power",
-              #"a-exp",
+              "a-exp",
               #"a-delayed-power",
               "a-delayed-exp",
               "a-blocked-simple",
               #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
               "a-blocked-exp-sb",
               #"a-blocked-exp-ul",
-              #"a-delayed-exp-blocked",
+              "a-delayed-exp-blocked",
               "a-step-fixed")
 
-models <- c(a_models, v_models)
+models <- c("simple",a_models, v_models)
 
 models_2p <- c(
   "v-a-exp", 

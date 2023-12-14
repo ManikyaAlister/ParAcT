@@ -4,9 +4,8 @@ library(here, lib.loc = lib)
 source(file = here("modelling/evansetal-17/normal/round-2/05_run-models/5.0.0_load-packages.R"))
 source(file = here("modelling/evansetal-17/normal/round-2/02_deep-background.R"))
 
-blocks = 1:24
 conds=1 # number of conditions to loop over
-model = "v-linear-a-blocked-simple"
+model = "v-blocked-simple-a-blocked-simple"
 print(model)
 nSub = 9 # number of subjects to run (if looping over participants)
 subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject number taken from the sbatch or shell array
@@ -16,15 +15,15 @@ subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject 
 ####################
 
 
-for (useSub in subj) {
+for (useSub in 1) {
   # Run DDM for each subject in n Subjects
   
   load(here(
-    paste("data/evansetal-17/clean/P",useSub, "-Normal-Trial.Rdata", sep = "")
+    paste("data/evansetal-17/clean/P",useSub, "-Norm-Trial.Rdata", sep = "")
   ))
   newSeed = Sys.time()
   set.seed(as.numeric(newSeed))
-  
+  blocks <- data$Block
   
   log.dens.like = function (x, data, par.names) {
     out = 0
@@ -32,12 +31,16 @@ for (useSub in subj) {
     
     for (block in blocks) {
       d = x["step"] * (block-1)
+      d.v = x["step.v"] * (block-1)
       a = x["a"]-d
       if (a < 0 ) {
         return(-Inf)
       }
       t0 = x["t0"]
-      v=(x["v.b"]*data$Trial)+x["v.c"] 
+      v = x["a"]+d
+      if (v < 0 ) {
+        return(-Inf)
+      }      
       z = x["z"]
       sv = 0
       sz = 0
@@ -60,8 +63,7 @@ for (useSub in subj) {
     out
   }
   
-  theta.names = c("z", "a", "t0","step",
-                  "v.b", "v.c")
+  theta.names = c("z", "a", "t0","step","step.v")
   
   savefile=here(paste("modelling/evansetal-17/normal/round-2/06_output/P",useSub,"_",model,".Rdata",sep=""))
   saveIC = here(paste("data/evansetal-17/derived/normal/P",useSub,"_",model,"-IC.Rdata",sep=""))
