@@ -47,11 +47,11 @@ ggsave(filename = here("modelling/evansetal-17/optim/round-1/09_plots/a-linear.p
 n = 9
 simple_a = thresholdPlot("simple",n, complex = TRUE, title= "Standard DDM")
 simple_a
-ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-simple.png"),plot = simple)
+ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a-simple.png"),plot = simple_a)
 
 n = 1
 a_step <- thresholdPlot("a-step-fixed",n, complex = TRUE, mean = TRUE, title = "Step")
-ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a_delayed-exp.png"), plot = a_delayed_exp)
+ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a_delayed-exp.png"), plot = a_step)
 
 
 # manuscript figure

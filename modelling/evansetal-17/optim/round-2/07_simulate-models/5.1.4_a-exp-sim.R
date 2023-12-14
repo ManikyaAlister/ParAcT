@@ -5,7 +5,7 @@ library(here, lib.loc = lib)
 source(file = here("modelling/evansetal-17/optim/round-2/05_run-models/5.0.0_load-packages.R"))
 source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 
-conds=c(1,2) # redundant because only one condition
+conds=c(1) # redundant because only one condition
 
 nSub = 9 # number of subjects
 
@@ -16,9 +16,10 @@ nSub = 9 # number of subjects
 ##### Simulate data Using Parameters ####
 
 for (useSub in 1:nSub) {
+  print(useSub)
   load(here(
     paste(
-      "modelling/evansetal-17/optim/round-2/06_output/P",
+      "modelling/evansetal-17/optim/round-1/06_output/P",
       useSub,
       "_a-exp.Rdata",
       sep = ""
@@ -34,11 +35,9 @@ for (useSub in 1:nSub) {
   tmp2 = which.max(tmp1)
   tmp3 = which.max(weight[, tmp2])
   
-  blah = theta[tmp2, , tmp3]
-  
+best_values= theta[tmp2, , tmp3]
+ x = best_values 
   for (cond in conds) {
-    x = c(blah["a.start"], blah["a.asym"], blah["a.rate"], 0.5, blah["v"], blah["t0"]) # set parameters
-    names(x) = c("a.start", "a.asym", "a.rate", "z", "v", "t0")  # set names of the parameters
     
     tmp = rdiffusion(
       n = 10000,
@@ -56,7 +55,7 @@ for (useSub in 1:nSub) {
   
   save(sim, file = here(
     paste(
-      "modelling/evansetal-17/optim/round-2/08_model-predictions/P",
+      "modelling/evansetal-17/optim/round-1/08_model-predictions/P",
       useSub,
       "_a-exp.Rdata",
       sep = ""

@@ -94,7 +94,7 @@ thresholdPlot = function(model,nRange, round = 1, complex = FALSE, mean = FALSE,
   plot <- plot + 
     labs(subtitle = subtitle, y = "Threshold (a)", title = title)+
     # add red line where feedback begins for optim condition 
-    geom_vline(aes(xintercept = 5*40), colour = "red")
+    geom_vline(aes(xintercept = complexData$trial[5]-20), colour = "red")
   
   
   return(plot)
@@ -202,7 +202,7 @@ driftPlot = function(model,nRange, round = 1, complex = FALSE, mean = FALSE, tit
   plot <- plot + 
     labs(subtitle = subtitle, y = "Drift Rate (v)", title = title)+
     # add red line where feedback begins for optim condition 
-    geom_vline(aes(xintercept = 5*40), colour = "red")
+    geom_vline(aes(xintercept = complexData$trial[5]-20), colour = "red")
   
   return(plot)
 }

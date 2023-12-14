@@ -5,9 +5,11 @@ library(here, lib.loc = lib)
 source(file = here("modelling/evansetal-17/optim/round-2/05_run-models/5.0.0_load-packages.R"))
 source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 
-conds=c(1,2) # redundant because only one condition
+conds=c(1) # redundant because only one condition
 
 nSub = 9 # number of subjects
+
+model = "v-a-exp"
 
 ####################################
 #### Exponential Threshold Model ###
@@ -20,7 +22,7 @@ for (useSub in 1:nSub) {
     paste(
       "modelling/evansetal-17/optim/round-2/06_output/P",
       useSub,
-      "_v-a-exp-mir.Rdata",
+      "_",model,".Rdata",
       sep = ""
     )
   )) #Loads through the datasets of each participant in nSub
@@ -30,16 +32,15 @@ for (useSub in 1:nSub) {
                  Cond = NULL,
                  Resp = NULL) #Sets up a list with the correct headings in preparation for the simulation
   
+  # get the best fitting parameters
   tmp1 = apply(weight, 2, max)
   tmp2 = which.max(tmp1)
   tmp3 = which.max(weight[, tmp2])
   
-  blah = theta[tmp2, , tmp3]
+  best_values = theta[tmp2, , tmp3]
   
   for (cond in conds) {
-    x = c(blah["v.start"], blah["v.asym"], blah["v.rate"], 0.5, blah["a.start"], blah["a.asym"], blah["a.rate"], blah["t0"]) # set parameters
-    names(x) = c("v.start", "v.asym", "v.rate", "z", "a.start", "a.asym", "a.rate", "t0")  # set names of the parameters
-    
+    x =  best_values    
     tmp = rdiffusion(
       n = 10000,
       a = x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial),
@@ -58,7 +59,7 @@ for (useSub in 1:nSub) {
     paste(
       "modelling/evansetal-17/optim/round-2/08_model-predictions/P",
       useSub,
-      "_v-a-exp-mir.Rdata",
+      "_",model,".Rdata",
       sep = ""
     )
   ))
