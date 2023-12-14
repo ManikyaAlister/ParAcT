@@ -4,34 +4,35 @@
 library(here)
 rm(list = ls())
 
-n_sub = 9
+n_sub = 10
 
 v_models <- c(
-  # "simple",
-  "v-linear",
-  # "v-power",
-  "v-exp",
-  # "v-delayed-pow",
-  "v-delayed-exp",
-  "v-blocked-simple",
-  # "v-blocked-complex",  
-  # "v-blocked-exp-ul",
-  "v-delayed-exp-blocked",
-  "v-blocked-exp-sb"
-)
+              #"v-linear",
+              #"v-power",
+             # "v-exp",
+              #"v-delayed-pow",
+              #"v-delayed-exp",
+              #"blocked-simple",
+              #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
+              #"v-blocked-exp-sb",
+              #"v-blocked-exp-ul",
+              #"v-delayed-exp-blocked",
+              "v-step-fixed")
 
-a_models <- c(  "a-linear",
-                # "a-power",
-                "a-exp",
-                # "a-delayed-power",
-                "a-delayed-exp",
-                "a-blocked-simple",
-                # "a-blocked-complex", 
-                "a-delayed-exp-blocked",
-                "a-blocked-exp-sb"
-                # "a-blocked-exp-ul",
-                #"a-step"
-)
+a_models <- c(
+              "a-linear",
+              #"a-power",
+              #"a-exp",
+              #"a-delayed-power",
+              "a-delayed-exp")
+              #"a-blocked-simple",
+              #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
+              #"a-blocked-exp-sb",
+              #"a-blocked-exp-ul",
+              #"a-delayed-exp-blocked")
+              #"a-step-fixed")
+
+models <- c("simple", a_models, v_models)
 
 # models_2p <- c(
 #   "v-a-exp",
@@ -44,29 +45,29 @@ a_models <- c(  "a-linear",
 #   "v-dExp-blocked-a-blocked-simple",
 #   "v-dExp-blocked+a-dExp" 
 # )
-
-models_2p = c(
-  "v-a-exp",
-  #"v-linear-a-blocked-complex",
-  "v-linear-a-exp",
-  #"v-linear-a-dExp",
-  "v-linear-a-blocked-simple",
-  #"v-dExp-blocked-a-exp"
-  "v-dExp-blocked-a-Exp",
-  "v-exp-a-step-fixed"
-)
+# 
+# models_2p = c(
+#   "v-a-exp",
+#   #"v-linear-a-blocked-complex",
+#   "v-linear-a-exp",
+#   #"v-linear-a-dExp",
+#   "v-linear-a-blocked-simple",
+#   #"v-dExp-blocked-a-exp"
+#   "v-dExp-blocked-a-Exp",
+#   "v-exp-a-step-fixed"
+# )
 
 #models <- c("simple", a_models, v_models, models_2p)
 
-for ( model in models_2p){
+for ( model in models){
   for ( subject in 1:n_sub) {
     # if(subject %in% bad_datasets){
     #   next
     # }
     AIC = NULL 
     BIC = NULL 
-    if (model %in% models_2p){
-      load(here(paste("modelling/evansetal-17/optim/round-2/06_output/P",subject,"_",model,".Rdata",sep="")))
+    if (model %in% models){
+      load(here(paste("modelling/evansetal-17/optim/round-1/06_output/P",subject,"_",model,".Rdata",sep="")))
       savefile=here(paste("data/evansetal-17/derived/optim/P",subject,"_",model,"-IC.Rdata",sep=""))
     } else {
       load(here(paste("modelling/evansetal-17/optim/round-1/06_output/P",subject,"_",model,".Rdata",sep="")))
@@ -83,9 +84,9 @@ for ( model in models_2p){
     }
     
     
-    n.pars = length(theta.names)
-      BIC = log(length(data$Resp))*n.pars-2*max(weight)
-      AIC = -2*max(weight)+ 2*n.pars
+    # n.pars = length(theta.names)
+    #   BIC = log(length(data$Resp))*n.pars-2*max(weight)
+    #   AIC = -2*max(weight)+ 2*n.pars
     
     
     #save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds,

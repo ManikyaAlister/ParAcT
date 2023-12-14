@@ -47,7 +47,8 @@ module load foss/2022a R/4.2.1
 
 
 # Set the model script names
-models=("5.2.13_v-step-fixed" "5.1.13_a-step-fixed" "5.1.1-simple" "5.2.8-v-blocked-simple" "5.1.2_a-linear" "5.1.5_a-delayed-exp" "5.2.2_v-linear" "5.2.4_v-exp" "5.2.6_v-delayed-exp" "5.1.8-a-blocked-simple" "5.1.9-a-blocked-complex" "5.2.8-v-blocked-simple" "5.2.9-v-blocked-complex" "5.1.10_a-blocked-sb-exp" "5.2.10_v-blocked-sb-exp")
+models=("5.1.4_a-exp" "5.1.12_a-delayed-exp-blocked" "5.2.12_v-delayed-exp-blocked" )
+#("5.2.13_v-step-fixed" "5.1.13_a-step-fixed" "5.1.1-simple" "5.2.8-v-blocked-simple" "5.1.2_a-linear" "5.1.5_a-delayed-exp" "5.2.2_v-linear" "5.2.4_v-exp" "5.2.6_v-delayed-exp" "5.1.8-a-blocked-simple" "5.1.9-a-blocked-complex" "5.2.8-v-blocked-simple" "5.2.9-v-blocked-complex" "5.1.10_a-blocked-sb-exp" "5.2.10_v-blocked-sb-exp")
 
 # Models not run (put below)
 # 
