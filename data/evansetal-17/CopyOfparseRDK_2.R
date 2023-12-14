@@ -1,6 +1,6 @@
 rm(list=ls())
 library(here)
-parseFeedbackType="Norm"
+parseFeedbackType="Optim"
 parseBlockType="Trial"
 
 files=dir(here("data/evansetal-17/raw"))
@@ -59,43 +59,9 @@ for (i in 1:len) {
 }
 
 data = data %>%
-  filter(feedbackType =="Norm" & blockType == "Trial")
+  filter(feedbackType ==parseFeedbackType & blockType == parseBlockType)
 
-nSubs=nSubs[-badSubs]
-subjgroups1=subjgroups1[-badSubs]
-subjgroups2=subjgroups2[-badSubs]
-subjgroups3=subjgroups3[-badSubs]
-
-S=length(nSubs)
-
-use.subs=subjgroups1==parseFeedbackType & subjgroups2==parseBlockType
-use.subs=grep("TRUE",use.subs,perl=TRUE)
-
-parsedData=list()
-
-for (i in 1:(length(use.subs))) {
-  parsedData[[i]]=list(Cond=NULL,Time=NULL,Resp=NULL,Stim=NULL)
-  isSub=data$subject==nSubs[use.subs[i]]
-  #parsedData[[i]]$Cond=data$blkNum[isSub]
-  parsedData[[i]]$Cond=1
-  parsedData[[i]]$Time=data$RT[isSub]
-  parsedData[[i]]$Resp=data$correct[isSub]==1
-  parsedData[[i]]$Stim=data$winningDirection[isSub]
-  parsedData[[i]]$Trial = 1:length(parsedData[[i]]$Time)
-  parsedData[[i]]$TrialInBlock = data$trlNum[isSub]
-  parsedData[[i]]$Block = data$blkNum[isSub]
-}
-
-#data=parsedData
-S=length(parsedData)
-conds=unique(parsedData[[1]]$Cond)
-n.cond=length(conds)
-stims=unique(parsedData[[1]]$Stim)
-n.stim=length(stims)
-
-
-save(parsedData,S,conds,n.cond,stims,n.stim,
-     file=here(paste("data/evansetal-17/clean/parsedData-RDK-",parseFeedbackType,"-",parseBlockType,".Rdata",sep="")))
+use.subs = unique(data$subject)
 
 allData = data
 
@@ -104,15 +70,15 @@ for (i in 1:(length(use.subs))) {
     
   data = data.frame(Cond=NULL,Time=NULL,Resp=NULL,Stim=NULL,Trial = NULL, TrialInBlock = NULL, Block = NULL)
   #data = data.frame()
-  isSub=allData$subject==nSubs[use.subs[i]]
+  isSub=allData$subject==use.subs[i]
   #parsedData[[i]]$Cond=data$blkNum[isSub]
   Time=allData$RT[isSub]
   Resp=allData$correct[isSub]+1
   Stim=allData$winningDirection[isSub]
-  Trial = 1:length(parsedData[[i]]$Time)
+  Trial = 1:length(allData$trlNum[isSub])
   TrialInBlock = allData$trlNum[isSub]
   Block = allData$blkNum[isSub]
-  Cond= rep(1,length(parsedData[[i]]$Time))
+  Cond= rep(1,length(allData$trlNum[isSub]))
   PID = nSubs[use.subs[i]]
   
   data = as.data.frame(cbind(PID,Time,Resp,Stim,Trial,TrialInBlock,Block,Cond))
