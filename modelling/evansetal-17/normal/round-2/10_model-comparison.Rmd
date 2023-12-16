@@ -43,12 +43,13 @@ a_models <- c(
               #"a-blocked-exp-ul",
     )
 
-models_2p = c("v-a-linear", "v-linear-a-exp", "v-linear-a-blocked-simple", "v-exp-a-dExp-blocked" )
+models_2p = c(
+"v-a-exp", "v-a-linear", "v-linear-a-exp", "v-linear-a-blocked-simple", "v-blocked-simple-a-blocked-simple", "v-exp-a-dExp-blocked" )
 
 
 models <- c("simple", a_models, v_models, models_2p)
 
-full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + a Constant Block", "a Exp + v Linear", "a Constant Block + v Linear","a Delayed Exp Blocked + v Exp")
+full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + a Constant Block", "a + v Exponential", "a Exp + v Linear", "a Constant Block + v Linear", "a + v constant block","a Delayed Exp Blocked + v Exp")
 
 ```
 

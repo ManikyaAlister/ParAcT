@@ -26,9 +26,9 @@ a_models <- c(#"simple",
               "a-delayed-exp",
               "a-blocked-simple",
               #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
-              "a-blocked-exp-sb"
+              "a-blocked-exp-sb",
               #"a-blocked-exp-ul",
-              "a-delayed-exp-blocked",
+              "a-delayed-exp-blocked"
               )
 
 models <- c("simple",a_models, v_models)
