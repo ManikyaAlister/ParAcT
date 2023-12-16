@@ -14,7 +14,7 @@ library(here, lib.loc = lib)
 library(modelProb)
 library(xtable)
 
-subjects = 9
+subjects = 10
 v_models <- c(#"simple", 
               "v-linear",
               #"v-power",
@@ -28,7 +28,7 @@ v_models <- c(#"simple",
                 "v-blocked-exp-sb"
 )
 
-a_models <- c("simple",
+a_models <- c(
               "a-linear",
               #"a-power",
               "a-exp",
@@ -43,18 +43,21 @@ a_models <- c("simple",
 
 models_2p = c(
   "v-a-exp",
-  #"v-linear-a-blocked-complex",
   "v-linear-a-exp",
   #"v-linear-a-dExp",
   "v-linear-a-blocked-simple",
   #"v-dExp-blocked-a-exp"
-  "v-dExp-a-Exp",
-  "v-a-step-fixed"
+  "v-dExp-a-dExp",
+  "v-a-step-fixed",
+  "v-linear-a-dExp-blocked",
+  "v-step-fixed-a-exp"
 )
 
-models <- c(a_models, v_models, models_2p)
+both_blocked_2p <- c(FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE)
 
-full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "a Step", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + Constant Block", "a + v Exponential", "a Exp + v Linear", "a Constant Block + v Linear", "a Exp + v Delayed Exp", "a + v Step")
+models <- c("simple",a_models, v_models, models_2p)
+
+full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "a Step", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + Constant Block", "a + v Exponential", "a Exp + v Linear", "a Constant Block + v Linear", "a Delayed Exp + v Delayed Exp", "a + v Step", "a Delayed Exp Blocked+v Linear" , "a Exponential + v Step")
 ```
 
 
@@ -135,12 +138,17 @@ best_IC_from_models = function(models, ICs = c("AIC", "BIC")) {
     IC_array <- IC_array[, models]
     # get column name for best model loop iteration
     best_model_colname <- paste0("best_model_", IC)
+    
+    if(length(models) > 1){
     #get the best model for each participant according to the IC
     best_models <- rank_models(IC_array)
     # add rthhe model names to the data frame
     best_IC[, best_model_colname] <- best_models[, 1]
     # get the actual  IC for the best model
     best_IC[, IC] <- weighted_IC_from_models(best_models, IC_array)
+    } else {
+      best_IC[,IC] <- IC_array
+    }
   }
   best_IC
 }
@@ -160,6 +168,7 @@ BIC_weights <- modelProb::weightedICs(allBIC)
 AIC_weights <- modelProb::weightedICs(allAIC)
 
 getNBest <- function(allIC){
+  full_names <- colnames(allIC)
   n_IC = table(full_names[apply(allIC, 1, which.min)])
   n = rep(0, length(full_names))
   names(n) = full_names
@@ -168,7 +177,7 @@ getNBest <- function(allIC){
 }
 
 n_best_BIC <- getNBest(allBIC)
-n_best_AIC <- getNBestAIC(allAIC)
+n_best_AIC <- getNBest(allAIC)
 
 group_level_probs_BIC <- round(apply(BIC_weights, 2, mean), 3)
 group_level_probs_AIC <- round(apply(AIC_weights, 2, mean), 3)
@@ -331,27 +340,32 @@ barplot(count_a_v)
 ## Block varying models versus trial-only varying models
 
 ```{r}
+both_blocked_models <-  models_2p[both_blocked_2p] # models where both processes are blocked processes
+
 blocked_models <- models[grep("blocked|step", models)]
-trial_models <- models[!models %in% blocked_models & models != "simple"] 
+blocked_models <- blocked_models[both_blocked_models!=blocked_models]
+
+trial_models <- models[!models %in% blocked_models & models != "simple" & models != both_blocked_models] 
 
 # because there are more trial models than blocked models, more appropriate to compare the best trial/block model for each participant. 
 
-best_blocked <- best_IC_from_models(blocked_models)
+best_mixed <- best_IC_from_models(blocked_models)
 best_trial <- best_IC_from_models(trial_models)
+best_blocked<- best_IC_from_models(both_blocked_models)
 
-groups <- c("Best block change", "Best trial change")
-weighted_blockVtrial_AIC <- weightedICs(cbind(best_blocked$AIC, best_trial$AIC))
+groups <- c("Best block change", "Best trial change", "Best Mix")
+weighted_blockVtrial_AIC <- weightedICs(cbind(best_blocked$AIC, best_trial$AIC, best_mixed$AIC))
 colnames(weighted_blockVtrial_AIC) <- groups
 
-weighted_blockVtrial_BIC <- weightedICs(cbind(best_blocked$BIC, best_trial$BIC))
+weighted_blockVtrial_BIC <- weightedICs(cbind(best_blocked$BIC, best_trial$BIC, best_mixed$BIC))
 colnames(weighted_blockVtrial_BIC) <- groups
 
 round(apply(weighted_blockVtrial_AIC,2 ,mean),2)
 round(apply(weighted_blockVtrial_BIC,2 ,mean),2)
 
 
-plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC")
-plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC")
+plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC", colours = c("red", "blue", "orange"))
+plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC",colours = c("red", "blue", "orange"))
 
 
 ```
@@ -359,7 +373,9 @@ plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC")
 How mant participants were best fit by a blocked model versus a trial model
 ```{r}
 count_blockedVtrial <- apply(weighted_blockVtrial_BIC, 1, which.max)
-count_blockedVtrial <- c(blocked = sum(count_blockedVtrial == 1), trial = sum(count_blockedVtrial == 2))
+count_blockedVtrial_AIC <- apply(weighted_blockVtrial_AIC, 1, which.max)
+table(count_blockedVtrial_AIC)
+count_blockedVtrial <- c(block = sum(count_blockedVtrial == 1), trial = sum(count_blockedVtrial == 2), both = sum(count_blockedVtrial == 3))
 count_blockedVtrial
 barplot(count_blockedVtrial)
 

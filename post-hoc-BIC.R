@@ -4,60 +4,41 @@
 library(here)
 rm(list = ls())
 
-n_sub = 10
+n_sub = 11
 
-v_models <- c(
-              #"v-linear",
-              #"v-power",
-             # "v-exp",
-              #"v-delayed-pow",
-              #"v-delayed-exp",
-              #"blocked-simple",
-              #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
-              #"v-blocked-exp-sb",
-              #"v-blocked-exp-ul",
-              #"v-delayed-exp-blocked",
-              "v-step-fixed")
+v_models <- c(#"simple", 
+  "v-linear",
+  #"v-power",
+  "v-exp",
+  #"v-delayed-pow",
+  "v-delayed-exp",
+  "v-blocked-simple",
+  #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
+  #"v-blocked-exp-ul",
+  "v-delayed-exp-blocked",
+  "v-blocked-exp-sb"
+  
+)
 
 a_models <- c(
-              "a-linear",
-              #"a-power",
-              #"a-exp",
-              #"a-delayed-power",
-              "a-delayed-exp")
-              #"a-blocked-simple",
-              #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
-              #"a-blocked-exp-sb",
-              #"a-blocked-exp-ul",
-              #"a-delayed-exp-blocked")
-              #"a-step-fixed")
+  "a-linear",
+  #"a-power",
+  "a-exp",
+  #"a-delayed-power",
+  "a-delayed-exp",
+  "a-blocked-simple",
+  "a-delayed-exp-blocked",
+  
+  #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
+  "a-blocked-exp-sb"
+  #"a-blocked-exp-ul",
+)
 
-models <- c("simple", a_models, v_models)
+models_2p = c(
+  "v-a-exp", "v-a-linear", "v-linear-a-exp", "v-linear-a-blocked-simple", "v-blocked-simple-a-blocked-simple", "v-exp-a-dExp-blocked" )
 
-# models_2p <- c(
-#   "v-a-exp",
-#   "v-linear-a-exp",
-#   "v-linear-a-blocked-simple",
-#   "v-dExp-a-Exp",
-#   "v-exp-a-step-fixed",
-#   "v-exp-a-dExp-blocked",
-#   "v-linear-a-dExp",
-#   "v-dExp-blocked-a-blocked-simple",
-#   "v-dExp-blocked+a-dExp" 
-# )
-# 
-# models_2p = c(
-#   "v-a-exp",
-#   #"v-linear-a-blocked-complex",
-#   "v-linear-a-exp",
-#   #"v-linear-a-dExp",
-#   "v-linear-a-blocked-simple",
-#   #"v-dExp-blocked-a-exp"
-#   "v-dExp-blocked-a-Exp",
-#   "v-exp-a-step-fixed"
-# )
+models <- c("simple", a_models, v_models, models_2p)
 
-#models <- c("simple", a_models, v_models, models_2p)
 
 for ( model in models){
   for ( subject in 1:n_sub) {
@@ -67,11 +48,11 @@ for ( model in models){
     AIC = NULL 
     BIC = NULL 
     if (model %in% models){
-      load(here(paste("modelling/evansetal-17/optim/round-1/06_output/P",subject,"_",model,".Rdata",sep="")))
-      savefile=here(paste("data/evansetal-17/derived/optim/P",subject,"_",model,"-IC.Rdata",sep=""))
+      load(here(paste("modelling/evansetal-17/normal/round-1/06_output/P",subject,"_",model,".Rdata",sep="")))
+      savefile=here(paste("data/evansetal-17/derived/normal/P",subject,"_",model,"-IC.Rdata",sep=""))
     } else {
-      load(here(paste("modelling/evansetal-17/optim/round-1/06_output/P",subject,"_",model,".Rdata",sep="")))
-      savefile=here(paste("data/evansetal-17/derived/optim/P",subject,"_",model,"-IC.Rdata",sep=""))
+      load(here(paste("modelling/evansetal-17/normal/round-1/06_output/P",subject,"_",model,".Rdata",sep="")))
+      savefile=here(paste("data/evansetal-17/derived/normal/P",subject,"_",model,"-IC.Rdata",sep=""))
       
     }
     print(savefile)

@@ -15,7 +15,7 @@ subj = commandArgs(trailingOnly = TRUE) # If parallel, this will be the subject 
 ####################
 
 
-for (useSub in 1) {
+for (useSub in subj) {
   # Run DDM for each subject in n Subjects
   
   load(here(
