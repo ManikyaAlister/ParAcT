@@ -29,7 +29,7 @@ for ( useSub in 1:147){
   load(here(paste0("data/knowlesetal-19/clean/P",useSub,".Rdata")))
   lengths[useSub] <- length(data[,1])
 }
-lengths
+which(lengths==320)
 
 
 t = data %>%

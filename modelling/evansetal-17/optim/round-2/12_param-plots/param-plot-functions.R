@@ -13,7 +13,7 @@ getThresholdChange = function(model, parameters, data) {
     threshold = x["a.asym"] + x["a.start"] * exp(-x["a.rate"] * data$Trial)
   } else if (grepl("a-linear", model)) {
     threshold = ((-x["a.b"]) * data$Trial) + x["a.c"]
-  } else if (grepl("simple", model)) {
+  } else if (model == "simple") {
     threshold = rep(x["a"], length(data$Trial))
   } else if (grepl("a-delayed-power", model)) {
     threshold = x["a.asym"] + x["a.start"] * ((x["a.delay"] + 1) / (x["a.delay"] + data$Trial^(-x["a.rate"])))
@@ -24,6 +24,9 @@ getThresholdChange = function(model, parameters, data) {
   } else if (model == "a-step-fixed"){
     noFeedbackTrials = length(data$Trial[data$Block%in% c(1,2,3,4)])
     threshold = c(rep(x["initial"], noFeedbackTrials), rep(x["initial"] - x["step"], length(data$Trial)-noFeedbackTrials))
+  } else if (model == "a-blocked-simple") {
+    d = x["step"] * (data$Block-1)
+    threshold = x["a"]-d
   }
   threshold
 }

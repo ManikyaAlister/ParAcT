@@ -54,6 +54,8 @@ models_2p = c(
 )
 
 both_blocked_2p <- c(FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE)
+mixed_blocked_2p <- c(FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, FALSE)
+
 
 models <- c("simple",a_models, v_models, models_2p)
 
@@ -340,44 +342,49 @@ barplot(count_a_v)
 ## Block varying models versus trial-only varying models
 
 ```{r}
+# models where block changes were the only changes happening. 
 both_blocked_models <-  models_2p[both_blocked_2p] # models where both processes are blocked processes
+models_1p <- c(v_models, a_models)
+blocked_models <- models_1p[grep("blocked|step", models_1p)] 
+only_blocked <- c(both_blocked_models, blocked_models) 
 
-blocked_models <- models[grep("blocked|step", models)]
-blocked_models <- blocked_models[both_blocked_models!=blocked_models]
+# models where there were 1 param was blocked and 1 was trial
+mixed_models <- models_2p[mixed_blocked_2p]
 
-trial_models <- models[!models %in% blocked_models & models != "simple" & models != both_blocked_models] 
+# models where trial changes were the only ones happening 
+only_trial <-  models[!models %in% only_blocked & models != "simple" & models != mixed_models]
 
 # because there are more trial models than blocked models, more appropriate to compare the best trial/block model for each participant. 
+best_blocked <- best_IC_from_models(only_blocked)
+best_trial <- best_IC_from_models(only_trial)
+best_mixed<- best_IC_from_models(mixed_models)
 
-best_mixed <- best_IC_from_models(blocked_models)
-best_trial <- best_IC_from_models(trial_models)
-best_blocked<- best_IC_from_models(both_blocked_models)
-
-groups <- c("Best block change", "Best trial change", "Best Mix")
-weighted_blockVtrial_AIC <- weightedICs(cbind(best_blocked$AIC, best_trial$AIC, best_mixed$AIC))
+groups <- c("Best block change", "Best trial change", "Best Mix", "Simple")
+weighted_blockVtrial_AIC <- weightedICs(cbind(best_blocked$AIC, best_trial$AIC, best_mixed$AIC, allAIC$simple))
 colnames(weighted_blockVtrial_AIC) <- groups
 
-weighted_blockVtrial_BIC <- weightedICs(cbind(best_blocked$BIC, best_trial$BIC, best_mixed$BIC))
+weighted_blockVtrial_BIC <- weightedICs(cbind(best_blocked$BIC, best_trial$BIC, best_mixed$BIC, allBIC$simple))
 colnames(weighted_blockVtrial_BIC) <- groups
 
 round(apply(weighted_blockVtrial_AIC,2 ,mean),2)
 round(apply(weighted_blockVtrial_BIC,2 ,mean),2)
 
 
-plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC", colours = c("red", "blue", "orange"))
-plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC",colours = c("red", "blue", "orange"))
+plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC", colours = c("red", "blue", "orange", "green"))
+plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC",colours = c("red", "blue", "orange", "green"))
 
 
 ```
 
 How mant participants were best fit by a blocked model versus a trial model
 ```{r}
-count_blockedVtrial <- apply(weighted_blockVtrial_BIC, 1, which.max)
-count_blockedVtrial_AIC <- apply(weighted_blockVtrial_AIC, 1, which.max)
-table(count_blockedVtrial_AIC)
-count_blockedVtrial <- c(block = sum(count_blockedVtrial == 1), trial = sum(count_blockedVtrial == 2), both = sum(count_blockedVtrial == 3))
-count_blockedVtrial
-barplot(count_blockedVtrial)
+count_blockedVtrial <- groups[apply(weighted_blockVtrial_BIC, 1, which.max)]
+print("BIC:")
+table(count_blockedVtrial)
+
+print("AIC:")
+count_blockedVtrial <- groups[apply(weighted_blockVtrial_AIC, 1, which.max)]
+table(count_blockedVtrial)
 
 
 ```
