@@ -58,6 +58,8 @@ models_2p <- c(
 )
 
 models <- c("simple", a_models, v_models, models_2p)
+both_blocked_2p <- c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE)
+mixed_blocked_2p <- c(FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE)
 
 full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + Constant Block", "a + v Exponential", "a Exp + v Linear", "a Constant Block + v Linear", "a Exp + v Delayed Exp", "v Exp + a Delayed Exp Blocked", "a Delayed Exp + v Linear", "a Constant Blocked + v Delelayed Exp Blocked", "a Delayed Exp + v Delayed Exp Blocked")
 ```
@@ -285,6 +287,9 @@ n_param_comparison_weights_AIC <-
 tmp_nbest_AIC <- cbind(simple = allAIC[,"simple"], n_param_comparison_AIC)
 tmp_nbest_BIC <- cbind(simple = allBIC[,"simple"], n_param_comparison_BIC)
 
+save(n_param_comparison_weights_AIC, file = here("data/knowlesetal-19/derived/n_param_comparison_AIC.Rdata"))
+save(n_param_comparison_weights_BIC, file = here("data/knowlesetal-19/derived/n_param_comparison_BIC.Rdata"))
+
 getNBest(tmp_nbest_AIC)
 getNBest(tmp_nbest_BIC)
 
@@ -358,50 +363,54 @@ barplot(count_a_v)
 
 ```{r}
 
-blocked_models <- models[grep("blocked", models)]
-trial_models <- models[!models %in% blocked_models]
+# models where block changes were the only changes happening. 
+both_blocked_models <-  models_2p[both_blocked_2p] # models where both processes are blocked processes
+models_1p <- c(v_models, a_models)
+blocked_models <- models_1p[grep("blocked|step", models_1p)] 
+only_blocked <- c(both_blocked_models, blocked_models) 
 
-best_blocked <- best_IC_from_models(blocked_models)
-best_trial <- best_IC_from_models(trial_models)
+# models where there were 1 param was blocked and 1 was trial
+mixed_models <- models_2p[mixed_blocked_2p]
 
-groups <- c("Standard DDM", "Best block change", "Best trial change")
+# models where trial changes were the only ones happening 
+only_trial <-  models[!models %in% only_blocked & models != "simple" & models != mixed_models]
+
+# because there are more trial models than blocked models, more appropriate to compare the best trial/block model for each participant. 
+best_blocked <- best_IC_from_models(only_blocked)
+best_trial <- best_IC_from_models(only_trial)
+best_mixed<- best_IC_from_models(mixed_models)
+
+groups <- c("Best block change", "Best trial change", "Best Mix", "Simple")
+weighted_blockVtrial_AIC <- weightedICs(cbind(best_blocked$AIC, best_trial$AIC, best_mixed$AIC, allAIC$simple))
+colnames(weighted_blockVtrial_AIC) <- groups
+
+weighted_blockVtrial_BIC <- weightedICs(cbind(best_blocked$BIC, best_trial$BIC, best_mixed$BIC, allBIC$simple))
+colnames(weighted_blockVtrial_BIC) <- groups
+
+save(weighted_blockVtrial_BIC, file = here("data/knowlesetal-19/derived/blockVtrial_BIC.Rdata"))
+save(weighted_blockVtrial_AIC, file = here("data/knowlesetal-19/derived/blockVtrial_AIC.Rdata"))
+
+round(apply(weighted_blockVtrial_AIC,2 ,mean),2)
+round(apply(weighted_blockVtrial_BIC,2 ,mean),2)
 
 
-blockVtrial_AIC <- cbind(allAIC[,"simple"],best_blocked$AIC, best_trial$AIC)
-colnames(blockVtrial_AIC) <- groups
+plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC", colours = c("darkgreen", "blue", "orange", "red"))
+plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC",colours = c("darkgreen", "blue", "orange", "red"))
 
-weighted_blockVtrial_AIC <- weightedICs(blockVtrial_AIC )
-
-
-blockVtrial_BIC <- cbind(allBIC[,"simple"],best_blocked$BIC, best_trial$BIC)
-colnames(blockVtrial_BIC) <- colnames(blockVtrial_AIC)
-
-
-weighted_blockVtrial_BIC <- weightedICs(blockVtrial_BIC)
-
-
-weightedBlockVTrial <- list(AIC = weighted_blockVtrial_AIC, BIC = weighted_blockVtrial_BIC)
-save(weightedBlockVTrial, file = here("data/knowlesetal-19/derived/weighted-blocked-v-trial.Rdata"))
-
-getNBest(blockVtrial_AIC)
-getNBest(blockVtrial_BIC)
-
-round(apply(weighted_blockVtrial_AIC,2, mean),2)
-round(apply(weighted_blockVtrial_BIC,2, mean),2)
-
-plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC", colours = c("purple", "darkgreen", "lightblue"))
-
-plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC", colours = c("purple", "darkgreen", "lightblue"))
 
 
 ```
 
 How mant participants were best fit by a blocked model versus a trial model
 ```{r}
-count_blockedVtrial <- apply(weighted_blockVtrial_BIC, 1, which.max)
-count_blockedVtrial <- c(blocked = sum(count_blockedVtrial == 1), trial = sum(count_blockedVtrial == 2))
-count_blockedVtrial
-barplot(count_blockedVtrial)
+count_blockedVtrial <- groups[apply(weighted_blockVtrial_BIC, 1, which.max)]
+print("BIC:")
+table(count_blockedVtrial)
+
+print("AIC:")
+count_blockedVtrial <- groups[apply(weighted_blockVtrial_AIC, 1, which.max)]
+table(count_blockedVtrial)
+
 
 
 ```

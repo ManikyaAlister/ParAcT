@@ -9,7 +9,7 @@ model = "v-exp"
 
 conds=c(1) # redundant because only one condition
 
-nSub = 9 # number of subjects
+nSub = 10 # number of subjects
 
 ####################################
 #### Exponential Threshold Model ###
@@ -63,5 +63,7 @@ for (useSub in 1:nSub) {
       sep = ""
     )
   ))
+  print(paste0(useSub, " out of ", nSub))
+  
   
 }

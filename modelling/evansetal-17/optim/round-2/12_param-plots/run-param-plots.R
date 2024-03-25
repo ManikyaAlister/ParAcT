@@ -53,7 +53,7 @@ a_step
 ggsave(filename = here("modelling/evansetal-17/optim/round-2/09_plots/a_delayed-exp.png"), plot = a_step)
 
 n = grep("a-blocked-simple", best_BIC)
-a_blocked_simple <- thresholdPlot("a-blocked-simple", n, complex = TRUE, mean = TRUE, title = "Step")
+a_blocked_simple <- thresholdPlot("a-blocked-simple", n, complex = TRUE, mean = TRUE, title = "Constant Block")
 a_blocked_simple
 
 # manuscript figure

@@ -6,14 +6,14 @@ library(msm, lib.loc = lib)
 library(here, lib.loc = lib)
 
 conds = 1
-nSub = 9
+nSub = 10
 
 ##### Simulate data Using Parameters ####
 
 for(useSub in 1:nSub) {
 
 
-  load(here(paste("modelling/evansetal-17/optim/round-2/06_output/P",useSub,"_simple.Rdata", sep = ""))) #Loads through the datasets of each participant in nSub
+  load(here(paste("modelling/evansetal-17/optim/round-1/06_output/P",useSub,"_simple.Rdata", sep = ""))) #Loads through the datasets of each participant in nSub
 
 
   simdata=list(Time=NULL,Cond=NULL,Resp=NULL) #Sets up a list with the correct headings in preparation for the simulation
@@ -25,7 +25,7 @@ for(useSub in 1:nSub) {
   blah=theta[tmp2,,tmp3]
 
   for (cond in conds) { # Loops through each cue condition (congruent and incongruent)
-    currParams=c(blah["a"],0.5,blah["v"],blah["t0"]) # Sets the value of parameters.
+    currParams=c(blah["a"],blah["z"],blah["v"],blah["t0"]) # Sets the value of parameters.
     names(currParams)=c("a","z","v","t0")  # Sets the names of the parameters
 
 
@@ -36,8 +36,9 @@ for(useSub in 1:nSub) {
 
   sim = as.data.frame(simdata) # Convert the simulated data from List format to data frame format
 
-  save(sim, file = here(paste("modelling/evansetal-17/optim/round-2/08_model-predictions/P",useSub,"_simple.Rdata", sep = "")))
-
+  save(sim, file = here(paste("modelling/evansetal-17/optim/round-1/08_model-predictions/P",useSub,"_simple.Rdata", sep = "")))
+  print(paste0(useSub, " out of ", nSub))
+  
 }
 
 

@@ -7,7 +7,7 @@ source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 
 conds=c(1) # redundant because only one condition
 
-nSub = 9 # number of subjects
+nSub = 10 # number of subjects
 
 ####################################
 #### Exponential Threshold Model ###
@@ -61,5 +61,5 @@ best_values= theta[tmp2, , tmp3]
       sep = ""
     )
   ))
-  
+  print(paste0(useSub, " out of ", nSub))
 }

@@ -20,7 +20,7 @@ getCredIntParams <- function(param, theta) {
 
 
 
-getEstimateMismatch = function(n_subjects, path_to_output, gen_models = NULL, bad_subjects = c()) {
+getEstimateMismatch = function(n_subjects, path_to_output, gen_models = NULL) {
   a_asym = matrix(ncol = 3, nrow = n_subjects)
   colnames(a_asym) <- c("lower89", "median", "upper89")
   a_rate = c()
@@ -33,7 +33,6 @@ getEstimateMismatch = function(n_subjects, path_to_output, gen_models = NULL, ba
   colnames(v) <- c("lower89", "median", "upper89")
   # load estimated parameters
   for (i in 1:n_subjects) {
-    if(i %in% bad_subjects) next 
     if (is.null(gen_models)){
       load(here(paste0(path, "P", i, "_a-exp.Rdata")))
       a_asym[i,] <- getCredIntParams("a.asym", theta)
@@ -132,17 +131,17 @@ par(mfrow = c(1, 3), oma = c(0, 1, 4, 0))  # Adjust the bottom margin (oma) to m
 n_subjects =  10
 path = "modelling/evansetal-17/optim/round-1/06_output/"
 getEstimateMismatch(n_subjects = n_subjects, path_to_output = path)
-mtext("Data Set 1 (Feedback after 4th Block)", side = 3, line = 5)
+mtext("Data Set 1 (Detailed feedback after 4th Block)", side = 3, line = 5)
 
 n_subjects =  11
 path = "modelling/evansetal-17/normal/round-1/06_output/"
 getEstimateMismatch(n_subjects = n_subjects, path_to_output = path)
-mtext("Data Set 2 (No Feedback)", side = 3, line = 5)
+mtext("Data Set 2", side = 3, line = 5)
 
 path = "modelling/knowlesetal-19/round-1/06_output/"
 n_subjects <- 147
-getEstimateMismatch(n_subjects = n_subjects, path_to_output = path, bad_subjects =c(2,35,51,141))
-mtext("Data Set 3 (Feedback after each trial)", side = 3, line = 5)
+getEstimateMismatch(n_subjects = n_subjects, path_to_output = path)
+mtext("Data Set 3 (Practice Block Removed)", side = 3, line = 5)
 
 dev.off()
 

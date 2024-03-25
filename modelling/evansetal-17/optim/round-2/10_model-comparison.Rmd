@@ -53,13 +53,20 @@ models_2p = c(
   "v-step-fixed-a-exp"
 )
 
+# models model names and full model names
+save(models_2p, file = here("data/evansetal-17/derived/optim/2-param-models.Rdata"))
+
 both_blocked_2p <- c(FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE)
 mixed_blocked_2p <- c(FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, FALSE)
 
 
 models <- c("simple",a_models, v_models, models_2p)
+save(models, file = here("data/evansetal-17/derived/optim/all-models.Rdata"))
 
 full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "a Step", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + Constant Block", "a + v Exponential", "a Exp + v Linear", "a Constant Block + v Linear", "a Delayed Exp + v Delayed Exp", "a + v Step", "a Delayed Exp Blocked+v Linear" , "a Exponential + v Step")
+
+save(full_names, file = here("data/evansetal-17/derived/optim/model-full-names.Rdata"))
+
 ```
 
 
@@ -271,6 +278,9 @@ colnames(n_param_comparison_AIC) <-
 n_param_comparison_weights_AIC <-
   weightedICs(n_param_comparison_AIC)
 
+save(n_param_comparison_weights_AIC, file = here("data/evansetal-17/derived/optim/n_param_comparison_AIC.Rdata"))
+save(n_param_comparison_weights_BIC, file = here("data/evansetal-17/derived/optim/n_param_comparison_BIC.Rdata"))
+
 getNBest(n_param_comparison_AIC)
 getNBest(n_param_comparison_BIC)
 
@@ -366,12 +376,15 @@ colnames(weighted_blockVtrial_AIC) <- groups
 weighted_blockVtrial_BIC <- weightedICs(cbind(best_blocked$BIC, best_trial$BIC, best_mixed$BIC, allBIC$simple))
 colnames(weighted_blockVtrial_BIC) <- groups
 
+save(weighted_blockVtrial_BIC, file = here("data/evansetal-17/derived/optim/blockVtrial_BIC.Rdata"))
+save(weighted_blockVtrial_AIC, file = here("data/evansetal-17/derived/optim/blockVtrial_AIC.Rdata"))
+
 round(apply(weighted_blockVtrial_AIC,2 ,mean),2)
 round(apply(weighted_blockVtrial_BIC,2 ,mean),2)
 
 
-plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC", colours = c("red", "blue", "orange", "green"))
-plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC",colours = c("red", "blue", "orange", "green"))
+plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC", colours = c("darkgreen", "blue", "orange", "red"))
+plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC",colours = c("darkgreen", "blue", "orange", "red"))
 
 
 ```
