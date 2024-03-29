@@ -3,10 +3,10 @@ lib = .libPaths("~/Library/Frameworks/R.framework/Versions/4.1/Resources/library
 library(here, lib.loc = lib)
 library(modelProb)
 
-n = 7
+n = 11
 # round 1 models 
 
-v_models <- c("simple", 
+v_models <- c(#"simple", 
               "v-linear",
               #"v-power",
               "v-exp",
@@ -28,10 +28,10 @@ a_models <- c(#"simple",
               #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
               "a-blocked-exp-sb",
               #"a-blocked-exp-ul",
-              "a-delayed-exp-blocked",
-              "a-step")
+              "a-delayed-exp-blocked"
+              )
 
-models <- c(a_models, v_models)
+models <- c("simple",a_models, v_models)
 
 models_2p <- c(
   "v-a-exp", 

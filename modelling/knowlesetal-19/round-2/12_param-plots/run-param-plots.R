@@ -73,7 +73,7 @@ ggsave(filename = here("modelling/knowlesetal-19/round-2/09_plots/v-linear.png")
 n = grep("v-a-exp|v-exp", best_BIC)
 v_exp = driftPlot("v-exp",n, complex = TRUE, mean = TRUE, title = "Exponential")
 v_exp
-ggsave(filename = here("modelling/knowlesetal-19/round-2/09_plots/v-exp.png"), plot = v_exp)
+ggsave(filename = here("modelling/knowlesetal-19/round-2/09_plots/v-exp.png"), plot = v_exp, width = 4, height = 4)
 
 n = grep("v-delayed-exp", best_BIC)
 v_delayed_exp <- driftPlot("v-delayed-exp",n, complex = TRUE, mean = TRUE)

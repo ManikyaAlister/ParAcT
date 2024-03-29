@@ -14,7 +14,7 @@ library(here, lib.loc = lib)
 library(modelProb)
 library(xtable)
 
-n = 7
+subjects = 11
 v_models <- c(#"simple", 
               "v-linear",
               #"v-power",
@@ -43,21 +43,21 @@ a_models <- c(
               #"a-blocked-exp-ul",
     )
 
+
 models_2p = c(
   "v-a-exp",
-  #"v-a-linear",
   "v-linear-a-exp",
   "v-linear-a-blocked-simple",
-  "v-exp-a-dExp-blocked",
-  "v-linear-a-dExp",
-  "v-dExp-blocked-a-blocked-simple",
-  "v-dExp-blocked+a-dExp" 
+  "v-blocked-simple-a-blocked-simple",
+  "v-exp-a-linear"
 )
 
+both_blocked_2p <- c(FALSE, FALSE, FALSE, TRUE, FALSE)
+mixed_blocked_2p <- c(FALSE, FALSE, TRUE, FALSE, FALSE)
 
 models <- c("simple", a_models, v_models, models_2p)
 
-full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + a Constant Block", "a + v Exponential", "a Exp + v Linear", "a Constant Block + v Linear", "v Exp + a Delayed Exp Blocked", "a Delayed Exp + v Linear", "a Constant Blocked + v Delelayed Exp Blocked", "a Delayed Exp + v Delayed Exp Blocked")
+full_names <- c("Standard DDM", "a Linear", "a Exponential", "a Delayed Exp", "a Constant Block", "a Delayed Exp Block", "a Exp Trial + Constant Block", "v Linear", "v Exponential", "v Delayed Exponential", "v Constant Block", "v Delayed Exp Block", "v Exp Trial + Constant Block", "a + v Exponential", "a Exp + v Linear", "a Constant Block + v Linear", "a + v constant block","a Linear + v Exp")
 
 ```
 
@@ -68,7 +68,9 @@ IC_array <- function(models, criterion) {
   colnames(allIC) <- c(models)
   
   for (model in models) {
-    for (i in 1:n) {
+    for (i in 1:subjects) {
+      AIC <- NA
+      BIC <- NA
       load(here(
         paste(
           "data/evansetal-17/derived/normal/P",
@@ -126,7 +128,7 @@ models_1p <- models[!(models %in% models_2p)]
 # make a function that returns the best IC for a given set of models and IC
 best_IC_from_models = function(models, ICs = c("AIC", "BIC")) {
   # set up empty array to fill with best models and their ICs
-  best_IC <- as.data.frame(matrix(ncol = length(ICs) * 2, nrow = n))
+  best_IC <- as.data.frame(matrix(ncol = length(ICs) * 2, nrow = subjects))
   colnames(best_IC) <- c(ICs, paste0("best_model_", ICs))
   
   for (IC in ICs) {
@@ -136,27 +138,28 @@ best_IC_from_models = function(models, ICs = c("AIC", "BIC")) {
     IC_array <- IC_array[, models]
     # get column name for best model loop iteration
     best_model_colname <- paste0("best_model_", IC)
+    
+    if(length(models) > 1){
     #get the best model for each participant according to the IC
     best_models <- rank_models(IC_array)
     # add rthhe model names to the data frame
     best_IC[, best_model_colname] <- best_models[, 1]
     # get the actual  IC for the best model
     best_IC[, IC] <- weighted_IC_from_models(best_models, IC_array)
+    } else {
+      best_IC[,IC] <- IC_array
+    }
   }
   best_IC
 }
 
-getNBest = function(allIC){
-  allIC <- as.data.frame(allIC)
-  model_names <- colnames(allIC)
-  if(is.null(model_names)){
-    model_names <- 1:length(ncol(allIC))
-  }
-  n_IC = table(model_names[apply(allIC, 1, which.min)])
-n = rep(0, length(model_names))
-names(n) = model_names
-n[names(n_IC)] <- n_IC
-n
+getNBest <- function(allIC){
+  full_names <- colnames(allIC)
+  n_IC = table(full_names[apply(allIC, 1, which.min)])
+  n = rep(0, length(full_names))
+  names(n) = full_names
+  n[names(n_IC)] <- n_IC
+  n
 }
 
 ```
@@ -245,10 +248,17 @@ colnames(n_param_comparison_AIC) <-
 n_param_comparison_weights_AIC <-
   weightedICs(n_param_comparison_AIC)
 
+save(n_param_comparison_weights_AIC, file = here("data/evansetal-17/derived/normal/n_param_comparison_AIC.Rdata"))
+save(n_param_comparison_weights_BIC, file = here("data/evansetal-17/derived/normal/n_param_comparison_BIC.Rdata"))
+
+print("AIC:")
 getNBest(n_param_comparison_AIC)
+print("BIC:")
 getNBest(n_param_comparison_BIC)
 
+print("AIC:")
 round(apply(n_param_comparison_weights_AIC, 2, mean),2)
+print("BIC:")
 round(apply(n_param_comparison_weights_BIC, 2, mean),2)
 
 plotWeightedICs(n_param_comparison_weights_BIC, main = "BIC", colours = c("red","blue", "seagreen"))
@@ -317,59 +327,60 @@ barplot(count_a_v)
 ## Block varying models versus trial-only varying models
 
 ```{r}
-blocked_models <- models[grep("blocked", models)]
-trial_models <- models[!models %in% blocked_models] # <--
 
-# because there are more trial models thhan blocked models, more apropriate to compare the best trial/block model for each participant. 
+# models where block changes were the only changes happening. 
+both_blocked_models <-  models_2p[both_blocked_2p] # models where both processes are blocked processes
+models_1p <- c(v_models, a_models)
+blocked_models <- models_1p[grep("blocked|step", models_1p)] 
+only_blocked <- c(both_blocked_models, blocked_models) 
 
-best_blocked <- best_IC_from_models(blocked_models)
-best_trial <- best_IC_from_models(trial_models)
+# models where there were 1 param was blocked and 1 was trial
+mixed_models <- models_2p[mixed_blocked_2p]
 
-groups <- c("Standard DDM", "Best block change", "Best trial change")
+# models where trial changes were the only ones happening 
+only_trial <-  models[!models %in% only_blocked & models != "simple" & models != mixed_models]
 
-weighted_blockVtrial_AIC <- weightedICs(cbind(allAIC[,"simple"],best_blocked$AIC, best_trial$AIC))
+# because there are more trial models than blocked models, more appropriate to compare the best trial/block model for each participant. 
+best_blocked <- best_IC_from_models(only_blocked)
+best_trial <- best_IC_from_models(only_trial)
+best_mixed<- best_IC_from_models(mixed_models)
 
+groups <- c("Best block change", "Best trial change", "Best Mix", "Simple")
+weighted_blockVtrial_AIC <- weightedICs(cbind(best_blocked$AIC, best_trial$AIC, best_mixed$AIC, allAIC$simple))
 colnames(weighted_blockVtrial_AIC) <- groups
 
-weighted_blockVtrial_BIC <- weightedICs(cbind(allAIC[,"simple"],best_blocked$BIC, best_trial$BIC))
+weighted_blockVtrial_BIC <- weightedICs(cbind(best_blocked$BIC, best_trial$BIC, best_mixed$BIC, allBIC$simple))
+colnames(weighted_blockVtrial_BIC) <- groups
 
-colnames(weighted_blockVtrial_BIC) <- colnames(weighted_blockVtrial_AIC)
+save(weighted_blockVtrial_BIC, file = here("data/evansetal-17/derived/normal/blockVtrial_BIC.Rdata"))
+save(weighted_blockVtrial_AIC, file = here("data/evansetal-17/derived/normal/blockVtrial_AIC.Rdata"))
 
-weightedBlockVTrial <- list(AIC = weighted_blockVtrial_AIC, BIC = weighted_blockVtrial_BIC)
-save(weightedBlockVTrial, file = here("data/evansetal-17/derived/normal/weighted-blocked-v-trial.Rdata"))
+print("AIC: ")
+round(apply(weighted_blockVtrial_AIC,2 ,mean),2)
+print("BIC: ")
+round(apply(weighted_blockVtrial_BIC,2 ,mean),2)
 
-getNBest(weighted_blockVtrial_AIC)
-getNBest(weighted_blockVtrial_AIC)
 
-round(apply(weighted_blockVtrial_AIC,2, mean),2)
-round(apply(weighted_blockVtrial_BIC,2, mean),2)
-
-plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC")
-plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC")
-
+plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC", colours = c("red", "blue", "orange", "green"))
+plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC",colours = c("red", "blue", "orange", "green"))
 
 ```
 
 How mant participants were best fit by a blocked model versus a trial model
 ```{r}
-count_blockedVtrial <- apply(weighted_blockVtrial_BIC, 1, which.max)
-count_blockedVtrial <- c(blocked = sum(count_blockedVtrial == 1), trial = sum(count_blockedVtrial == 2))
-count_blockedVtrial
-barplot(count_blockedVtrial)
 
+count_blockedVtrial <- groups[apply(weighted_blockVtrial_BIC, 1, which.max)]
+print("BIC:")
+table(count_blockedVtrial)
+
+print("AIC:")
+count_blockedVtrial <- groups[apply(weighted_blockVtrial_AIC, 1, which.max)]
+table(count_blockedVtrial)
 
 ```
 ```{r}
 colnames(allAIC) <- full_names
 colnames(allBIC) <- full_names
-
-getNBest <- function(allIC){
-  n_IC = table(full_names[apply(allIC, 1, which.min)])
-  n = rep(0, length(full_names))
-  names(n) = full_names
-  n[names(n_IC)] <- n_IC
-  n
-}
 
 n_best_BIC <- getNBest(allBIC)
 n_best_AIC <- getNBest(allAIC)

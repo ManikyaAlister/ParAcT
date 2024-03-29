@@ -52,7 +52,6 @@ for (useSub in 1:nSub) {
     simdata$Resp = c(simdata$Resp, tmp$response) # Populates the Resp column in the simulated data
     simdata$Cond = c(simdata$Cond, rep(cond, length(tmp$rt)))
   } # Populates the Cond column in the simulated data
-  
   sim = as.data.frame(simdata) # Convert the simulated data from List format to data frame format
   
   save(sim, file = here(

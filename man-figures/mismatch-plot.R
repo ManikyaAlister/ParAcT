@@ -128,20 +128,20 @@ getEstimateMismatch = function(n_subjects, path_to_output, gen_models = NULL) {
 pdf(paste0("man-figures/estimate-mismatch.pdf"), width = 14, height = 10)
 par(mfrow = c(1, 3), oma = c(0, 1, 4, 0))  # Adjust the bottom margin (oma) to move titles closer
 
-n_subjects =  9
+n_subjects =  10
 path = "modelling/evansetal-17/optim/round-1/06_output/"
 getEstimateMismatch(n_subjects = n_subjects, path_to_output = path)
-mtext("Data Set 1 (Feedback after 4th Block)", side = 3, line = 5)
+mtext("Data Set 1 (Detailed feedback after 4th Block)", side = 3, line = 5)
 
-n_subjects =  7
+n_subjects =  11
 path = "modelling/evansetal-17/normal/round-1/06_output/"
 getEstimateMismatch(n_subjects = n_subjects, path_to_output = path)
-mtext("Data Set 2 (No Feedback)", side = 3, line = 5)
+mtext("Data Set 2", side = 3, line = 5)
 
 path = "modelling/knowlesetal-19/round-1/06_output/"
 n_subjects <- 147
 getEstimateMismatch(n_subjects = n_subjects, path_to_output = path)
-mtext("Data Set 3 (Feedback after each trial)", side = 3, line = 5)
+mtext("Data Set 3 (Practice Block Removed)", side = 3, line = 5)
 
 dev.off()
 

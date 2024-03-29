@@ -12,7 +12,7 @@ subj = commandArgs(trailingOnly = TRUE)
 #### Exponential Threshold Model ###
 ####################################
 
-for (useSub in 1) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
+for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subject if running in parallel
   
   load(here(paste("data/evansetal-17/clean/P",useSub,"-Norm-Trial.Rdata",sep="")))
   newSeed=Sys.time()

@@ -6,7 +6,7 @@ library(msm, lib.loc = lib)
 library(here, lib.loc = lib)
 
 conds = 1
-nSub = 9
+nSub = 10
 
 ##### Simulate data Using Parameters ####
 

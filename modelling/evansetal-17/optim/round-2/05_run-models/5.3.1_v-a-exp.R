@@ -32,7 +32,6 @@ for (useSub in subj) { # Run DDM for each subject in nSubj, or a specific subjec
       sz=0
       st0=0
       s=1
-      #browser()
       tmp=ddiffusion(rt=data$Time[data$Cond==cond],response=data$Resp[data$Cond==cond],z=z*a,a=a,v=v,t0=t0-(st0/2),s=s,sv=sv,sz=sz,st0=st0) #if I want to do it over multiple conditions
       out=out+sum(log(pmax(tmp,1e-10)))
     }

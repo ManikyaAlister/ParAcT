@@ -58,7 +58,7 @@ for (useSub in 1:nSub) {
     paste(
       "modelling/evansetal-17/normal/round-2/08_model-predictions/P",
       useSub,
-      "_v-a-exp-mir.Rdata",
+      "_v-a-exp.Rdata",
       sep = ""
     )
   ))

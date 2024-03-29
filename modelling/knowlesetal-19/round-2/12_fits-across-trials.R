@@ -5,7 +5,7 @@ nSub = 1
 dataset = "knowlesetal-19"
 
 # vector of the best model for each participant  
-best_models = rep("a-exp-mir", nSub)
+best_models = rep("a-exp", nSub)
 
 for (useSub in 1:nSub) {
   

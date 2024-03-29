@@ -1,4 +1,4 @@
-
+## Some files have the same ID number which is why some "participants" have 320 trials. 
 rm(list=ls())
 
 files=dir("data/knowlesetal-19/raw/",pattern = ".txt")

@@ -6,8 +6,7 @@ source(file = here("modelling/evansetal-17/optim/round-2/05_run-models/5.0.0_loa
 source(file = here("modelling/evansetal-17/optim/round-2/02_deep-background.R"))
 model = "v-blocked-simple"
 conds=c(1,2) # redundant because only one condition
-blocks = 1:24
-nSub = 9 # number of subjects
+nSub = 10 # number of subjects
 
 ####################################
 #### Exponential Threshold Model ###
@@ -18,13 +17,13 @@ nSub = 9 # number of subjects
 for (useSub in 1:nSub) {
   load(here(
     paste(
-      "modelling/evansetal-17/optim/round-2/06_output/P",
+      "modelling/evansetal-17/optim/round-1/06_output/P",
       useSub,
       "_",model,".Rdata",
       sep = ""
     )
   )) #Loads through the datasets of each participant in nSub
-  
+  blocks = unique(data$Block)
   
   simdata = list(Time = NULL,
                  Cond = NULL,
@@ -37,12 +36,12 @@ for (useSub in 1:nSub) {
   blah = theta[tmp2, , tmp3]
   
   for (cond in conds) {
-    for (block in blocks)
+    for (block in blocks) {
     x=c(blah["a"],0.5,blah["v"],blah["t0"],blah["step"]) # Sets the value of parameters.
     names(x)=c("a","z","v","t0","step")  # Sets the names of the parameters
       d = (-x["step"] * (block-1) )
     tmp = rdiffusion(
-      n = 10000/blocks,
+      n = 10000/max(blocks),
       a = x["a"],
       v = x["v"]-d,
       t0 = x["t0"],
@@ -52,16 +51,17 @@ for (useSub in 1:nSub) {
     simdata$Resp = c(simdata$Resp, tmp$response) # Populates the Resp column in the simulated data
     simdata$Cond = c(simdata$Cond, rep(cond, length(tmp$rt)))
   } # Populates the Cond column in the simulated data
-  
+  }
   sim = as.data.frame(simdata) # Convert the simulated data from List format to data frame format
   
   save(sim, file = here(
     paste(
-      "modelling/evansetal-17/optim/round-2/08_model-predictions/P",
+      "modelling/evansetal-17/optim/round-1/08_model-predictions/P",
       useSub,
       "_",model,".Rdata",
       sep = ""
     )
   ))
+  print(paste0(useSub, " out of ", nSub))
   
 }
