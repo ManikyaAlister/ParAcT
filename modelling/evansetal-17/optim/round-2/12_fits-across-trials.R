@@ -1,6 +1,7 @@
 library(dplyr)
 library(here)
 library(modelProb)
+library(ggpubr)
 
 # source plotting function
 source(here("functions/plot-fits-across-trials.R"))
@@ -9,7 +10,7 @@ dataset <- "evansetal-17"
 subset <- "/optim"
 
 # load the 2 parameter models for the data set so we know what file path to call later
-models_2p <- load(here("data/",dataset,"/derived",subset,"/2-param-models.Rdata"))
+load(here(paste0("data/",dataset,"/derived",subset,"/2-param-models.Rdata")))
 
 # load the AIC/BIC data so that we can determine what models we want to generate fits for
 load(here(paste0("data/",dataset,"/derived",subset,"/allBIC.Rdata")))
@@ -24,6 +25,9 @@ average_weights <- apply(weights, 2, mean)
 # find which models have an average weight > .1 
 fit_models <- names(average_weights[average_weights > .1])
 
+# set up empty plot list
+plot_list <- list()
+
 for (i in 1:length(fit_models)){
   model <- fit_models[i]
   # determine which participants were best fit by model 
@@ -33,5 +37,11 @@ for (i in 1:length(fit_models)){
   round <- ifelse(model %in% models_2p, 2, 1) 
   
   # plot the fits of participants who were best fit by that model
-  fitRTAcrossTime(model, subjects,dataset, subset, round)
+  plot <- fitRTAcrossTime(model, subjects,dataset, subset, round)
+  
+  # save in plot list 
+  plot_list[[i]] <- plot
 }
+
+
+ggarrange(plotlist = plot_list, common.legend = TRUE)
