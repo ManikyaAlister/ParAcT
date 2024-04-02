@@ -1,10 +1,4 @@
 
-iterative_process = function(theta.names = param.names){
-  # source priors
-  source(here(paste0(
-    "modelling/evansetal-17/optim/round-1/03_priors.R"
-  )))
-  
   for(i in 1:n.chains){
     while (weight[1,i]==-Inf) {
       theta[i,,1]=rtnorm(n=n.pars,mean=start.points,sd=start.points.sd,lower.bounds,upper.bounds)
@@ -31,7 +25,6 @@ iterative_process = function(theta.names = param.names){
   
   theta=theta[,,burnin:nmc]
   weight=weight[burnin:nmc,]
-}
 
 
 
