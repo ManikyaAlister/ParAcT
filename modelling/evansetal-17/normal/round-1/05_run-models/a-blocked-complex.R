@@ -4,7 +4,7 @@ library(here, lib.loc = lib)
 source(here("modelling/generic_scripts/load-packages.R"))
 
 # data set id 
-dataset_id <- "evans-optim" # commandArgs(trailingOnly = TRUE)[2]
+dataset_id <- "evans-normal" # commandArgs(trailingOnly = TRUE)[2]
 
 # subject (define full vector of subjects if running serially/locally)
 subj <- 1 # commandArgs(trailingOnly = TRUE)[1]

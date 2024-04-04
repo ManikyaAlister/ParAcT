@@ -45,14 +45,3 @@ simulate.DIFF=function(N,params,maxCounter,stepSize,use.table,n.table.options, p
 }
 
 
-# N=100000
-# maxCounter=20000
-# stepSize=1
-# #params=c(v=0,a=10,ter=0.3,sv=0,ster=0,sz=0,stoch.s=0.1,z=10/2,gamma=0,alpha=0,tau=0)
-# params=c(v=0.45,a=60,ter=330,sv=0,ster=80,sz=20,stoch.s=4,z=0,gamma=-15,alpha=2.5,tau=30)
-# 
-# blah=proc.time()
-# tmp=simulate.DMC(N=N,params=params,maxCounter=maxCounter,stepSize=stepSize,use.table=use.table,n.table.options=n.table.options)
-# print(proc.time()-blah)
-
-
