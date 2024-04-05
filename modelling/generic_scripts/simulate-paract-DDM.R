@@ -36,15 +36,5 @@ sim = as.data.frame(simdata) # Convert the simulated data from List format to da
 # save
 save(sim, file = here(
   paste0(
-    "modelling/",
-    dataset,
-    "",
-    subvariant,
-    "/round-",
-    round,
-    "/08_model-predictions/P",
-    useSub,
-    "_",
-    model,
-    ".Rdata"
+save_output_path(fit = FALSE)
   )))

@@ -73,6 +73,15 @@ v_dExp = function(x, trials =  data$Trial){
   v
 }
 
+a_power = function(x, trials =  data$Trial){
+  a <- x["a.asym"]+x["a.start"]*(trials^x["a.rate"])
+  a
+}
+
+v_power = function(x, trials =  data$Trial){
+  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*(trials^x["v.rate"])
+  v
+}
 
 # Block-varying functions -------------------------------------------------
 
@@ -90,12 +99,12 @@ v_blocked_simple = function(x, b = block, trials =  data$Trial){
 }
 
 # delayed exp blocked 
-a_dExp = function(x, trials =  data$Trial, blocks = data$Block){
+a_dExp_blocked = function(x, trials =  data$Trial, blocks = data$Block){
   a <- x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*blocks))))
   a
 }
 
-v_dExp = function(x, trials =  data$Trial, blocks = data$Block){
+v_dExp_blocked = function(x, trials =  data$Trial, blocks = data$Block){
   v <- (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*blocks)))
   v
 }

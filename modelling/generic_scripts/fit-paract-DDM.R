@@ -1,19 +1,6 @@
 
 # Script for fitting paract-DDM (should be sourced from run_model  --------
 
-# load data structure with data set details
-load(here("data/dataset-details.Rdata"))
-
-
-# get data set details (for file paths) for specific data set
-dataset_details <-
-  dataset_details[dataset_details$dataset_id == dataset_id, ]
-
-# extract key info
-dataset <- dataset_details$dataset
-subvariant <- dataset_details$subvariant
-parsed_data <- dataset_details$parsed_data_file
-
 # if a DDM parameter function has more than one parameter it is time varying
 time_varying <- unlist(lapply(paract_functions, function(x)
   length(x) > 1))
@@ -21,12 +8,23 @@ time_varying <- unlist(lapply(paract_functions, function(x)
 # check how many time varying parameters there are
 n_time_varying <- sum(time_varying)
 
-#  calculate  whether this is a round 1 model (only 1 time-varying parameter) or round 2 model
+#  calculate  whether this is a round 1 model (only 1 time-varying parameter) or round 2 model (not relevant for recovery)
 if (n_time_varying > 1) {
-  round <- 2
+  analysis_round <- 2
 } else {
-  round <- 1
+  analysis_round <- 1
 }
+
+# get data set details (for file paths) for specific data set
+selected_index <- which(dataset_details$dataset_id == dataset_id)
+dataset_details <- lapply(dataset_details, function(x) x[selected_index])
+
+# extract key info
+dataset <- dataset_details$dataset
+load_data_path <- dataset_details$load_data_path[[1]]
+save_output_path <- dataset_details$save_output_path[[1]]
+save_IC_path <- dataset_details$save_IC_path
+simulate_fits <- dataset_details$simulate_fits
 
 # source background code for MCMC 
 source(file = here("modelling/generic_scripts/deep-background.R"))
@@ -35,27 +33,16 @@ source(file = here("modelling/generic_scripts/deep-background.R"))
 for (useSub in subj) {
   
   # So I can see the data set 
-  print(dataset_id)
+  print(paste0("Data set id: ",dataset_id))
   
   # So I can see which model is running
-  print(model)
+  print(paste0("Model: ", model))
   
   # so I can see what subject is running
-  print(paste0("Participant ", useSub))
+  print(paste0("Participant: ", useSub))
   
   # load data
-  load(here(
-    paste0(
-      "data/",
-      dataset,
-      "/clean/P",
-      useSub,
-      "",
-      parsed_data,
-      ".Rdata",
-      sep = ""
-    )
-  ))
+  load(here(load_data_path()))
   
   # identify unique response stimuli in data (eg., left/right)
   stims <- unique(data$Stim)
@@ -106,36 +93,9 @@ for (useSub in subj) {
   
   # define file paths for output
   savefile = here(
-    paste(
-      "modelling/",
-      dataset,
-      "",
-      subvariant,
-      "/round-",
-      round,
-      "/06_output/P",
-      useSub,
-      "_",
-      model,
-      ".Rdata",
-      sep = ""
-    )
+      save_output_path()
   )
-  
-  saveIC = here(
-    paste(
-      "data/",
-      dataset,
-      "/derived",
-      subvariant,
-      "/P",
-      useSub,
-      "_",
-      model,
-      "-IC.Rdata",
-      sep = ""
-    )
-  )
+
   
   # source priors
   source(here("modelling/generic_scripts/priors.R"))
@@ -151,7 +111,6 @@ for (useSub in subj) {
   BIC = log(length(data$Time)) * n.pars - 2 * max(weight)
   
   # save model output
-  save(AIC, BIC, file = saveIC)
   save(AIC,
        BIC,
        theta,
@@ -164,8 +123,28 @@ for (useSub in subj) {
        stims,
        file = savefile)
   
-  # simulate predictions from estimated parameters (for model fits)
-  source(here("modelling/generic_scripts/simulate-paract-DDM.R"))
+  
+  # full output file is quite big, so sometimes you might want to save model comparison data separately
+  if(save_IC_path != FALSE){
+  saveIC = here(
+    paste(
+      save_IC_path,
+      "/P",
+      useSub,
+      "_",
+      model,
+      "-IC.Rdata",
+      sep = ""
+    )
+  )
+  
+  save(AIC, BIC, file = saveIC)
+  }
+  
+  if(simulate_fits){
+    # simulate predictions from estimated parameters (for model fits)
+    source(here("modelling/generic_scripts/simulate-paract-DDM.R"))
+  }
   
 }
 
