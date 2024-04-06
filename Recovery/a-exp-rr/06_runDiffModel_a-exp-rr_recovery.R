@@ -50,7 +50,7 @@ for (useSub in subj) { # Run DDM for each subject in n Subjects
   
   AIC = -2*max(weight)+ 2*n.pars 
   BIC = log(length(data$Time))*n.pars-2*max(weight)
-  #save(AIC,BIC,file = saveIC)
+  save(AIC,BIC,file = saveIC)
   save(AIC, BIC, theta,weight,data,burnin,nmc,n.chains,theta.names,conds, genParams,
        file=savefile)
 }
