@@ -4,8 +4,8 @@ load_data = function(id = dataset_id, subject = useSub){
   here(paste0("Recovery/",id, "/Datasets/RECOVERY_DATA-DIFF_LHS-",subject,".Rdata"))
 }
 
-save_output = function(m = model, subject = useSub){
-  here(paste0("Recovery/", m, "/Fits_recovery/P",subject,"-",m,".Rdata"))
+save_output = function(m = model, subject = useSub, id = dataset_id){
+  here(paste0("Recovery/", id, "/Fits_recovery/P",subject,"-",m,".Rdata"))
 }
 
 # Generate lists of function calls for each model

@@ -47,7 +47,7 @@ module load foss/2022a R/4.2.1
 
 
 # Set the model script names
-models=("simple" "a-linear" "v-linear" "a-exp" "v-exp" "v-delayed-exp" "a-delayed-exp")
+models=("simple" "a-linear" "v-linear" "v-exp" "a-exp" "v-dExp" "a-dExp")
 n_models=7
 data="simple"
 
@@ -62,7 +62,7 @@ model_idx=$(((SLURM_ARRAY_TASK_ID-1) % n_models)) # make sure you correctly indi
 participant_idx=$(((SLURM_ARRAY_TASK_ID-1) / n_models)) # make sure you correctly indicate the number of models after '/'
 
 # Run the R script with the input and output files and the participant number as a command line argument
-Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/generic-recovery-scripts/07_fit.R ${participants[$participant_idx]} ${data} ${model} 
+Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/generic-recovery-scripts/07_fit.R ${participants[$participant_idx]} ${data} ${models[$model_idx]} 
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage
