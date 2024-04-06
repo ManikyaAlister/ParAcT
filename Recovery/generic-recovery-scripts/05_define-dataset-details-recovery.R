@@ -1,18 +1,24 @@
 models <- c("simple", "a-linear", "a-power", "a-exp", "a-dExp", "v-linear", "v-power", "v-exp", "v-dExp")
 
-load_data = function(id = dataset_id, subject = useSub){
-  here(paste0("Recovery/",id, "/Datasets/RECOVERY_DATA-DIFF_LHS-",subject,".Rdata"))
+# Higher-order function for load_data
+load_data_generator = function(id) {
+  function(subject = useSub) {
+    here(paste0("Recovery/", id, "/Datasets/RECOVERY_DATA-DIFF_LHS-", subject, ".Rdata"))
+  }
 }
 
-save_output = function(m = model, subject = useSub, id = dataset_id){
-  here(paste0("Recovery/", id, "/Fits_recovery/P",subject,"-",m,".Rdata"))
+# Higher-order function for save_output
+save_output_generator = function(id) {
+  function(m = model, subject = useSub) {
+    here(paste0("Recovery/", id, "/Fits_recovery/P", subject, "-", m, ".Rdata"))
+  }
 }
 
-# Generate lists of function calls for each model
-load_data_paths = lapply(models, function(id=dataset_id) function() load_data(id))
-save_output_paths = lapply(models, function(m=model) function() save_output(m))
+# Generate lists of specific functions for each model
+load_data_paths = lapply(models, load_data_generator)
+save_output_paths = lapply(models, save_output_generator)
 
-# Create data set_details list with these
+# Create dataset_details list with these specific functions
 dataset_details <- list(
   dataset_id = models,
   save_output_path = save_output_paths,

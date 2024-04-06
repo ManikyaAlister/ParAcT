@@ -8,17 +8,14 @@ args = commandArgs(trailingOnly = TRUE)
 # # data set id 
 dataset_id <- args[2]
 
-# # subject (define full vector of subjects if running serially/locally)
+# subject (define full vector of subjects if running serially/locally)
 subj <- args[1]
-
-# model being recovered
-model <- "simple"
-
-# load time varying functions
-source(here("modelling/generic_scripts/model-functions.R"))
 
 # model name
 model <- args[3]
+
+# load time varying functions
+source(here("modelling/generic_scripts/model-functions.R"))
 
 # whether or not this is a model recovery 
 recovery = TRUE
@@ -28,3 +25,5 @@ paract_functions <- all_functions[[model]]
 
 # load data set details  (that provides info on file paths, etc)
 source(here("Recovery/generic-recovery-scripts/05_define-dataset-details-recovery.R"))
+
+

@@ -29,11 +29,13 @@ save_output_path <- dataset_details$save_output_path[[1]]
 save_IC_path <- dataset_details$save_IC_path
 simulate_fits <- dataset_details$simulate_fits
 
+
 # source background code for MCMC 
 source(file = here("modelling/generic_scripts/deep-background.R"))
 
 # Run DDM for each subject or a specific subject if running in parallel
 for (useSub in subj) {
+  print(save_output_path())
   
   # So I can see the data set 
   print(paste0("Data set id: ",dataset_id))
