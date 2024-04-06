@@ -1,5 +1,8 @@
 
 # Script for fitting paract-DDM (should be sourced from run_model  --------
+library(msm)
+library(rtdists)
+
 
 # if a DDM parameter function has more than one parameter it is time varying
 time_varying <- unlist(lapply(paract_functions, function(x)
@@ -43,6 +46,11 @@ for (useSub in subj) {
   
   # load data
   load(here(load_data_path()))
+  
+  # The data generating script for the recovery has correct and incorrect switched around
+  if(recovery){
+    data$Resp = 3-data$Resp
+  }
   
   # identify unique response stimuli in data (eg., left/right)
   stims <- unique(data$Stim)

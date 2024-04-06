@@ -19,6 +19,9 @@ source(here("modelling/generic_scripts/model-functions.R"))
 # model name
 model <- args[3]
 
+# whether or not this is a model recovery 
+recovery = FALSE
+
 # get the time-varying functions that correspond to the model. 
 paract_functions <- all_functions[[model]]
 
