@@ -6,13 +6,12 @@ plot_recovery_correlations = function(model, n = 100){
   # Set up empty data frames for generated parameters (allGenParamas) and estimated parameters (allMeanTheta)
   allGenParams=NULL
   allMeanTheta=NULL
-  
-  #Define how many data sets to use
-  model = "simple"
+
   
   for (p in 1:n) { #Loop in each data set
     #load(paste0("Recovery/",model,"/Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
-    load(paste0("Recovery/",model,"/Fits_recovery/P",p,"_",model,".RData"))
+    load(paste0("Recovery/",model,"/Fits_recovery/P",p,"-",model,".RData"))
+    load(paste0("Recovery/",model,"/Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
     #Rearrange and take out unnecessary values from the generated parameters 
     tmp = c(genParams[,1])
     
@@ -45,6 +44,7 @@ plot_recovery_correlations = function(model, n = 100){
   }
   dev.off()
 }
-plot_recovery_correlations("simple")
+
+plot_recovery_correlations("v-exp")
 
 
