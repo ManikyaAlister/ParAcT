@@ -55,7 +55,7 @@ for (useSub in subj) {
   }
   
   # identify unique response stimuli in data (eg., left/right)
-  stims <- unique(data$Stim)
+  stims <- sort(unique(data$Stim))
   if (length(stims) > 2 ) stop("More than two response stimuli detected in the data set.")
   
   # generate and set seed
