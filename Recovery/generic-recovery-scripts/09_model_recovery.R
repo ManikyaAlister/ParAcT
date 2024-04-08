@@ -4,12 +4,12 @@ library(here, lib.loc = lib)
 library(modelProb)
 
 
-IC_array = function(estimating_models, criterion, generating_data, n_sub = 100) {
+IC_array = function(estimating_models, criterion, generating_data, n_sub = 100, grouping_param) {
   n_models <- length(estimating_models)
   # Set up an empty data frame
   allIC <- matrix(NA, ncol = n_models, nrow = n_sub)  # Initialize with NAs
   colnames(allIC) <- estimating_models
-  
+  gen_param = c()
   for (j in 1:n_models) {
     model <- estimating_models[j]
     for (i in 1:n_sub) {
@@ -18,6 +18,8 @@ IC_array = function(estimating_models, criterion, generating_data, n_sub = 100) 
       
       # Construct file path
       file_path <- here(paste0("Recovery/", generating_data, "/Fits_recovery/P", i, "-", model, ".Rdata"))
+      load(paste0("Recovery/",generating_data,"/Datasets/RECOVERY_DATA-DIFF_LHS-",i,".Rdata"))
+      
       # Check if the file exists before trying to load it
       if (file.exists(file_path)) {
         load(file_path)
@@ -28,10 +30,15 @@ IC_array = function(estimating_models, criterion, generating_data, n_sub = 100) 
           IC <- BIC
         }
       }
+      gen_param[i] <- genParams[grouping_param, 1]
       # Assign the IC value to the appropriate place in the matrix
       allIC[i, j] <- IC  # Use matrix indexing [row, column]
     }
   }
+  
+  print(gen_param)
+  
+  allIC <- allIC[order(gen_param),]
   
   # Convert the matrix to a data frame for the final output
   allIC_df <- as.data.frame(allIC)
@@ -43,7 +50,8 @@ IC_array = function(estimating_models, criterion, generating_data, n_sub = 100) 
  IC_array(
   estimating_models = c("simple","a-linear", "a-exp", "a-dExp", "v-linear", "v-exp", "v-dExp"),
   criterion = "BIC",
-  generating_data = "simple"
+  generating_data = "simple",
+  grouping_param = "a"
 )
 
  mc <- IC_array(
@@ -56,7 +64,9 @@ IC_array = function(estimating_models, criterion, generating_data, n_sub = 100) 
   estimating_models = c("simple","v-linear", "v-exp", "v-dExp", "a-exp"),
   criterion = "BIC",
   generating_data = "v-exp",
-  n_sub = 100
+  n_sub = 100,
+  grouping_param = "v.asym"
+  
 )
 
  weights <- modelProb::weightedICs(mc)
