@@ -46,6 +46,50 @@ IC_array = function(estimating_models, criterion, generating_data, n_sub = 100, 
   return(allIC_df)
 }
 
+# define model groups 
+a_models <- c("a-linear", "a-exp", "a-dExp")
+v_models <- c("c-linear", "v-exp", "v-dExp")
+a_exp_power <- c("a-exp", "a-power")
+v_exp_power <- c("v-exp", "v-power")
+
+# define details of each comparsion 
+model_comparisons <- list(
+  # can we distinguish between power and exponential changes? 
+  list(data = "a-exp",
+      models = a_exp_power),
+  list(data = "a-power",
+       models = a_exp_power),
+  list(data = "v-exp",
+      models = v_exp_power),
+  list(data = "v-power",
+       models = v_exp_power),
+  # can we recover the simple model compared to all time-varying models? 
+  list(data = "simple",
+       models = c("simple", a_models, v_models)),
+  # can we distinguish between a time-varying functions? 
+  list(data = "a-linear",
+       models = a_models),
+  list(data = "a-exp",
+        models = a_models),
+  list(data = "a-dExp",
+        models = a_models),
+  # can we distinguish between v time-varying functions?
+  list(data = "v-linear",
+       models = v_models),
+  list(data = "v-exp",
+        models = v_models),
+  list(data = "v-dExp",
+        models = v_models),
+  # can we distinguish between a and v exponential functions?
+  list(data = "a-exp",
+       models = c("a-exp", "v-exp")),
+  list(data = "v-exp",
+       models = c("a-exp", "v-exp"))
+)
+
+
+
+
 # Example usage
  IC_array(
   estimating_models = c("simple","a-linear", "a-exp", "a-dExp", "v-linear", "v-exp", "v-dExp"),
