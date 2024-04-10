@@ -69,7 +69,7 @@ for (useSub in subj) {
     
     for (stim in stims) {
       # filter trials for a given stimulus 
-      stim_trials <- data$Trials[data$Stim == stim]
+      stim_trials <- data$Trial[data$Stim == stim]
       # get estimates 
       a = functions$a(x, trials = stim_trials)
       t0 = functions$t0(x, trials = stim_trials)
