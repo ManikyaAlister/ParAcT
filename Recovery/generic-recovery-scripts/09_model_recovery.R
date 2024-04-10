@@ -36,8 +36,6 @@ IC_array = function(estimating_models, criterion, generating_data, n_sub = 100, 
     }
   }
   
-  print(gen_param)
-  
   allIC <- allIC[order(gen_param),]
   
   # Convert the matrix to a data frame for the final output
@@ -48,7 +46,7 @@ IC_array = function(estimating_models, criterion, generating_data, n_sub = 100, 
 
 # define model groups 
 a_models <- c("a-linear", "a-exp", "a-dExp")
-v_models <- c("c-linear", "v-exp", "v-dExp")
+v_models <- c("v-linear", "v-exp", "v-dExp")
 a_exp_power <- c("a-exp", "a-power")
 v_exp_power <- c("v-exp", "v-power")
 
@@ -56,150 +54,83 @@ v_exp_power <- c("v-exp", "v-power")
 model_comparisons <- list(
   # can we distinguish between power and exponential changes? 
   list(data = "a-exp",
-      models = a_exp_power),
+      models = a_exp_power,
+      name = "a-exp-vs-a-power"),
   list(data = "a-power",
-       models = a_exp_power),
+       models = a_exp_power,
+       name = "a-power-vs-a-exp"),
   list(data = "v-exp",
-      models = v_exp_power),
+      models = v_exp_power,
+      name = "v-exp-vs-v-power"),
   list(data = "v-power",
-       models = v_exp_power),
+       models = v_exp_power,
+       name = "v-power-vs-v-exp"),
   # can we recover the simple model compared to all time-varying models? 
   list(data = "simple",
-       models = c("simple", a_models, v_models)),
+       models = c("simple", a_models, v_models),
+       name = "simple-vs-all"),
   # can we distinguish between a time-varying functions? 
   list(data = "a-linear",
-       models = a_models),
+       models = c("simple", a_models),
+       name = "a-linear-vs-all-a"),
   list(data = "a-exp",
-        models = a_models),
+        models = c("simple", a_models),
+        name = "a-exp-vs-all-a"),
   list(data = "a-dExp",
-        models = a_models),
+        models = c("simple", a_models),
+        name = "a-dExp-vs-all-a"),
   # can we distinguish between v time-varying functions?
   list(data = "v-linear",
-       models = v_models),
+       models = c("simple", v_models),
+       name = "v-linear-vs-all-v"),
   list(data = "v-exp",
-        models = v_models),
+        models = c("simple", v_models),
+        name = "v-exp-vs-all-v"),
   list(data = "v-dExp",
-        models = v_models),
+        models = c("simple", v_models),
+        name = "v-dExp-vs-all-v"),
   # can we distinguish between a and v exponential functions?
   list(data = "a-exp",
-       models = c("a-exp", "v-exp")),
+       models = c("a-exp", "v-exp"),
+                  name = "a-exp-vs-v-exp"),
   list(data = "v-exp",
-       models = c("a-exp", "v-exp"))
+       models = c("a-exp", "v-exp"),
+       name = "v-exp-vs-a-exp")
 )
 
-
-
-
-# Example usage
- IC_array(
-  estimating_models = c("simple","a-linear", "a-exp", "a-dExp", "v-linear", "v-exp", "v-dExp"),
-  criterion = "BIC",
-  generating_data = "simple",
-  grouping_param = "a"
-)
-
- mc <- IC_array(
-  estimating_models = c("simple","a-linear", "a-exp", "v-exp", "a-dExp"),
-  criterion = "BIC",
-  generating_data = "a-exp"
-)
-
- mc <- IC_array(
-  estimating_models = c("simple","v-linear", "v-exp", "v-dExp", "a-exp"),
-  criterion = "BIC",
-  generating_data = "v-exp",
-  n_sub = 100,
-  grouping_param = "v.asym"
+criteria <- c("BIC", "AIC")
+output <- list()
+for (i in 1:length(model_comparisons)){
+  comparison_details <- model_comparisons[[i]]
+  output_iteration <- list()
+  estimating_models <- comparison_details$models
+  generating_data <- comparison_details$data
+  comparison_name <- comparison_details$name
+  for (criterion in criteria){
+    raw_IC <- IC_array(estimating_models = estimating_models,
+                   generating_data = generating_data,
+                   grouping_param = "v.rate", # arbitrary grouping param for now
+                   criterion = criterion) 
   
-)
+    #output_iteration[[paste0("n-best-",criterion)]] = ""
 
- weights <- modelProb::weightedICs(mc)
- 
- modelProb::plotWeightedICs(weights, colours = c("green", "red", "black", "blue", "purple"))
- 
+    weights <- modelProb::weightedICs(ICs = raw_IC)
+    mean_weights <- apply(weights, 2, mean)
 
-
-IC_array(
-  estimating_models = c("a-linear", "a-exp","a-dExp", "v-linear", "v-exp", "v-dExp"),
-  criterion = "BIC",
-  generating_data = "simple"
-)
-
-
-n = 100
-
-# power - exp comparison
-
-recovering_model <- "v-power"
-generating_model <- "v-exp"
-
-models <- c(recovering_model,
-            generating_model)
-
-generating <- c(FALSE, TRUE)
+    # plot weighted probabilities and save
+    png(paste0("Recovery/plots/", comparison_name, "-", criterion, ".png"))
+    modelProb::plotWeightedICs(weights, 
+                               colours = c("green", "red", "black", "blue", "purple","darkgreen", "orange"), 
+                               cex = .8, # Adjust this value as needed
+                               inset = c(0, 0),
+                               position = "left",
+                               main = paste0(comparison_name, " (generating data: ", generating_data, "), ",criterion)
+                               ) # Adjust inset values as needed
+    dev.off()
+    
+  }
+  
+  # set up array of model comparison values
+}
 
 
-allAIC <-
-  IC_array(models, "AIC", generating, grouping_param = "v.rate")
-allBIC <-
-  IC_array(models, "BIC", generating, grouping_param = "v.rate")
-
-weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
-weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
-
-apply(weightedAIC, 2, sum) / sum(apply(weightedAIC, 2, sum))
-apply(weightedBIC, 2, sum) / sum(apply(weightedBIC, 2, sum))
-
-
-modelProb::plotWeightedICs(weightedBIC, main = "BIC v-exp generating data", seed = 9)
-modelProb::plotWeightedICs(weightedAIC, main = "AIC v-exp generating data", seed = 9)
-
-# linear - exp comparison
-
-recovering_model <- "v-linear"
-generating_model <- "v-exp"
-
-models <- c(recovering_model,
-            generating_model)
-
-generating <- c(FALSE, TRUE)
-
-
-allAIC <-
-  IC_array(models, "AIC", generating, grouping_param = "v.rate")
-allBIC <-
-  IC_array(models, "BIC", generating, grouping_param = "v.rate")
-
-weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
-weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
-
-apply(weightedAIC, 2, sum) / sum(apply(weightedAIC, 2, sum))
-apply(weightedBIC, 2, sum) / sum(apply(weightedBIC, 2, sum))
-
-modelProb::plotWeightedICs(weightedAIC, main = "AIC v-exp generating data", seed = 9)
-modelProb::plotWeightedICs(weightedBIC, main = "BIC v-exp generating data", seed = 9)
-
-# simple - exp comparison
-
-recovering_model <- "simple"
-generating_model <- "v-exp"
-
-models <- c(recovering_model,
-            generating_model)
-
-generating <- c(FALSE, TRUE)
-
-
-allAIC <-
-  IC_array(models, "AIC", generating, grouping_param = "v.start")
-allBIC <-
-  IC_array(models, "BIC", generating, grouping_param = "v.start")
-
-weightedAIC <- modelProb::weightedICs(allAIC, bySubject = TRUE)
-weightedBIC <- modelProb::weightedICs(allBIC, bySubject = TRUE)
-
-apply(weightedAIC, 2, sum) / sum(apply(weightedAIC, 2, sum))
-apply(weightedBIC, 2, sum) / sum(apply(weightedBIC, 2, sum))
-
-modelProb::plotWeightedICs(weightedAIC, main = "AIC v-exp generating data", seed = 9)
-modelProb::plotWeightedICs(weightedBIC, main = "BIC v-exp generating data", seed = 9)

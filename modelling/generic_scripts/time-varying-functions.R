@@ -74,12 +74,12 @@ v_dExp = function(x, trials =  data$Trial){
 }
 
 a_power = function(x, trials =  data$Trial){
-  a <- x["a.asym"]+x["a.start"]*(trials^x["a.rate"])
+  a <- x["a.asym"]+x["a.start"]*(trials^-x["a.rate"])
   a
 }
 
 v_power = function(x, trials =  data$Trial){
-  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*(trials^x["v.rate"])
+  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*(trials^x[-"v.rate"])
   v
 }
 
