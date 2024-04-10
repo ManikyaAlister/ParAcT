@@ -109,7 +109,7 @@ for (i in 1:length(model_comparisons)){
   for (criterion in criteria){
     raw_IC <- IC_array(estimating_models = estimating_models,
                    generating_data = generating_data,
-                   grouping_param = "v.rate", # arbitrary grouping param for now
+                   grouping_param = "z", # arbitrary grouping param for now
                    criterion = criterion) 
   
     #output_iteration[[paste0("n-best-",criterion)]] = ""

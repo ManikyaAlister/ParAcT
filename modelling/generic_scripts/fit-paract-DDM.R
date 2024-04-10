@@ -68,17 +68,20 @@ for (useSub in subj) {
     names(x) = par.names
     
     for (stim in stims) {
-      a = functions$a(x)
-      t0 = functions$t0(x)
-      v = functions$v(x)
-      z = functions$z(x, stimulus = stim)
+      # filter trials for a given stimulus 
+      stim_trials <- data$Trials[data$Stim == stim]
+      # get estimates 
+      a = functions$a(x, trials = stim_trials)
+      t0 = functions$t0(x, trials = stim_trials)
+      v = functions$v(x, trials = stim_trials)
+      z = functions$z(x, trials = stim_trials, stimulus = stim)
       sv = 0
       sz = 0
       st0 = 0
       s = 1
       tmp = ddiffusion(
-        rt = data$Time[data$Stim == stim],
-        response = data$Resp[data$Stim == stim],
+        rt = data$Time[stim_trials],
+        response = data$Resp[stim_trials],
         z = z * a,
         a = a,
         v = v,
