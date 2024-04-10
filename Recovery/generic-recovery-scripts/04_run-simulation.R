@@ -1,6 +1,7 @@
 library(here)
 # define all models that will be recovered
-recovery_models <- c("simple", "a-linear", "a-exp", "a-power","a-dExp", "v-linear","v-exp", "v-dExp", "v-power")
+recovery_models <- c("a-power","v-power")
+  #c("simple", "a-linear", "a-exp", "a-power","a-dExp", "v-linear","v-exp", "v-dExp", "v-power")
 
 # define how many "participants" you want to simulate
 n_participants <- 100

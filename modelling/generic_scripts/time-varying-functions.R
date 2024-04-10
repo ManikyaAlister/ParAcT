@@ -79,7 +79,7 @@ a_power = function(x, trials =  data$Trial){
 }
 
 v_power = function(x, trials =  data$Trial){
-  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*(trials^x[-"v.rate"])
+  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*(trials^-x["v.rate"])
   v
 }
 
