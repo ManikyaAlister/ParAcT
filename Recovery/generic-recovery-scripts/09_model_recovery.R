@@ -70,9 +70,9 @@ model_comparisons <- list(
        models = c("simple", a_models, v_models),
        name = "simple-vs-all"),
   # can we distinguish between a time-varying functions? 
-  list(data = "a-linear",
-       models = c("simple", a_models),
-       name = "a-linear-vs-all-a"),
+  # list(data = "a-linear",
+  #      models = c("simple", a_models),
+  #      name = "a-linear-vs-all-a"),
   list(data = "a-exp",
         models = c("simple", a_models),
         name = "a-exp-vs-all-a"),
@@ -129,6 +129,8 @@ for (i in 1:length(model_comparisons)){
     dev.off()
     
   }
+  print(paste0(i, " out of ", length(model_comparisons)))
+  
   
   # set up array of model comparison values
 }

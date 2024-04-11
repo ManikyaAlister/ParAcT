@@ -141,7 +141,7 @@ mtext("a Delayed Exponential", side = 4, line = 1)
 
 
 model <- "v-dExp"
-params <- load_params(model, subs = c(1:43, 45:100))
+params <- load_params(model, subs = c(1:100))
 plot_recovery("v.start", params, expression(paste("v ", beta, " (start)")))
 
 plot_recovery("v.asym", params, expression(paste("v ", alpha, " (asymptote)")))

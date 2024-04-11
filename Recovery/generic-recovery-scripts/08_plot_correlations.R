@@ -60,6 +60,6 @@ plot_recovery_correlations = function(model, n = 100){
   dev.off()
 }
 
-plot_recovery_correlations("a-linear")
+plot_recovery_correlations("a-power")
 
 
