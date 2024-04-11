@@ -17,7 +17,7 @@
 #SBATCH --cpus-per-task=1
 
 # The amount of memory in megabytes per process in the job:
-#SBATCH --mem=3G
+#SBATCH --mem=1G
 
 # Use this email address:
 #SBATCH --mail-user=alisterm@student.unimelb.edu.au
@@ -59,7 +59,12 @@ participants=($(seq 1 100))
 
 # Calculate the model and participant indices from the job array task ID
 model_idx=$(((SLURM_ARRAY_TASK_ID-1) % n_models)) # make sure you correctly indicate the number of models after '%'
+echo "model idx"
+echo $model_idx
 participant_idx=$(((SLURM_ARRAY_TASK_ID-1) / n_models)) # make sure you correctly indicate the number of models after '/'
+
+echo "participant idx"
+echo $participant_idx
 
 # Run the R script with the input and output files and the participant number as a command line argument
 Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/generic-recovery-scripts/07_fit.R ${participants[$participant_idx]} ${data} ${models[$model_idx]} 
