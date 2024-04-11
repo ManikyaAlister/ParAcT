@@ -10,6 +10,7 @@ theta.names = c(theta.z, theta.a, theta.v, theta.t, "stoch.s", "sz", "sv", "ster
 
 # source parameter ranges
 source(here("Recovery/generic-recovery-scripts/01_parameter-ranges.R"))
+use.range = getParameterRanges(model)
 
 # get the number of parameters
 nParams <- length(theta.names)
