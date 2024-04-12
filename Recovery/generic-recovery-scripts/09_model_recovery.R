@@ -36,7 +36,7 @@ IC_array = function(estimating_models, criterion, generating_data, n_sub = 100, 
     }
   }
   
-  allIC <- allIC[order(gen_param),]
+  #allIC <- allIC[order(gen_param),]
   
   # Convert the matrix to a data frame for the final output
   allIC_df <- as.data.frame(allIC)
@@ -65,14 +65,14 @@ model_comparisons <- list(
   list(data = "v-power",
        models = v_exp_power,
        name = "v-power-vs-v-exp"),
-  # can we recover the simple model compared to all time-varying models? 
+  #can we recover the simple model compared to all time-varying models?
   list(data = "simple",
        models = c("simple", a_models, v_models),
        name = "simple-vs-all"),
-  # can we distinguish between a time-varying functions? 
-  # list(data = "a-linear",
-  #      models = c("simple", a_models),
-  #      name = "a-linear-vs-all-a"),
+  #can we distinguish between a time-varying functions?
+  list(data = "a-linear",
+       models = c("simple", a_models),
+       name = "a-linear-vs-all-a"),
   list(data = "a-exp",
         models = c("simple", a_models),
         name = "a-exp-vs-all-a"),

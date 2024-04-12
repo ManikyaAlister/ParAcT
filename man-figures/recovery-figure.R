@@ -94,14 +94,14 @@ mtext("a Exponential", side = 4, line = 1)
 
 plot.new()
 
-model <- "v-power"
+model <- "v-exp"
 params <- load_params(model)
 plot_recovery("v.start", params, expression(paste("v ", beta, " (start)")))
 
 plot_recovery("v.asym", params, expression(paste("v ", alpha, " (asymptote)")))
 
 plot_recovery("v.rate", params, expression(paste("v ", eta, " (rate)")))
-mtext("v Power", side = 4, line = 1)
+mtext("v Exponential", side = 4, line = 1)
 
 plot.new()
 
@@ -117,14 +117,14 @@ mtext("a Power", side = 4, line = 1)
 
 plot.new()
 
-model <- "v-exp"
+model <- "v-power"
 params <- load_params(model)
 plot_recovery("v.start", params, expression(paste("v ", beta, " (start)")))
 
 plot_recovery("v.asym", params, expression(paste("v ", alpha, " (asymptote)")))
 
 plot_recovery("v.rate", params, expression(paste("v ", eta, " (rate)")))
-mtext("v Exponential", side = 4, line = 1)
+mtext("v Power", side = 4, line = 1)
 
 plot.new()
 
