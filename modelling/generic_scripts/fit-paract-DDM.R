@@ -155,7 +155,7 @@ for (useSub in subj) {
   saveIC = here(
     paste(
       save_IC_path,
-      "/P",
+      "P",
       useSub,
       "_",
       model,
