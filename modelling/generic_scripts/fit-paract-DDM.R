@@ -62,50 +62,20 @@ for (useSub in subj) {
   
   # identify unique response stimuli in data (eg., left/right)
   stims <- sort(unique(data$Stim))
-  if (length(stims) > 2 ) stop("More than two response stimuli detected in the data set.")
+  if (length(stims) > 2 ) stop("More than two response stimuli detected in the data.")
   
   # generate and set seed
   newSeed = Sys.time()
   set.seed(as.numeric(newSeed))
   
-  # log likelihood function
-  log.dens.like = function (x, data, par.names, functions = paract_functions) {
-    out = 0
-    names(x) = par.names
-    
-    for (stim in stims) {
-      #if it's a blocked model, time = block, if trial model time = trial
-      if (blocked_model){
-        # filter trials for a given stimulus 
-        stim_time <- data$Block[data$Stim == stim]
-      } else{
-        stim_time <- data$Trial[data$Stim == stim]
-      }
-
-      # get estimates 
-      a = functions$a(x, time = stim_time)
-      t0 = functions$t0(x, time = stim_time)
-      v = functions$v(x, time = stim_time)
-      z = functions$z(x, time = stim_time, stimulus = stim)
-      sv = 0
-      sz = 0
-      st0 = 0
-      s = 1
-      tmp = ddiffusion(
-        rt = data$Time[stim_time],
-        response = data$Resp[stim_time],
-        z = z * a,
-        a = a,
-        v = v,
-        t0 = t0 - (st0 / 2),
-        s = s,
-        sv = sv,
-        sz = sz,
-        st0 = st0
-      )
-      out = out + sum(log(pmax(tmp, 1e-10)))
-    }
-    out
+  # source log likelihood functions
+  source(here("modelling/generic_scripts/likelihood-function.R"))
+  
+  # some models require the likelihood function to iterate over blocks
+  if (blocked_likelihood){
+    log.dens.like <- log.dens.like.blocked
+  } else{
+    log.dens.like <- log.dens.like.normal
   }
   
   # list parameter names so we knows what to call from priors scripts

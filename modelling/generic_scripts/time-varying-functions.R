@@ -86,17 +86,17 @@ v_power = function(x, time){
 # # Block-varying functions -------------------------------------------------
 # 
 # constant block
-a_blocked_simple = function(x, b = block, time){
-  d <- (-x["step"] * (b-1) )
-  a <- x["a"]-d
-  a
-}
-
-v_blocked_simple = function(x, b = block, time){
-  d <- -x["step"] * (block-1) # negative step because it needs to increase drift rate over blocks
-  a <- x["v"]-d
-  a
-}
+# a_blocked_simple = function(x, b = block, time){
+#   d <- (-x["step"] * (b-1) )
+#   a <- x["a"]-d
+#   a
+# }
+# 
+# v_blocked_simple = function(x, b = block, time){
+#   d <- -x["step"] * (block-1) # negative step because it needs to increase drift rate over blocks
+#   a <- x["v"]-d
+#   a
+# }
 
 # linear block (re-parameterisation of constant block)
 a_linear_blocked = function(x, blocks =  data$Block) {
@@ -132,14 +132,14 @@ v_dExp_blocked = function(x, time, blocks = data$Block){
 }
 
 # block + exp trial 
-a_blocked_sb_exp = function(x, time, b = block){
-  b <- x["b.bump"]*(block-1)
+a_block_trial_exp= function(x, time, b = block){
+  b <- x["b.bump"]*(b-1)
   a <- x["a.asym"]+(b+x["a.start"])*exp(-x["a.rate"]*time)
   a
 }
 
-v_blocked_sb_exp = function(x, time, b = block){
-  b <- x["b.bump"]*(block-1)
+v_block_trial_exp = function(x, time, b = block){
+  b <- x["b.bump"]*(b-1)
   v <- (x["v.asym"]+x["v.start"])-(b+x["v.start"])*exp(-x["v.rate"]*time)
   v
 }

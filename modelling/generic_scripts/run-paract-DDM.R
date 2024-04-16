@@ -28,6 +28,8 @@ plot = TRUE
 # get the time-varying functions that correspond to the model. 
 paract_functions <- all_functions[[model]]
 
+blocked_likelihood <- paract_functions$blocked_likelihood
+
 # load data structure with data set details
 load(here("data/dataset-details.Rdata"))
 
