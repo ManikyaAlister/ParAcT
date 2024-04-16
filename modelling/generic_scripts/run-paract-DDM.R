@@ -20,15 +20,16 @@ source(here("modelling/generic_scripts/model-functions.R"))
 model <- args[3]
 
 # whether or not this is a model recovery 
-recovery = FALSE
+recovery <- FALSE
 
 # whether or not you want to plot things
-plot = TRUE
+plot <- TRUE
 
 # get the time-varying functions that correspond to the model. 
 paract_functions <- all_functions[[model]]
 
 blocked_likelihood <- paract_functions$blocked_likelihood
+print(paste0("Blocked likelihood: ",blocked_likelihood))
 
 # load data structure with data set details
 load(here("data/dataset-details.Rdata"))

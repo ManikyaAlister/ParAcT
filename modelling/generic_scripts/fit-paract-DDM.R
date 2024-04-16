@@ -74,6 +74,7 @@ for (useSub in subj) {
   # some models require the likelihood function to iterate over blocks
   if (blocked_likelihood){
     log.dens.like <- log.dens.like.blocked
+    print(log.dens.like)
   } else{
     log.dens.like <- log.dens.like.normal
   }

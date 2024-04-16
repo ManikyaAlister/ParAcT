@@ -99,13 +99,13 @@ v_power = function(x, time){
 # }
 
 # linear block (re-parameterisation of constant block)
-a_linear_blocked = function(x, blocks =  data$Block) {
-  a <- ((-x["a.b"])*blocks)+x["a.c"]
+a_linear_blocked = function(x, time) {
+  a <- ((-x["a.b"])*time)+x["a.c"]
   a
 }
 
-v_linear_blocked = function(x, blocks =  data$Block){
-  v <- (x["v.b"]*blocks)+x["v.c"]
+v_linear_blocked = function(x, time){
+  v <- (x["v.b"]*time)+x["v.c"]
   v
 }
 
@@ -121,13 +121,13 @@ v_exp = function(x, time){
 }
 
 # delayed exp blocked
-a_dExp_blocked = function(x, time, blocks = data$Block){
-  a <- x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*blocks))))
+a_dExp_blocked = function(x, time){
+  a <- x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*time))))
   a
 }
 
-v_dExp_blocked = function(x, time, blocks = data$Block){
-  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*blocks)))
+v_dExp_blocked = function(x, time){
+  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*time)))
   v
 }
 
