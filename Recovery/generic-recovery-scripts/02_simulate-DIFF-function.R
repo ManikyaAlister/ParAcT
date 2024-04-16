@@ -6,27 +6,27 @@ use.table=qnorm(seq(use.interval,1-use.interval,use.interval))
 n.table.options=length(use.table)
 
 
-simulate.DIFF=function(trials,params,maxCounter,stepSize,use.table,n.table.options, parameter_functions = paract_functions, stimulus = stim, all_stimuli = stims) {
+simulate.DIFF=function(time,params,maxCounter,stepSize,use.table,n.table.options, parameter_functions = paract_functions, stimulus = stim, all_stimuli = stims) {
   
-  N = length(trials)
+  N = length(time)
   
   rts=rep(0,N)
   resps=rep(0,N)
   
-  v = parameter_functions$v(params, trials = trials)
+  v = parameter_functions$v(params, time = time)
   # if the parameter is not time varying (which will output as length == 1), you still need it to be length(trials)
   if (length(v) == 1)
     v = rep(v, N)
   
-  a = parameter_functions$a(params, trials = trials)
+  a = parameter_functions$a(params, time = time)
   if (length(a) == 1)
     a = rep(a, N)
   
-  t0 = parameter_functions$t0(params, trials = trials)
+  t0 = parameter_functions$t0(params, time = time)
   if (length(t0) == 1)
     t0 = rep(t0, N)
   
-  z = parameter_functions$z(params, trials = trials, stimulus = stimulus, all_stimuli = all_stimuli)
+  z = parameter_functions$z(params, time = time, stimulus = stimulus, all_stimuli = all_stimuli)
   if (length(z) == 1)
     z = rep(z, N)
   
@@ -43,7 +43,7 @@ simulate.DIFF=function(trials,params,maxCounter,stepSize,use.table,n.table.optio
          rangeLow=as.integer(0),rangeHigh=as.integer(n.table.options-1),
          randomTable=as.double(use.table)) 
   
-  out=list(rt=tmp$rt,resp=tmp$resp, trial = trials)
+  out=list(rt=tmp$rt,resp=tmp$resp, trial = time)
 }
 
 

@@ -35,7 +35,7 @@ IC_array = function(estimating_models, criterion, generating_data, n_sub = 100, 
       allIC[i, j] <- IC  # Use matrix indexing [row, column]
     }
   }
-  
+
   #allIC <- allIC[order(gen_param),]
   
   # Convert the matrix to a data frame for the final output
@@ -43,6 +43,16 @@ IC_array = function(estimating_models, criterion, generating_data, n_sub = 100, 
   colnames(allIC_df) <- estimating_models
   return(allIC_df)
 }
+
+getNBestIC <- function(allIC){
+  model_names <- names(allIC)
+  n_IC = table(model_names[apply(allIC, 1, which.min)])
+  n = rep(0, length(model_names))
+  names(n) = model_names
+  n[names(n_IC)] <- n_IC
+  n
+}
+
 
 # define model groups 
 a_models <- c("a-linear", "a-exp", "a-dExp")
@@ -52,7 +62,7 @@ v_exp_power <- c("v-exp", "v-power")
 
 # define details of each comparsion 
 model_comparisons <- list(
-  # can we distinguish between power and exponential changes? 
+  # can we distinguish between power and exponential changes?
   list(data = "a-exp",
       models = a_exp_power,
       name = "a-exp-vs-a-power"),
@@ -101,38 +111,85 @@ model_comparisons <- list(
 criteria <- c("BIC", "AIC")
 output <- list()
 for (i in 1:length(model_comparisons)){
+  # get comparison details for this iteration
   comparison_details <- model_comparisons[[i]]
-  output_iteration <- list()
+  
+  # extract comparison information for this iteration 
   estimating_models <- comparison_details$models
   generating_data <- comparison_details$data
   comparison_name <- comparison_details$name
-  for (criterion in criteria){
+  
+  # empty data structures to fill with relevant metrics for each IC
+  output_iteration <- list()
+  mean_weights <- list()
+  n_best <- list()
+  
+  # loop through each IC and extract info
+  for (j in 1:length(criteria)){
+    criterion <- criteria[j]
     raw_IC <- IC_array(estimating_models = estimating_models,
                    generating_data = generating_data,
                    grouping_param = "z", # arbitrary grouping param for now
                    criterion = criterion) 
-  
+    
     #output_iteration[[paste0("n-best-",criterion)]] = ""
-
+    # get weighted model probabilities
     weights <- modelProb::weightedICs(ICs = raw_IC)
-    mean_weights <- apply(weights, 2, mean)
-
+    
+    # get the mean weights 
+    mean_weights[[criterion]] <- round(apply(weights, 2, mean),2)
+    
+    # get the number of participants best fit by each model
+    best <- getNBestIC(raw_IC)
+    # only care about values forr the data generating model
+    n_best[[criterion]] <- best[generating_data]
+    
+    
     # plot weighted probabilities and save
-    png(paste0("Recovery/plots/", comparison_name, "-", criterion, ".png"))
-    modelProb::plotWeightedICs(weights, 
-                               colours = c("green", "red", "black", "blue", "purple","darkgreen", "orange"), 
-                               cex = .8, # Adjust this value as needed
-                               inset = c(0, 0),
-                               position = "left",
-                               main = paste0(comparison_name, " (generating data: ", generating_data, "), ",criterion)
-                               ) # Adjust inset values as needed
-    dev.off()
+    # png(paste0("Recovery/plots/", comparison_name, "-", criterion, ".png"))
+    # modelProb::plotWeightedICs(weights, 
+    #                            colours = c("green", "red", "black", "blue", "purple","darkgreen", "orange"), 
+    #                            cex = .8, # Adjust this value as needed
+    #                            inset = c(0, 0),
+    #                            position = "left",
+    #                            main = paste0(comparison_name, " (generating data: ", generating_data, "), ",criterion)
+    #                            ) # Adjust inset values as needed
+    # dev.off()
     
   }
+  
+  
+  # Extract BIC and AIC values
+  BIC_values <- mean_weights$BIC
+  AIC_values <- mean_weights$AIC
+  
+  # Replace values less than 0.01 with "<0.01"
+  BIC_values[BIC_values < 0.01] <- "<.01"
+  AIC_values[AIC_values < 0.01] <- "<.01"
+  
+  # Generate the latex table row
+  tmp_weights <- paste0(
+    sprintf("%s (%s)", BIC_values, AIC_values),
+    collapse = " & "
+  )
+  
+  tmp_best <- paste0(
+  sprintf("%s (%s)", n_best$BIC, n_best$AIC),
+  collapse = " & "
+  )
+  
+  
+  
+  
+  latex_row <- paste(tmp_best, " & ", tmp_weights)
+  
+  model_comparisons[[i]]$metrics <- latex_row
+  
   print(paste0(i, " out of ", length(model_comparisons)))
   
   
   # set up array of model comparison values
 }
 
+save(model_comparisons, file = here("Recovery/model_comparisons.Rdata"))
 

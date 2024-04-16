@@ -1,5 +1,5 @@
 
-# Script for fitting paract-DDM (should be sourced from run_model  --------
+# Script for fitting paract-DDM (should be sourced from run_model)  --------
 library(msm)
 library(rtdists)
 
@@ -26,9 +26,9 @@ dataset_details <- lapply(dataset_details, function(x) x[selected_index])
 dataset <- dataset_details$dataset
 load_data_path <- dataset_details$load_data_path[[1]]
 save_output_path <- dataset_details$save_output_path[[1]]
-save_IC_path <- dataset_details$save_IC_path
+save_IC_path <- dataset_details$save_IC_path[[1]]
 simulate_fits <- dataset_details$simulate_fits
-
+if (plot) plot_path <- dataset_details$save_plot_paths[[1]]
 
 # source background code for MCMC 
 source(file = here("modelling/generic_scripts/deep-background.R"))
@@ -45,6 +45,12 @@ for (useSub in subj) {
   
   # so I can see what subject is running
   print(paste0("Participant: ", useSub))
+  
+  # check if the model is a blocked model
+  blocked_model <- grepl("blocked", model)
+  
+  # print to make sure blcoked model has been updated properly
+  print(paste0("Blocked model: ", blocked_model))
   
   # load data
   load(here(load_data_path()))
@@ -68,20 +74,26 @@ for (useSub in subj) {
     names(x) = par.names
     
     for (stim in stims) {
-      # filter trials for a given stimulus 
-      stim_trials <- data$Trial[data$Stim == stim]
+      #if it's a blocked model, time = block, if trial model time = trial
+      if (blocked_model){
+        # filter trials for a given stimulus 
+        stim_time <- data$Block[data$Stim == stim]
+      } else{
+        stim_time <- data$Trial[data$Stim == stim]
+      }
+
       # get estimates 
-      a = functions$a(x, trials = stim_trials)
-      t0 = functions$t0(x, trials = stim_trials)
-      v = functions$v(x, trials = stim_trials)
-      z = functions$z(x, trials = stim_trials, stimulus = stim)
+      a = functions$a(x, time = stim_time)
+      t0 = functions$t0(x, time = stim_time)
+      v = functions$v(x, time = stim_time)
+      z = functions$z(x, time = stim_time, stimulus = stim)
       sv = 0
       sz = 0
       st0 = 0
       s = 1
       tmp = ddiffusion(
-        rt = data$Time[stim_trials],
-        response = data$Resp[stim_trials],
+        rt = data$Time[stim_time],
+        response = data$Resp[stim_time],
         z = z * a,
         a = a,
         v = v,
@@ -139,6 +151,7 @@ for (useSub in subj) {
   
   # full output file is quite big, so sometimes you might want to save model comparison data separately
   if(save_IC_path != FALSE){
+    
   saveIC = here(
     paste(
       save_IC_path,
@@ -153,6 +166,25 @@ for (useSub in subj) {
   
   save(AIC, BIC, file = saveIC)
   }
+  
+  if (plot) {
+    # source parameter plotting script
+    source(here("modelling/generic_scripts/plot-parameters.R"))
+    
+    # define parameters of interest
+    parameters_of_interest <- c("a", "v")
+    
+    for (par in parameters_of_interest){
+      if (blocked_model) {
+        time_var <- data$Block
+      } else {
+        time_var <- data$Trial
+      }
+      # plot parameters across time for parameters of interest
+      plotParamsIndividual(parameter = par, functions = paract_functions, time_var = time_var, theta = theta, plot_path = plot_path, subject = subj)
+    }
+  }
+
   
   if(simulate_fits){
     # simulate predictions from estimated parameters (for model fits)

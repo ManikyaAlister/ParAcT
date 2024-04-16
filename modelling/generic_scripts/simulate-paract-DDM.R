@@ -18,13 +18,20 @@ best_values = theta[tmp2, , tmp3]
 x = best_values
 
 for (stim in stims) {
+  #if it's a blocked model, time = block, if trial model time = trial
+  if (blocked_model){
+    # filter trials for a given stimulus 
+    stim_time <- data$Block[data$Stim == stim]
+  } else{
+    stim_time <- data$Trial[data$Stim == stim]
+  }
   # Runs diffusion model to generate data with estimated parameters
   tmp = rdiffusion(
     n = 10000,
-    a = paract_functions$a(x),
-    v = paract_functions$v(x),
-    t0 = paract_functions$t0(x),
-    z = paract_functions$z(x, stimulus = stim) * paract_functions$a(x)
+    a = paract_functions$a(x, time = stim_time),
+    v = paract_functions$v(x, time = stim_time),
+    t0 = paract_functions$t0(x, time = stim_time),
+    z = paract_functions$z(x, stimulus = stim, time = stim_time) * paract_functions$a(x, time = stim_time)
   )
   simdata$Time = c(simdata$Time, tmp$rt) # Populates the RT column in the simulated data
   simdata$Resp = c(simdata$Resp, tmp$response) # Populates the Resp column in the simulated data

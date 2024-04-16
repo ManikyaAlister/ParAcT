@@ -107,7 +107,7 @@ for (i in 1:nrow(use.LHS)) {
     
     # Simulate
     tmp = simulate.DIFF(
-      trials = stim_trials,
+      time = stim_trials,
       params = genParams[, 1],
       maxCounter = 50000,
       stepSize = 0.001,

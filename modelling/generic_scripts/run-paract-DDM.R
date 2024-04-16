@@ -22,6 +22,9 @@ model <- args[3]
 # whether or not this is a model recovery 
 recovery = FALSE
 
+# whether or not you want to plot things
+plot = TRUE
+
 # get the time-varying functions that correspond to the model. 
 paract_functions <- all_functions[[model]]
 
