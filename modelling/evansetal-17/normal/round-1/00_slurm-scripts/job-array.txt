@@ -45,6 +45,10 @@ fi
 # The modules to load:
 module load foss/2022a R/4.2.1
 
+# define the data set that is being fit
+dataset="evans-normal"
+
+
 
 # Set the model script names
 models=("5.2.4_v-exp" "5.1.12_a-delayed-exp-blocked")
@@ -65,7 +69,7 @@ model_idx=$(((SLURM_ARRAY_TASK_ID-1) % nModels)) # make sure you correctly indic
 participant_idx=$(((SLURM_ARRAY_TASK_ID-1) / nModels)) # make sure you correctly indicate the number of models after '/'
 
 # Run the R script with the input and output files and the participant number as a command line argument
-Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-17/normal/round-1/05_run-models/${models[$model_idx]}.R ${participants[$participant_idx]}
+Rscript /data/gpfs/projects/punim1751/ParAcT/modelling/evansetal-17/normal/round-1/05_run-models/${models[$model_idx]}.R ${participants[$participant_idx]} ${dataset}
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage

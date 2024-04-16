@@ -8,8 +8,8 @@ load_params = function(model, subs = 1:100){
   allGenParams=NULL
   allMeanTheta=NULL
   for (p in subs) { #Loop in each data set
-    load(paste0("Recovery/",model,"/Fits_recovery/P",p,"_",model,".RData"))
-    #load(paste0("Recovery/Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
+    load(paste0("Recovery/",model,"/Fits_recovery/P",p,"-",model,".RData"))
+    load(paste0("Recovery/",model,"/Datasets/RECOVERY_DATA-DIFF_LHS-",p,".Rdata"))
     #Rearrange and take out unnecessary values from the generated parameters 
     tmp = c(genParams[,1])
     
@@ -52,7 +52,7 @@ plot_recovery = function(parameter, all_parameters, title){
 
 # Start a PDF device to save the plots to a PDF file
 pdf(paste0("man-figures/all-param-change-recovery.pdf"), width = 14, height = 20)
-par(mfrow = c(6, 4), oma = c(0, 0, 0, 0))  # Adjust the bottom margin (oma) to move titles closer
+par(mfrow = c(8, 4), oma = c(0, 0, 0, 0))  # Adjust the bottom margin (oma) to move titles closer
 
 model <- "a-linear"
 
@@ -83,7 +83,7 @@ plot.new()
 plot.new()
 
 
-model <- "a-exp-rr"
+model <- "a-exp"
 params <- load_params(model)
 plot_recovery("a.start", params, expression(paste("a ", beta, " (start)")))
 
@@ -94,7 +94,7 @@ mtext("a Exponential", side = 4, line = 1)
 
 plot.new()
 
-model <- "v-exp-re"
+model <- "v-exp"
 params <- load_params(model)
 plot_recovery("v.start", params, expression(paste("v ", beta, " (start)")))
 
@@ -105,7 +105,30 @@ mtext("v Exponential", side = 4, line = 1)
 
 plot.new()
 
-model <- "a-delayed-exp"
+
+model <- "a-power"
+params <- load_params(model)
+plot_recovery("a.start", params, expression(paste("a ", beta, " (start)")))
+
+plot_recovery("a.asym", params, expression(paste("a ", alpha, " (asymptote)")))
+  
+plot_recovery("a.rate", params, expression(paste("a ", eta, " (rate)")))
+mtext("a Power", side = 4, line = 1)
+
+plot.new()
+
+model <- "v-power"
+params <- load_params(model)
+plot_recovery("v.start", params, expression(paste("v ", beta, " (start)")))
+
+plot_recovery("v.asym", params, expression(paste("v ", alpha, " (asymptote)")))
+
+plot_recovery("v.rate", params, expression(paste("v ", eta, " (rate)")))
+mtext("v Power", side = 4, line = 1)
+
+plot.new()
+
+model <- "a-dExp"
 params <- load_params(model)
 plot_recovery("a.start", params, expression(paste("a ", beta, " (start)")))
 
@@ -117,8 +140,8 @@ plot_recovery("a.delay", params, expression(paste("a ", gamma, " (delay)")))
 mtext("a Delayed Exponential", side = 4, line = 1)
 
 
-model <- "v-delayed-exp"
-params <- load_params(model, subs = c(1:43, 45:100))
+model <- "v-dExp"
+params <- load_params(model, subs = c(1:100))
 plot_recovery("v.start", params, expression(paste("v ", beta, " (start)")))
 
 plot_recovery("v.asym", params, expression(paste("v ", alpha, " (asymptote)")))
