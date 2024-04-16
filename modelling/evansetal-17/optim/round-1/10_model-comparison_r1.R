@@ -11,36 +11,41 @@ v_models <- c(
               #"v-power",
               "v-exp",
               #"v-delayed-pow",
-              "v-delayed-exp",
-              "v-blocked-simple",
+              "v-dExp",
+              "v-linear-blocked",
+              "v-exp-blocked",
+              #"v-blocked-simple",
               #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
-              "v-blocked-exp-sb",
+              #"v-blocked-exp-sb",
               #"v-blocked-exp-ul",
-              "v-delayed-exp-blocked",
-              "v-step-fixed")
-
+              "v-dExp-blocked"
+              #"v-step-fixed"
+)
 a_models <- c(
               "a-linear",
               #"a-power",
               "a-exp",
               #"a-delayed-power",
-              "a-delayed-exp",
-              "a-blocked-simple",
+              "a-dExp",
+              "a-linear-blocked",
+              "a-exp-blocked",
+              #"a-blocked-simple",
               #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
-              "a-blocked-exp-sb",
+              #"a-blocked-exp-sb",
               #"a-blocked-exp-ul",
-              "a-delayed-exp-blocked",
-              "a-step-fixed")
+              "a-dExp-blocked"
+              #"a-step-fixed"
+              )
 
 models <- c("simple",a_models, v_models)
 
-models_2p <- c(
-  "v-a-exp", 
-  "v-dExp-a-exp",
-  "v-dExp-a-pow",
-  "v-dPow-a-exp",
-  "v-dPow-a-Pow"
-)
+# models_2p <- c(
+#   "v-a-exp", 
+#   "v-dExp-a-exp",
+#   "v-dExp-a-pow",
+#   "v-dPow-a-exp",
+#   "v-dPow-a-Pow"
+# )
 
 IC_array = function(models, criterion) {
   # set up empty array
