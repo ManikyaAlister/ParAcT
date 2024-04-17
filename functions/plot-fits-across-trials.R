@@ -1,4 +1,5 @@
 library(ggplot2)
+library(dplyr)
 
 fitRTAcrossTime = function(model, subjects, dataset, subset, round = 2){
   
@@ -30,11 +31,11 @@ fitRTAcrossTime = function(model, subjects, dataset, subset, round = 2){
     load(paste(
       "modelling/",dataset,"",subset,"/round-",round,"/08_model-predictions/P",
       useSub,
-      "_",model,".Rdata",
+      "-",model,".Rdata",
       sep = ""
     ))
     # Add trial column to sim data 
-    sim$Trial <- rep_len(1:length(data[,1]), length.out = length(sim[,1]))
+    #sim$Trial <- rep_len(1:length(data[,1]), length.out = length(sim[,1]))
     
     # divide into correct and incorrect
     sim_correct <- sim %>%
@@ -53,11 +54,11 @@ fitRTAcrossTime = function(model, subjects, dataset, subset, round = 2){
     load(paste(
       "modelling/",dataset,"",subset,"/round-1/08_model-predictions/P",
       useSub,
-      "_simple.Rdata",
+      "-simple.Rdata",
       sep = ""
     ))
     # Add trial column to sim data 
-    sim$Trial <- rep_len(1:length(data[,2]), length.out = length(sim[,1]))
+    #sim$Trial <- rep_len(1:length(data[,2]), length.out = length(sim[,1]))
     
     # divide into correct and incorrect
     sim_correct <-  sim %>%
@@ -118,18 +119,17 @@ fitRTAcrossTime = function(model, subjects, dataset, subset, round = 2){
   combined_data <- rbind(all_data, simple, alt)
   
   # load full list of models and their full names for plotting
-  load(here(paste0("data/",dataset,"/derived",subset,"/all-models.Rdata")))
-  load(here(paste0("data/",dataset,"/derived",subset,"/model-full-names.Rdata")))
+  #load(here(paste0("data/",dataset,"/derived",subset,"/all-models.Rdata")))
+  #load(here(paste0("data/",dataset,"/derived",subset,"/model-full-names.Rdata")))
   
-  names(models) <- full_names
-  
-  full_model_name <- names(models[models == model])
+  #names(models) <- full_names
+  #full_model_name <- names(models[models == model])
   
   
   ggplot(combined_data, aes(x = Trial, y = Time)) +
     geom_point(data = all_data, alpha = 0.25) +
     geom_smooth(aes(colour = Model), method = "loess") +
-    labs(title = full_model_name, subtitle = paste0("n = ", length(subjects)), colour = "Model") +
+    labs(title = model, subtitle = paste0("n = ", length(subjects)), colour = "Model") +
     geom_vline(xintercept = 40 * 4, colour = "red") +
     facet_wrap(~accuracy) +
     theme_bw()+

@@ -25,15 +25,12 @@ t0_standard = function(x, time){
 }
 
 # z has slightly different rules as it changes based on the response stimulus
-
 z_standard = function(x, stimulus = stim, all_stimuli = stims, time) {
   if (stimulus == all_stimuli[1]) {
     z <- x["z"]
   } else if (stimulus == all_stimuli[2]) {
     z <- (1 - x["z"])
-  } else {
-    stop("WTF?!? Additional stim in stims")
-  }
+  } 
   z
 }
 
@@ -131,20 +128,42 @@ v_dExp_blocked = function(x, time){
   v
 }
 
+# step function (for optim data)
+a_step_fixed = function(x, time, b){
+  noFeedbackBlocks = c(1:4) # blocks where participants did not get detailed feedback in optim data
+  a=ifelse(b %in% noFeedbackBlocks, x["initial"], x["initial"]-x["step"])
+  a
+}
+
+v_step_fixed = function(x, time, b){
+  noFeedbackBlocks = c(1:4)
+  v=ifelse(b %in% noFeedbackBlocks, x["initial"], x["initial"]+x["step"])
+  v
+}
+
 # block + exp trial 
-a_block_trial_exp= function(x, time, b = block){
+a_block_trial_exp= function(x, time, b){
   b <- x["b.bump"]*(b-1)
   a <- x["a.asym"]+(b+x["a.start"])*exp(-x["a.rate"]*time)
   a
 }
 
-v_block_trial_exp = function(x, time, b = block){
+v_block_trial_exp = function(x, time, b){
   b <- x["b.bump"]*(b-1)
   v <- (x["v.asym"]+x["v.start"])-(b+x["v.start"])*exp(-x["v.rate"]*time)
   v
 }
 
 # complex (different estimate in every block)
+a_blocked_complex = function(x, time, b){
+  a = x[paste0("a.",b)]
+  a
+}
+
+v_blocked_complex = function(x, time, b){
+  v = x[paste0("v.",b)]
+  v
+}
 
 
 # Get time-varying parameters from the functions -------------------------------
@@ -152,10 +171,13 @@ v_block_trial_exp = function(x, time, b = block){
 # in the old fitting script, you needed to define the parameter names manually, but they are already in the time-varying functions.,
 # so we can save a lot of work if we just extract them from the functions.
 get_function_variables <- function(func) {
-  body_text <- capture.output(print(body(func)))
-  body_text <- paste(body_text, collapse = "\n")
-  matches <- stringr::str_extract_all(body_text, '(?<=x\\[\\\")[^\\"]+(?=\\\"\\])')
-  parameters <- unique(matches[[1]])
+  body_text <- capture.output(print(body(func)))  # Capture the body of the function as text
+  body_text <- paste(body_text, collapse = "\n")  # Collapse into a single string
+  # Use regex to find all matches of string literals surrounded by quotes, capturing only inside the quotes
+  matches <- stringr::str_extract_all(body_text, '"([^"]*)"')
+  parameters <- unique(unlist(matches))  # Unlist and get unique matches
+  # Remove the surrounding quotes from each parameter
+  parameters <- gsub('^"|"$', '', parameters)
   parameters
 }
 

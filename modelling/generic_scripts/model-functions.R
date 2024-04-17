@@ -107,6 +107,20 @@ all_functions <- list(
     t0 = t0_standard,
     blocked_likelihood = FALSE
   ),
+  "a-step-fixed" = list(
+    a = a_step_fixed,
+    v = v_standard,
+    z = z_standard,
+    t0 = t0_standard,
+    blocked_likelihood = TRUE
+  ),
+  "v-step-fixed" = list(
+    a = a_standard,
+    v = v_step_fixed,
+    z = z_standard,
+    t0 = t0_standard,
+    blocked_likelihood = TRUE
+  ),
   "a-block-trial-exp" = list(
     a = a_block_trial_exp,
     v = v_standard,
@@ -117,6 +131,20 @@ all_functions <- list(
   "v-block-trial-exp" = list(
     a = a_standard,
     v = v_block_trial_exp,
+    z = z_standard,
+    t0 = t0_standard,
+    blocked_likelihood = TRUE
+  ),
+  "a-blocked-complex" = list(
+    a = a_blocked_complex,
+    v = v_standard,
+    z = z_standard,
+    t0 = t0_standard,
+    blocked_likelihood = TRUE
+  ),
+  "v-blocked-complex" = list(
+    a = a_standard, 
+    v = v_blocked_complex, 
     z = z_standard,
     t0 = t0_standard,
     blocked_likelihood = TRUE

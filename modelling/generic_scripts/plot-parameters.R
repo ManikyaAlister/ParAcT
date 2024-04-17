@@ -20,6 +20,9 @@ plotParamsIndividual = function(parameter, functions, time_var, theta, plot_path
     paract <- c()
     for (block in blocks){
       paract_iteration <- paractFunction(params, time = time_var[data$Block == block], b = block)
+      if (length(paract_iteration) == 1){
+        paract_iteration <- rep(paract_iteration, length(time_var[data$Block == block]))
+      }
       paract <- c(paract, paract_iteration)
     }
   } else {

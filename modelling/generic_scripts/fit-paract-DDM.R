@@ -49,7 +49,7 @@ for (useSub in subj) {
   # check if the model is a blocked model
   blocked_model <- grepl("blocked", model)
   
-  # print to make sure blcoked model has been updated properly
+  # print to make sure blocked model has been updated properly
   print(paste0("Blocked model: ", blocked_model))
   
   # load data
@@ -83,9 +83,27 @@ for (useSub in subj) {
   theta.t = get_function_variables(paract_functions$t0)
   theta.v = get_function_variables(paract_functions$v)
   theta.a = get_function_variables(paract_functions$a)
+  # to extract the parameter names for the complex block function is a little different
+  getComplexBlockParams = function(parameter, blocks){
+    # name block parameters
+    block.theta.names = NULL
+    for (block in blocks) {
+      block.theta.names[block] =  paste(parameter,block,sep=".")
+    }
+    block.theta.names
+  }
+
+  # if a model is the complex block model, the parameter should come up as
+  if("a." %in% theta.a){
+    # add to theta names
+    theta.a = getComplexBlockParams("a", blocks = unique(data$Block))
+  }
+  if ("v." %in% theta.v){
+    theta.v = getComplexBlockParams("v", blocks = unique(data$Block))
+  }
   
   theta.names = c(theta.z, theta.a, theta.v, theta.t)
-  
+  print(cat("Parameters to be estimated: ", theta.names))
   # define file paths for output
   savefile = here(
       save_output_path()
@@ -94,6 +112,8 @@ for (useSub in subj) {
   
   # source priors
   source(here("modelling/generic_scripts/priors.R"))
+  
+  print("Starting sampling")
   
   # run MCMC process
   source(here("modelling/generic_scripts/iterative-process.R"))
@@ -116,6 +136,11 @@ for (useSub in subj) {
        n.chains,
        theta.names,
        stims,
+       blocked_likelihood,
+       paract_functions,
+       analysis_round,
+       dataset_details,
+       model,
        file = savefile)
   
   

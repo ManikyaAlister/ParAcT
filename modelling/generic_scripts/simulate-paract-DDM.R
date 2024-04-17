@@ -72,7 +72,7 @@ for (stim in stims) {
         # n is the number of trials in a given loop cell
         n = length(data$Time[data$Stim == stim & data$Block == block]),
         a = a,
-        v = a,
+        v = v,
         t0 = t0,
         z = z * a
       )
