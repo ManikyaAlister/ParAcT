@@ -32,7 +32,7 @@ plotParamsIndividual = function(parameter, functions, time_var, theta, plot_path
     paract <- rep(paract, length(time_var))
   }
   png(filename = paste0(plot_path(), "P", subject, "-",model,"-",parameter,"-parameter-plot.png"))
-  plot(time_var, paract, "l", ylab = paste0(parameter, " (",model," model)"), xlab = "Time")
+  plot(time_var, paract, "l", ylab = paste0(parameter, " (",model," model)"), xlab = "Time", ylim = c(0,7))
   dev.off()
   print(paste0("Plot saved for ",parameter))
 }

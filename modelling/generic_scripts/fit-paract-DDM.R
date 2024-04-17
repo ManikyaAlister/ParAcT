@@ -93,7 +93,7 @@ for (useSub in subj) {
     block.theta.names
   }
 
-  # if a model is the complex block model, the parameter should come up as
+  # if a model is the complex block model, the parameter should come up as, e.g., "a."
   if("a." %in% theta.a){
     # add to theta names
     theta.a = getComplexBlockParams("a", blocks = unique(data$Block))
