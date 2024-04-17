@@ -23,7 +23,7 @@ colnames(use.range) = c("Min", "Max")
 # set up response stimuli
 stims <- c(1, 2)
 
-# create a vector of uniqe stims of length trials to sample from
+# create a vector of unique stims of length trials to sample from
 # note: for this recovery we are not interested in time varying z, but if you were, you might want to make this these uneven (e.g., 2/3rds one stimulus)
 all_stims <- c(rep(stims[1], n_trials / 2), rep(stims[2], n_trials / 2))
 

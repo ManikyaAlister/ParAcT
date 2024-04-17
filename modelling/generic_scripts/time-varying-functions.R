@@ -144,6 +144,9 @@ v_block_trial_exp = function(x, time, b = block){
   v
 }
 
+# complex (different estimate in every block)
+
+
 # Get time-varying parameters from the functions -------------------------------
 
 # in the old fitting script, you needed to define the parameter names manually, but they are already in the time-varying functions.,

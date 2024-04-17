@@ -11,14 +11,25 @@
 #' @export
 #'
 #' @examples
-plotParamsIndividual = function(parameter, functions, time_var, theta, plot_path, subject){
+plotParamsIndividual = function(parameter, functions, time_var, theta, plot_path, subject, blocked_likelihood, data){
   params = apply(theta,2,mean)
   paractFunction <- functions[[parameter]]
-  paract <- paractFunction(params, time = time_var)
+  # check if the function requires a "block" (b) argument and if so, different plotting procedure. 
+  if (blocked_likelihood & ("b" %in% names(formals(paractFunction)))){
+    blocks <- unique(data$Block)
+    paract <- c()
+    for (block in blocks){
+      paract_iteration <- paractFunction(params, time = time_var[data$Block == block], b = block)
+      paract <- c(paract, paract_iteration)
+    }
+  } else {
+    paract <- paractFunction(params, time = time_var)
+  }
   if (length(paract) == 1){
     paract <- rep(paract, length(time_var))
   }
   png(filename = paste0(plot_path(), "P", subject, "-",model,"-",parameter,"-parameter-plot.png"))
   plot(time_var, paract, "l", ylab = paste0(parameter, " (",model," model)"), xlab = "Time")
   dev.off()
+  print(paste0("Plot saved for ",parameter))
 }

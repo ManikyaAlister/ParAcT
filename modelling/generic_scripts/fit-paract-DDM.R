@@ -74,7 +74,6 @@ for (useSub in subj) {
   # some models require the likelihood function to iterate over blocks
   if (blocked_likelihood){
     log.dens.like <- log.dens.like.blocked
-    print(log.dens.like)
   } else{
     log.dens.like <- log.dens.like.normal
   }
@@ -152,7 +151,16 @@ for (useSub in subj) {
         time_var <- data$Trial
       }
       # plot parameters across time for parameters of interest
-      plotParamsIndividual(parameter = par, functions = paract_functions, time_var = time_var, theta = theta, plot_path = plot_path, subject = subj)
+      plotParamsIndividual(
+        parameter = par,
+        functions = paract_functions,
+        time_var = time_var,
+        theta = theta,
+        plot_path = plot_path,
+        subject = subj,
+        blocked_likelihood = blocked_likelihood,
+        data = data
+      )
     }
   }
 
