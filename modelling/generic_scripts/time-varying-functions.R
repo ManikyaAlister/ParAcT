@@ -9,23 +9,23 @@
 #   param
 # }
 
-a_standard = function(x, time){
+a_standard = function(x, data){
   param<- x["a"]
   param
 }
 
-v_standard = function(x, time){
+v_standard = function(x, data){
   param <- x["v"]
   param
 }
 
-t0_standard = function(x, time){
+t0_standard = function(x, data){
   param <- x["t0"]
   param
 }
 
 # z has slightly different rules as it changes based on the response stimulus
-z_standard = function(x, stimulus = stim, all_stimuli = stims, time) {
+z_standard = function(x, stimulus = stim, all_stimuli = stims, data) {
   if (stimulus == all_stimuli[1]) {
     z <- x["z"]
   } else if (stimulus == all_stimuli[2]) {
@@ -38,129 +38,117 @@ z_standard = function(x, stimulus = stim, all_stimuli = stims, time) {
 # Trial-varying functions -------------------------------------------------
 
 # linear
-a_linear = function(x, time) {
-  a <- ((-x["a.b"])*time)+x["a.c"]
+a_linear = function(x, data) {
+  a <- ((-x["a.b"])*data$Trial)+x["a.c"]
   a
 }
 
-v_linear <-  function(x, time){
-  v <- (x["v.b"]*time)+x["v.c"]
+v_linear <-  function(x, data){
+  v <- (x["v.b"]*data$Trial)+x["v.c"]
   v
 }
 
 # exponential
-a_exp = function(x, time){
-  a <- x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*time)
+a_exp = function(x, data){
+  a <- x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
   a
 }
 
-v_exp = function(x, time){
-  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*time)
+v_exp = function(x, data){
+  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
   v
 }
 
 # delayed exponential
-a_dExp = function(x, time){
-  a <- x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*time))))
+a_dExp = function(x, data){
+  a <- x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*data$Trial))))
   a
 }
 
-v_dExp = function(x, time){
-  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*time)))
+v_dExp = function(x, data){
+  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*data$Trial)))
   v
 }
 
-a_power = function(x, time){
-  a <- x["a.asym"]+x["a.start"]*(time^-x["a.rate"])
+a_power = function(x, data){
+  a <- x["a.asym"]+x["a.start"]*(data$Trial^-x["a.rate"])
   a
 }
 
-v_power = function(x, time){
-  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*(time^-x["v.rate"])
+v_power = function(x, data){
+  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*(data$Trial^-x["v.rate"])
   v
 }
 
 # # Block-varying functions -------------------------------------------------
-# 
-# constant block
-# a_blocked_simple = function(x, b = block, time){
-#   d <- (-x["step"] * (b-1) )
-#   a <- x["a"]-d
-#   a
-# }
-# 
-# v_blocked_simple = function(x, b = block, time){
-#   d <- -x["step"] * (block-1) # negative step because it needs to increase drift rate over blocks
-#   a <- x["v"]-d
-#   a
-# }
+
 
 # linear block (re-parameterisation of constant block)
-a_linear_blocked = function(x, time) {
-  a <- ((-x["a.b"])*time)+x["a.c"]
+a_linear_blocked = function(x, data) {
+  a <- ((-x["a.b"])*data$Trial)+x["a.c"]
   a
 }
 
-v_linear_blocked = function(x, time){
-  v <- (x["v.b"]*time)+x["v.c"]
+v_linear_blocked = function(x, data){
+  v <- (x["v.b"]*data$Trial)+x["v.c"]
   v
 }
 
 # exponential blocked
-a_exp_blocked = function(x, time){
-  a <- x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*time)
+a_exp_blocked = function(x, data){
+  a <- x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
   a
 }
 
-v_exp = function(x, time){
-  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*time)
+v_exp = function(x, data){
+  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
   v
 }
 
 # delayed exp blocked
-a_dExp_blocked = function(x, time){
-  a <- x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*time))))
+a_dExp_blocked = function(x, data){
+  a <- x["a.asym"]+(x["a.start"]*((x["a.delay"]+1)/(x["a.delay"]+exp(x["a.rate"]*data$Block))))
   a
 }
 
-v_dExp_blocked = function(x, time){
-  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*time)))
+v_dExp_blocked = function(x, data){
+  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*((x["v.delay"]+1)/(x["v.delay"]+exp(x["v.rate"]*data$Block)))
   v
 }
 
 # step function (for optim data)
-a_step_fixed = function(x, time, b){
+a_step_fixed = function(x, data, b){
   noFeedbackBlocks = c(1:4) # blocks where participants did not get detailed feedback in optim data
   a=ifelse(b %in% noFeedbackBlocks, x["initial"], x["initial"]-x["step"])
   a
 }
 
-v_step_fixed = function(x, time, b){
+v_step_fixed = function(x, data, b){
   noFeedbackBlocks = c(1:4)
   v=ifelse(b %in% noFeedbackBlocks, x["initial"], x["initial"]+x["step"])
   v
 }
 
 # block + exp trial 
-a_block_trial_exp= function(x, time, b){
+a_block_trial_exp= function(x, data, b){
   b <- x["b.bump"]*(b-1)
-  a <- x["a.asym"]+(b+x["a.start"])*exp(-x["a.rate"]*time)
+  a <- x["a.asym"]+(b+x["a.start"])*exp(-x["a.rate"]*data$Trial)
   a
 }
 
-v_block_trial_exp = function(x, time, b){
+v_block_trial_exp = function(x, data, b){
   b <- x["b.bump"]*(b-1)
-  v <- (x["v.asym"]+x["v.start"])-(b+x["v.start"])*exp(-x["v.rate"]*time)
+  v <- (x["v.asym"]+x["v.start"])-(b+x["v.start"])*exp(-x["v.rate"]*data$Trial)
   v
 }
 
 # complex (different estimate in every block)
-a_blocked_complex = function(x, time, b){
+a_blocked_complex = function(x, data, b){
   a = x[paste0("a.",b)]
   a
 }
 
-v_blocked_complex = function(x, time, b){
+v_blocked_complex = function(x, data, b){
   v = x[paste0("v.",b)]
   v
 }
