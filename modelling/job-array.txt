@@ -10,7 +10,7 @@
 #SBATCH --nodes=1
 
 # The name of the job:
-#SBATCH --job-name="round1-optim"
+#SBATCH --job-name="r1-optim"
 
 # Maximum number of tasks/CPU cores used by the job:
 #SBATCH --ntasks=1
