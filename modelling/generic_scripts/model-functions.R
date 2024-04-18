@@ -66,7 +66,7 @@ all_functions <- list(
     blocked_likelihood = FALSE
   ),
   "a-linear-blocked" = list(
-    a = a_linear,
+    a = a_linear_blocked,
     v = v_standard,
     z = z_standard,
     t0 = t0_standard,
@@ -74,13 +74,13 @@ all_functions <- list(
   ),
   "v-linear-blocked" = list(
     a = a_standard,
-    v = v_linear,
+    v = v_linear_blocked,
     z = z_standard,
     t0 = t0_standard,
     blocked_likelihood = FALSE
   ),
   "a-exp-blocked" = list(
-    a = a_exp,
+    a = a_exp_blocked,
     v = v_standard,
     z = z_standard,
     t0 = t0_standard,
@@ -88,13 +88,13 @@ all_functions <- list(
   ),
   "v-exp-blocked" = list(
     a = a_standard,
-    v = v_exp,
+    v = v_exp_blocked,
     z = z_standard,
     t0 = t0_standard,
     blocked_likelihood = FALSE
   ),
   "a-dExp-blocked" = list(
-    a = a_dExp,
+    a = a_dExp_blocked,
     v = v_standard,
     z = z_standard,
     t0 = t0_standard,
@@ -102,7 +102,7 @@ all_functions <- list(
   ),
   "v-dExp-blocked" = list(
     a = a_standard,
-    v = v_dExp,
+    v = v_dExp_blocked,
     z = z_standard,
     t0 = t0_standard,
     blocked_likelihood = FALSE

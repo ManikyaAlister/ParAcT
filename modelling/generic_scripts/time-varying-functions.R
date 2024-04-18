@@ -85,23 +85,23 @@ v_power = function(x, data){
 
 # linear block (re-parameterisation of constant block)
 a_linear_blocked = function(x, data) {
-  a <- ((-x["a.b"])*data$Trial)+x["a.c"]
+  a <- ((-x["a.b"])*data$Block)+x["a.c"]
   a
 }
 
 v_linear_blocked = function(x, data){
-  v <- (x["v.b"]*data$Trial)+x["v.c"]
+  v <- (x["v.b"]*data$Block)+x["v.c"]
   v
 }
 
 # exponential blocked
 a_exp_blocked = function(x, data){
-  a <- x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Trial)
+  a <- x["a.asym"]+x["a.start"]*exp(-x["a.rate"]*data$Block)
   a
 }
 
-v_exp = function(x, data){
-  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Trial)
+v_exp_blocked = function(x, data){
+  v <- (x["v.asym"]+x["v.start"])-x["v.start"]*exp(-x["v.rate"]*data$Block)
   v
 }
 
@@ -145,11 +145,13 @@ v_block_trial_exp = function(x, data, b){
 # complex (different estimate in every block)
 a_blocked_complex = function(x, data, b){
   a = x[paste0("a.",b)]
+  if (any(a) < 0) return(-Inf)
   a
 }
 
 v_blocked_complex = function(x, data, b){
   v = x[paste0("v.",b)]
+  if (any(v) < 0) return(-Inf)
   v
 }
 

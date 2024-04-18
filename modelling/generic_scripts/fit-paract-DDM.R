@@ -47,10 +47,10 @@ for (useSub in subj) {
   print(paste0("Participant: ", useSub))
   
   # check if the model is a blocked model
-  blocked_model <- grepl("blocked", model)
+  #blocked_model <- grepl("blocked", model)
   
   # print to make sure blocked model has been updated properly
-  print(paste0("Blocked model: ", blocked_model))
+  #print(paste0("Blocked model: ", blocked_model))
   
   # load data
   load(here(load_data_path()))
@@ -170,16 +170,10 @@ for (useSub in subj) {
     parameters_of_interest <- c("a", "v")
     
     for (par in parameters_of_interest){
-      if (blocked_model) {
-        time_var <- data$Block
-      } else {
-        time_var <- data$Trial
-      }
       # plot parameters across time for parameters of interest
       plotParamsIndividual(
         parameter = par,
         functions = paract_functions,
-        time_var = time_var,
         theta = theta,
         plot_path = plot_path,
         subject = subj,

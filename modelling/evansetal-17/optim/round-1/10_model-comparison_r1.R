@@ -17,9 +17,9 @@ v_models <- c(
               #"v-blocked-simple",
               #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
               #"v-blocked-exp-sb",
-              #"v-blocked-exp-ul",
-              "v-dExp-blocked"
-              #"v-step-fixed"
+              "v-block-trial-exp",
+              "v-dExp-blocked",
+              "v-step-fixed"
 )
 a_models <- c(
               "a-linear",
@@ -33,8 +33,9 @@ a_models <- c(
               #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
               #"a-blocked-exp-sb",
               #"a-blocked-exp-ul",
-              "a-dExp-blocked"
-              #"a-step-fixed"
+              "a-dExp-blocked",
+              "a-block-trial-exp",
+              "a-step-fixed"
               )
 
 models <- c("simple",a_models, v_models)
@@ -146,11 +147,12 @@ models_2p_best <- array(dim = c(n, 1))
 
 for (i in 1:length(best[,1])){
   models_2p_best
-  models_2p_best[i] <- paste0(best[i,2],"+",best[i,1])
+  models_2p_best[i] <- paste0(best[i,1],"+",best[i,2])
 }
 
 # what are the 2-parameter models that need to be made? 
-unique_2p_best <- unique(models_2p_best)
+unique_2p_best_df <- unique(models_2p_best)
+unique_2p_best <- as.vector(unlist(unique_2p_best_df))
 save(file = here("data/evansetal-17/derived/optim/round-2-models.Rdata"), unique_2p_best)
 
 

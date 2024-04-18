@@ -23,15 +23,9 @@ for (stim in stims) {
   if (blocked_likelihood) {
     blocks = unique(data$Block)
     for (block in blocks) {
-      #if it's a blocked model, time = block, if trial model time = trial
-      if (blocked_model) {
-        # filter trials for a given stimulus and block
-        stim_time <-
-          data$Block[data$Stim == stim & data$Block == block]
-      } else{
-        stim_time <- data$Trial[data$Stim == stim & data$Block == block]
-      }
-      # Runs diffusion model to generate data with estimated parameters
+      
+      data_stim <-
+        data[data$Stim == stim & data$Block == block,]
       
       # function to get the arguments of another function
       funArgs = function(fun) {
@@ -42,30 +36,30 @@ for (stim in stims) {
       
       # check to see if there is a "block" (b) argument in the function, and if there is, add it.
       if ("b" %in% funArgs(paract_functions$a)) {
-        a = paract_functions$a(x, time = stim_time, b = block)
+        a = paract_functions$a(x, data = data_stim, b = block)
       } else {
-        a = paract_functions$a(x, time = stim_time)
+        a = paract_functions$a(x, data = data_stim)
       }
       
       if ("b" %in% funArgs(paract_functions$v)) {
-        v = paract_functions$v(x, time = stim_time, b = block)
+        v = paract_functions$v(x, data = data_stim, b = block)
       } else {
-        v = paract_functions$v(x, time = stim_time)
+        v = paract_functions$v(x, data = data_stim)
       }
       
       if ("b" %in% funArgs(paract_functions$t0)) {
-        t0 = paract_functions$t0(x, time = stim_time, b = block)
+        t0 = paract_functions$t0(x, data = data_stim, b = block)
       } else {
-        t0 = paract_functions$t0(x, time = stim_time)
+        t0 = paract_functions$t0(x, data = data_stim)
       }
       
       if ("b" %in% funArgs(paract_functions$z)) {
         z = paract_functions$z(x,
-                        time = stim_time,
+                        data = data_stim,
                         stimulus = stim,
                         b = block)
       } else {
-        z = paract_functions$z(x, time = stim_time, stimulus = stim)
+        z = paract_functions$z(x, data = data_stim, stimulus = stim)
       }
       
       tmp = rdiffusion(
@@ -82,25 +76,21 @@ for (stim in stims) {
       
       simdata$Time = c(simdata$Time, tmp$rt) # Populates the RT column in the simulated data
       simdata$Resp = c(simdata$Resp, tmp$response) # Populates the Resp column in the simulated data
-      simdata$Stim = c(simdata$Stim, rep(stim, length(tmp$rt)))
+      simdata$Stim = c(simdata$Stim, rep(stim, length(tmp$rt))) 
       simdata$Trial = c(simdata$Trial,data$Trial[data$Stim == stim & data$Block == block])
       simdata$Block = c(simdata$Block, data$Block[data$Stim == stim & data$Block == block])
     }
   } else {
-    #if it's a blocked model, time = block, if trial model time = trial
-    if (blocked_model) {
-      # filter trials for a given stimulus
-      stim_time <- data$Block[data$Stim == stim]
-    } else{
-      stim_time <- data$Trial[data$Stim == stim]
-    }
+    data_stim <-
+      data[data$Stim == stim,]
+    
     # Runs diffusion model to generate data with estimated parameters
     tmp = rdiffusion(
       n = length(data$Time[data$Stim == stim]),
-      a = paract_functions$a(x, time = stim_time),
-      v = paract_functions$v(x, time = stim_time),
-      t0 = paract_functions$t0(x, time = stim_time),
-      z = paract_functions$z(x, stimulus = stim, time = stim_time) * paract_functions$a(x, time = stim_time)
+      a = paract_functions$a(x, data = data_stim),
+      v = paract_functions$v(x, data = data_stim),
+      t0 = paract_functions$t0(x, data = data_stim),
+      z = paract_functions$z(x, stimulus = stim, data = data_stim) * paract_functions$a(x, data = data_stim)
     )
     simdata$Time = c(simdata$Time, tmp$rt) # Populates the RT column in the simulated data
     simdata$Resp = c(simdata$Resp, tmp$response) # Populates the Resp column in the simulated data
