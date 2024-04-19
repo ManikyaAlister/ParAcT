@@ -60,7 +60,8 @@ dataset_details <-
     save_output_path = c(output_path_optim, output_path_normal, output_path_knowles),
     save_plot_paths = c(plot_path_optim, plot_path_normal, plot_path_knowles),
     save_IC_path = c("data/evansetal-17/derived/optim/", "data/evansetal-17/derived/normal/", "data/knowlesetal-19/derived/"),
-    simulate_fits = c(T,T,T) # do you want to simulate the model fits after they are estimated? 
+    simulate_fits = c(T,T,T), # do you want to simulate the model fits after they are estimated? 
+    n_subjects = c(10, 11, 147)
   )
 
 save(dataset_details, file = here("data/dataset-details.Rdata"))

@@ -78,6 +78,9 @@ for (useSub in subj) {
     log.dens.like <- log.dens.like.normal
   }
   
+  # Extract the full name of the model
+  full_name = paract_functions$full_name
+  
   # list parameter names so we knows what to call from priors scripts
   theta.z = get_function_variables(paract_functions$z) # function that extracts the parameters from the time-varying (or standard DDM) functions.
   theta.t = get_function_variables(paract_functions$t0)
@@ -166,23 +169,31 @@ for (useSub in subj) {
     # source parameter plotting script
     source(here("modelling/generic_scripts/plot-parameters.R"))
     
+  png(filename = paste0(plot_path(), "P", subj, "-",model,"-parameter-plot.png"), width = 1000, height = 500)
     # define parameters of interest
     parameters_of_interest <- c("a", "v")
     
+    # Set up the plotting layout
+    par(mfrow = c(1, length(parameters_of_interest)), cex = 1.3)
+
     for (par in parameters_of_interest){
       # plot parameters across time for parameters of interest
       plotParamsIndividual(
         parameter = par,
         functions = paract_functions,
         theta = theta,
-        plot_path = plot_path,
         subject = subj,
         blocked_likelihood = blocked_likelihood,
         data = data
       )
+      if (par == parameters_of_interest[1]){
+        mtext(full_name, line = 2, cex = 2, adj = 0)
+      }
     }
+  
+  dev.off()
+  print(paste0("Plot saved for model", model))
   }
-
   
   if(simulate_fits){
     # simulate predictions from estimated parameters (for model fits)

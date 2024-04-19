@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-plotParamsIndividual = function(parameter, functions, data, theta, plot_path, subject, blocked_likelihood){
+plotParamsIndividual = function(parameter, functions, data, theta, subject, blocked_likelihood){
   params = apply(theta,2,mean)
   paractFunction <- functions[[parameter]]
   # check if the function requires a "block" (b) argument and if so, different plotting procedure. 
@@ -29,10 +29,7 @@ plotParamsIndividual = function(parameter, functions, data, theta, plot_path, su
     paract <- paractFunction(params, data = data)
   }
   if (length(paract) == 1){
-    paract <- rep(paract, length(nrow(data)))
+    paract <- rep(paract, nrow(data))
   }
-  png(filename = paste0(plot_path(), "P", subject, "-",model,"-",parameter,"-parameter-plot.png"))
-  plot(1:length(paract), paract, "l", ylab = paste0(parameter, " (",model," model)"), xlab = "Time", ylim = c(0,7))
-  dev.off()
-  print(paste0("Plot saved for ",parameter))
+  plot(1:length(paract), paract, "l", ylab = parameter, xlab = "Trial", ylim = c(0,7))
 }
