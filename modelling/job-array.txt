@@ -56,7 +56,7 @@ models=("simple" "a-linear" "a-exp" "a-dExp" "a-linear-blocked"  "a-exp-blocked"
 #
 
 n_models=15
-data="evans-normal"
+data="knowles"
 
 # Models not run (put below)
 # 
