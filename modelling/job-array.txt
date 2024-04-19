@@ -53,7 +53,7 @@ models=("a-step-fixed+v-step-fixed" "a-exp+v-exp" "a-exp+v-linear-blocked" "a-ex
 
 
 n_models=8
-data="evans-normal"
+data="evans-optim"
 
 # Models not run (put below)
 # 
