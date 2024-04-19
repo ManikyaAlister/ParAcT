@@ -21,7 +21,7 @@ source(here("modelling/generic_scripts/define-dataset-details.R"))
 # source model functions
 source(here("modelling/generic_scripts/model-functions.R"))
 
-dataset_id <- "evans-optim"
+dataset_id <- "evans-normal"
 dataset_index <- which(dataset_details$dataset_id == dataset_id)
 subjects <- dataset_details$n_subjects[dataset_index]
 derived_data <- dataset_details$save_IC_path[dataset_index]
@@ -34,8 +34,7 @@ v_models <- c(
               "v-linear-blocked",
               "v-exp-blocked",
               "v-block-trial-exp",
-              "v-dExp-blocked",
-              "v-step-fixed"
+              "v-dExp-blocked"
 )
 a_models <- c(
               "a-linear",
@@ -44,11 +43,10 @@ a_models <- c(
               "a-linear-blocked",
               "a-exp-blocked",
               "a-dExp-blocked",
-              "a-block-trial-exp",
-              "a-step-fixed"
+              "a-block-trial-exp"
               )
 
-load(here(paste0(derived_data[dataset_index],"round-2-models.Rdata")))
+load(here(paste0(derived_data,"round-2-models.Rdata")))
 
 models <- c("simple",a_models, v_models, unique_2p_best)
 
@@ -318,10 +316,10 @@ Comparing the best a model versus the best v model for each participant.
 
 ```{r}
 # best model that assumes a change versus v change 
-# a_best <- best_IC_from_models(a_models)
-# v_best <- best_IC_from_models(v_models)
-a_best <- best_IC_from_models(models[grep("a-",models)])
-v_best <- best_IC_from_models(models[grep("v-",models)])
+a_best <- best_IC_from_models(a_models)
+v_best <- best_IC_from_models(v_models)
+# a_best <- best_IC_from_models(models[grep("a-",models)])
+# v_best <- best_IC_from_models(models[grep("v-",models)])
 
 a_v_weighted_AIC <- weightedICs(cbind(a_best$AIC, v_best$AIC))
 colnames(a_v_weighted_AIC) <- c("best a model", "best v model")
@@ -338,20 +336,6 @@ count_a_v <- c(a_models = sum(count_a_v == 1), v_models = sum(count_a_v == 2))
 barplot(count_a_v)
 ```
 ```{r}
-countWordInString <- function(input_string, words) {
-  # Create a regular expression pattern that matches any of the words
-  pattern <- paste0("\\b(", paste(words, collapse="|"), ")\\b")
-  # Count the matches
-  count <- str_count(input_string, pattern)
-  return(count)
-}
-
-# check how. many times these words appear in models (indicative of how many block-varying functions there are)
-count_block_models <- sapply(models, function(x) countWordInString(input_string = x, words = c("blocked", "step", "block")))
-
-# because of block+trial models, need to check this, too.
-count_block_only <- sapply(models, function(x) countWordInString(input_string = x, words = c("blocked", "step")))
-
 # # models that assume at lease one parameter varies across trials
 # #trial_models <- models[!str_detect(models, "blocked") & !str_detect(models, "step")]
 # 

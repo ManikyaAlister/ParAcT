@@ -153,7 +153,7 @@ for (i in 1:length(best[,1])){
 # what are the 2-parameter models that need to be made? 
 unique_2p_best_df <- unique(models_2p_best)
 unique_2p_best <- as.vector(unlist(unique_2p_best_df))
-save(file = here("data/evansetal-17/derived/optim/round-2-models.Rdata"), unique_2p_best)
+save(unique_2p_best, file = here("data/evansetal-17/derived/optim/round-2-models.Rdata"))
 
 
 ## FIT PLOT
