@@ -140,7 +140,7 @@ models_2p_best <- array(dim = c(n, 1))
 
 for (i in 1:length(best[,1])){
   models_2p_best
-  models_2p_best[i] <- paste0(best[i,2],"+",best[i,1])
+  models_2p_best[i] <- paste0(best[i,1],"+",best[i,2])
 }
 
 
