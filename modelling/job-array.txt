@@ -47,11 +47,12 @@ module load foss/2022a R/4.2.1
 
 normal_2p=("a-exp-blocked+v-linear-blocked" "a-exp+v-exp" "a-linear-blocked+v-linear-blocked" "a-linear-blocked+v-linear" "a-block-trial-exp+v-exp")
 optim_2p=("a-step-fixed+v-step-fixed" "a-exp+v-exp" "a-exp+v-linear-blocked" "a-exp+v-step-fixed" "a-dExp-blocked+v-linear-blocked" "a-exp-blocked+v-linear-blocked" "a-linear-blocked+v-linear-blocked" "a-dExp+v-dExp")
-
+knowles_2p=("a-exp+v-exp" "a-exp+v-linear" "a-exp+v-linear-blocked" "a-linear-blocked+v-linear" "a-linear+v-linear")
+models_1p=("simple" "a-linear" "a-exp" "a-dExp" "a-linear-blocked"  "a-exp-blocked" "a-dExp-blocked" "a-block-trial-exp" "v-linear" "v-exp" "v-dExp" "v-linear-blocked" "v-exp-blocked" "v-block-trial-exp" "v-dExp-blocked")   
 
 
 # Set the model script names
-models=("simple" "a-linear" "a-exp" "a-dExp" "a-linear-blocked"  "a-exp-blocked" "a-dExp-blocked" "a-block-trial-exp" "v-linear" "v-exp" "v-dExp" "v-linear-blocked" "v-exp-blocked" "v-block-trial-exp" "v-dExp-blocked")   
+models=knowles_2p
 #
 #
 

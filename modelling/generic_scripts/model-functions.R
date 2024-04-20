@@ -267,5 +267,46 @@ all_functions <- list(
     t0 = t0_standard,
     blocked_likelihood = TRUE,
     full_name = "a Exp Trial with Block Bump + v Exp"
+  ),
+  # Knowles models ----------------------------------------------------
+  "a-exp+v-exp" = list(
+    a = a_exp,
+    v = v_exp,
+    z = z_standard,
+    t0 = t0_standard,
+    blocked_likelihood = FALSE,
+    full_name = "a Exp + v Exp"
+  ),
+  "a-exp+v-linear" = list(
+    a = a_exp,
+    v = v_linear,
+    z = z_standard,
+    t0 = t0_standard,
+    blocked_likelihood = FALSE,
+    full_name = "a Exp + v Linear"
+  ),
+  "a-exp+v-linear-blocked" = list(
+    a = a_exp,
+    v = v_linear_blocked,
+    z = z_standard,
+    t0 = t0_standard,
+    blocked_likelihood = FALSE,
+    full_name = "a Exp + v Linear Blocked"
+  ),
+  "a-linear-blocked+v-linear" = list(
+    a = a_linear_blocked,
+    v = v_linear,
+    z = z_standard,
+    t0 = t0_standard,
+    blocked_likelihood = FALSE,
+    full_name = "a Linear Blocked + v Linear"
+  ),
+  "a-linear+v-linear" = list(
+    a = a_linear,
+    v = v_linear,
+    z = z_standard,
+    t0 = t0_standard,
+    blocked_likelihood = FALSE,
+    full_name = "a Linear + v Linear"
   )
 )
