@@ -52,7 +52,7 @@ plot_recovery = function(parameter, all_parameters, title){
 
 # Start a PDF device to save the plots to a PDF file
 pdf(paste0("man-figures/all-param-change-recovery.pdf"), width = 14, height = 20)
-par(mfrow = c(8, 4), oma = c(0, 0, 0, 0))  # Adjust the bottom margin (oma) to move titles closer
+par(mfrow = c(6, 4), oma = c(0, 0, 0, 0))  # Adjust the bottom margin (oma) to move titles closer
 
 model <- "a-linear"
 
@@ -103,28 +103,28 @@ plot_recovery("v.asym", params, expression(paste("v ", alpha, " (asymptote)")))
 plot_recovery("v.rate", params, expression(paste("v ", eta, " (rate)")))
 mtext("v Exponential", side = 4, line = 1)
 
-plot.new()
+# plot.new()
+# 
+# 
+# model <- "a-power"
+# params <- load_params(model)
+# plot_recovery("a.start", params, expression(paste("a ", beta, " (start)")))
+# 
+# plot_recovery("a.asym", params, expression(paste("a ", alpha, " (asymptote)")))
+#   
+# plot_recovery("a.rate", params, expression(paste("a ", eta, " (rate)")))
+# mtext("a Power", side = 4, line = 1)
 
-
-model <- "a-power"
-params <- load_params(model)
-plot_recovery("a.start", params, expression(paste("a ", beta, " (start)")))
-
-plot_recovery("a.asym", params, expression(paste("a ", alpha, " (asymptote)")))
-  
-plot_recovery("a.rate", params, expression(paste("a ", eta, " (rate)")))
-mtext("a Power", side = 4, line = 1)
-
-plot.new()
-
-model <- "v-power"
-params <- load_params(model)
-plot_recovery("v.start", params, expression(paste("v ", beta, " (start)")))
-
-plot_recovery("v.asym", params, expression(paste("v ", alpha, " (asymptote)")))
-
-plot_recovery("v.rate", params, expression(paste("v ", eta, " (rate)")))
-mtext("v Power", side = 4, line = 1)
+# plot.new()
+# 
+# model <- "v-power"
+# params <- load_params(model)
+# plot_recovery("v.start", params, expression(paste("v ", beta, " (start)")))
+# 
+# plot_recovery("v.asym", params, expression(paste("v ", alpha, " (asymptote)")))
+# 
+# plot_recovery("v.rate", params, expression(paste("v ", eta, " (rate)")))
+# mtext("v Power", side = 4, line = 1)
 
 plot.new()
 
