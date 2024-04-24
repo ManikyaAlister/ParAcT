@@ -4,7 +4,7 @@
 .Ruserdata
 #modelling/evansetal-17/round_1/06_output/*
 modelling/evansetal-17/round_2/06_output/*
-modelling/knowlesetal-19/round-1/06_output/*
+modelling/knowlesetal-19/round-1/06_output/* # don't comment, too much output for GitHub 
 modelling/knowlesetal-19/round_2/06_output/*
 slurm_output/*
 **.out

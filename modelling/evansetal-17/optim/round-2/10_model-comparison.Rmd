@@ -120,7 +120,7 @@ weighted_IC_from_models <- function(models, IC_array) {
 }
 
 # get a vector of just the single parameter models
-models_1p <- models[!(models %in% unique_2p_best)]
+models_1p <- models[!models %in% unique_2p_best & models != "simple"]
 
 # make a function that returns the best IC for a given set of models and IC
 best_IC_from_models = function(models, ICs = c("AIC", "BIC")) {

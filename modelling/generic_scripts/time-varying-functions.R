@@ -117,15 +117,15 @@ v_dExp_blocked = function(x, data){
 }
 
 # step function (for optim data)
-a_step_fixed = function(x, data, b){
+a_step_fixed = function(x, data){
   noFeedbackBlocks = c(1:4) # blocks where participants did not get detailed feedback in optim data
-  a=ifelse(b %in% noFeedbackBlocks, x["initial"], x["initial"]-x["step"])
+  a=ifelse(data$Block %in% noFeedbackBlocks, x["initial"], x["initial"]-x["step"])
   a
 }
 
-v_step_fixed = function(x, data, b){
+v_step_fixed = function(x, data){
   noFeedbackBlocks = c(1:4)
-  v=ifelse(b %in% noFeedbackBlocks, x["initial"], x["initial"]+x["step"])
+  v=ifelse(data$Block %in% noFeedbackBlocks, x["initial"], x["initial"]+x["step"])
   v
 }
 

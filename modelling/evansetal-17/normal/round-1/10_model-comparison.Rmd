@@ -118,7 +118,7 @@ weighted_IC_from_models <- function(models, IC_array) {
 }
 
 # get a vector of just the single parameter models
-models_1p <- models[!(models %in% unique_2p_best)]
+models_1p <- models[!models %in% unique_2p_best & models != "simple"]
 
 # make a function that returns the best IC for a given set of models and IC
 best_IC_from_models = function(models, ICs = c("AIC", "BIC")) {
@@ -264,8 +264,8 @@ colnames(n_param_comparison_AIC) <-
 n_param_comparison_weights_AIC <-
   weightedICs(n_param_comparison_AIC)
 
-save(n_param_comparison_weights_AIC, file = here("data/evansetal-17/derived/optim/n_param_comparison_AIC.Rdata"))
-save(n_param_comparison_weights_BIC, file = here("data/evansetal-17/derived/optim/n_param_comparison_BIC.Rdata"))
+save(n_param_comparison_weights_AIC, file = here(paste0(derived_data,"n_param_comparison_AIC.Rdata")))
+save(n_param_comparison_weights_BIC, file = here(paste0(derived_data,"n_param_comparison_BIC.Rdata")))
 
 getNBest(n_param_comparison_AIC)
 getNBest(n_param_comparison_BIC)
@@ -416,8 +416,8 @@ colnames(weighted_blockVtrial_AIC) <- groups
 weighted_blockVtrial_BIC <- weightedICs(cbind(best_blocked$BIC, best_trial$BIC, best_mixed$BIC, allBIC$simple))
 colnames(weighted_blockVtrial_BIC) <- groups
 
-save(weighted_blockVtrial_BIC, file = here("data/evansetal-17/derived/optim/blockVtrial_BIC.Rdata"))
-save(weighted_blockVtrial_AIC, file = here("data/evansetal-17/derived/optim/blockVtrial_AIC.Rdata"))
+save(weighted_blockVtrial_BIC, file = here(paste0(derived_data,"blockVtrial_BIC.Rdata")))
+save(weighted_blockVtrial_AIC, file = here(paste0(derived_data,"blockVtrial_AIC.Rdata")))
 
 round(apply(weighted_blockVtrial_AIC,2 ,mean),2)
 round(apply(weighted_blockVtrial_BIC,2 ,mean),2)

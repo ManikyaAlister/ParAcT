@@ -43,12 +43,12 @@ models_2p <- c(
 
 models <- c("simple", a_models, v_models, models_2p)
 
-load(here("data/knowlesetal-19/derived/best_BIC"))
-load(here("data/knowlesetal-19/derived/best_AIC"))
+load(here("data/knowlesetal-19/derived/best_BIC.Rdata"))
+load(here("data/knowlesetal-19/derived/best_AIC.Rdata"))
 
 
-load(here("data/knowlesetal-19/derived/best_a_1p_BIC"))
-load(here("data/knowlesetal-19/derived/best_v_1p_BIC"))
+load(here("data/knowlesetal-19/derived/best_a_1p_BIC.Rdata"))
+load(here("data/knowlesetal-19/derived/best_v_1p_BIC.Rdata"))
 
 # figure out the most common models
 table(best_v)

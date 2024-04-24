@@ -8,31 +8,21 @@ n = 10
 
 v_models <- c(
               "v-linear",
-              #"v-power",
               "v-exp",
-              #"v-delayed-pow",
               "v-dExp",
               "v-linear-blocked",
               "v-exp-blocked",
-              #"v-blocked-simple",
-              #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
-              #"v-blocked-exp-sb",
               "v-block-trial-exp",
               "v-dExp-blocked",
               "v-step-fixed"
 )
+
 a_models <- c(
               "a-linear",
-              #"a-power",
               "a-exp",
-              #"a-delayed-power",
               "a-dExp",
               "a-linear-blocked",
               "a-exp-blocked",
-              #"a-blocked-simple",
-              #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
-              #"a-blocked-exp-sb",
-              #"a-blocked-exp-ul",
               "a-dExp-blocked",
               "a-block-trial-exp",
               "a-step-fixed"
@@ -40,13 +30,6 @@ a_models <- c(
 
 models <- c("simple",a_models, v_models)
 
-# models_2p <- c(
-#   "v-a-exp", 
-#   "v-dExp-a-exp",
-#   "v-dExp-a-pow",
-#   "v-dPow-a-exp",
-#   "v-dPow-a-Pow"
-# )
 
 IC_array = function(models, criterion) {
   # set up empty array

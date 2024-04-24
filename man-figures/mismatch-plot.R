@@ -145,10 +145,10 @@ mtext("Data Set 3 (Practice Block Removed)", side = 3, line = 5)
 
 dev.off()
 
-path = "Recovery/model-recovery/a-exp-generated/fits/"
-n_subjects <- 100
-getEstimateMismatch(n_subjects = n_subjects, path_to_output = "", gen_models = c("a-exp", "v-exp"))
-
-
+# path = "Recovery/model-recovery/a-exp-generated/fits/"
+# n_subjects <- 100
+# getEstimateMismatch(n_subjects = n_subjects, path_to_output = "", gen_models = c("a-exp", "v-exp"))
+# 
+# 
 
 

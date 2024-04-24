@@ -124,26 +124,25 @@ all_functions <- list(
     t0 = t0_standard,
     blocked_likelihood = FALSE,
     full_name = "v Delayed Exp Blocked"
-  ),
-
-# Blocked likelihood models -----------------------------------------------
-
-  "a-step-fixed" = list(
+  ),  
+"a-step-fixed" = list(
     a = a_step_fixed,
     v = v_standard,
     z = z_standard,
     t0 = t0_standard,
-    blocked_likelihood = TRUE,
+    blocked_likelihood = FALSE,
     full_name = "a Step"
   ),
-  "v-step-fixed" = list(
-    a = a_standard,
-    v = v_step_fixed,
-    z = z_standard,
-    t0 = t0_standard,
-    blocked_likelihood = TRUE,
-    full_name = "v Step"
-  ),
+"v-step-fixed" = list(
+  a = a_standard,
+  v = v_step_fixed,
+  z = z_standard,
+  t0 = t0_standard,
+  blocked_likelihood = FALSE,
+  full_name = "v Step"
+),
+
+# Blocked likelihood models -----------------------------------------------
   "a-block-trial-exp" = list(
     a = a_block_trial_exp,
     v = v_standard,
