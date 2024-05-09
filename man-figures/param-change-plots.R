@@ -55,27 +55,6 @@ parameter_models <- list(
 
 parameters <- c("a", "v")
 
-# function to rank models based on their wegighted probability
-rank_models <- function(scores_array) {
-  # apply the ranking function to each row of the array
-  ranked_array <- t(apply(scores_array, 1, rank))
-  
-  # create a new array to store the model names
-  model_names <-
-    array(dim = dim(ranked_array),
-          dimnames = dimnames(ranked_array))
-  
-  # loop over each row of the ranked array
-  for (i in 1:nrow(ranked_array)) {
-    # sort the row by the rank and get the corresponding column names
-    model_names[i,] <-
-      colnames(ranked_array)[order(ranked_array[i,])]
-  }
-  
-  colnames(model_names) <- 1:length(scores_array[1,])
-  return(model_names)
-}
-
 # function to plot parameter changes
 plotParamChanges = function(m, subjects, output_path, parameter, dataset_id){
   # empty vector to store parameter estimates of complex and time varying model
@@ -98,6 +77,8 @@ plotParamChanges = function(m, subjects, output_path, parameter, dataset_id){
   # get change function
   source(here("modelling/generic_scripts/model-functions.R"))
   
+  # source helper functions 
+  source(here("functions/generic-functions.R"))
 
   # get model functions pertaining to model
   model_functions <- all_functions[[m]]
@@ -130,6 +111,7 @@ plotParamChanges = function(m, subjects, output_path, parameter, dataset_id){
     geom_line() +
     geom_point(data = data_complex, aes(x = Trial, y = Paract), size = 1) +
     theme_classic() +
+    theme(plot.margin = margin(1, 9, 1, 1))+ # make sure x axis isn't cut off
     labs(title = full_name, subtitle = paste0("n = ",length(subjects)), x = "Trial", y = paste0(parameter)) 
   
   if (dataset_id== "evans-optim"){
@@ -190,5 +172,5 @@ for ( m in best_3_models){
 
 
 ggpubr::ggarrange(plotlist = plot_list)
-ggsave(here(paste0("man-figures/param-plot-",dataset_id,".png")), width = 8, height = 5)
+ggsave(here(paste0("man-figures/param-plot-",dataset_id,".png")), width = 11, height = 5)
 

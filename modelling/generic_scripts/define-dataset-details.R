@@ -1,6 +1,6 @@
 
 # output paths for model fits need to be able to dynamically handle whether it is a round 1 or 2 model. 
-output_path_optim = function(a_round = analysis_round, fit = TRUE, subject = useSub, m = model){
+output_path_optim = function(a_round = 1, fit = TRUE, subject = useSub, m = model){
   if (fit){
     paste0("modelling/evansetal-17/optim/round-",a_round, "/06_output/p",subject,"-",m,".Rdata")
   } else {
@@ -8,7 +8,7 @@ output_path_optim = function(a_round = analysis_round, fit = TRUE, subject = use
   }
 }
 
-output_path_normal = function(a_round = analysis_round, fit = TRUE, subject = useSub, m = model){
+output_path_normal = function(a_round = 1, fit = TRUE, subject = useSub, m = model){
   if (fit){
     paste0("modelling/evansetal-17/normal/round-", a_round, "/06_output/p",subject,"-",m,".Rdata")
   } else {
@@ -17,7 +17,7 @@ output_path_normal = function(a_round = analysis_round, fit = TRUE, subject = us
 }
 
 
-output_path_knowles = function(a_round = analysis_round, fit = TRUE, subject = useSub, m = model){
+output_path_knowles = function(a_round = 1, fit = TRUE, subject = useSub, m = model){
   if (fit){
     paste0("modelling/knowlesetal-19/round-", a_round, "/06_output/p", subject, "-", m, ".Rdata")
   } else {
@@ -25,30 +25,30 @@ output_path_knowles = function(a_round = analysis_round, fit = TRUE, subject = u
   }
 }
 
-plot_path_optim = function(a_round = analysis_round, fit = TRUE, subject = useSub, m = model){
+plot_path_optim = function(a_round = 1, fit = TRUE, subject = useSub, m = model){
     paste0("modelling/evansetal-17/optim/round-",a_round, "/07_plots/")
 }
 
-plot_path_normal = function(a_round = analysis_round, fit = TRUE, subject = useSub, m = model){
+plot_path_normal = function(a_round = 1, fit = TRUE, subject = useSub, m = model){
     paste0("modelling/evansetal-17/normal/round-", a_round, "/07_plots/")
 }
 
 
-plot_path_knowles = function(a_round = analysis_round, fit = TRUE, subject = useSub, m = model){
+plot_path_knowles = function(a_round = 1, fit = TRUE, subject = useSub, m = model){
     paste0("modelling/knowlesetal-19/round-", a_round, "/07_plots/")
 }
 
 
 load_data_optim = function(subject = subj){
-  paste0("data/evansetal-17/clean/P",subj,"-Optim-Trial.Rdata")
+  paste0("data/evansetal-17/clean/P",subject,"-Optim-Trial.Rdata")
 }
 
 load_data_normal = function(subject = subj){
-  paste0("data/evansetal-17/clean/P",subj,"-Norm-Trial.Rdata")
+  paste0("data/evansetal-17/clean/P",subject,"-Norm-Trial.Rdata")
 }
 
 load_data_knowles = function(subject = subj){
-  paste0("data/knowlesetal-19/clean/P",subj,".Rdata")
+  paste0("data/knowlesetal-19/clean/P",subject,".Rdata")
 }
 
 # Data structure with relevant file paths for all data sets ---------------

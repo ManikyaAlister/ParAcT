@@ -1,6 +1,6 @@
 ---
 title: "Model Comparison"
-author: "Manikya Alister"
+author: "Manikya Aluster"
 date: "2023-08-28"
 output: 
   html_document:
@@ -21,7 +21,7 @@ source(here("modelling/generic_scripts/define-dataset-details.R"))
 # source model functions
 source(here("modelling/generic_scripts/model-functions.R"))
 
-dataset_id <- "evans-normal"
+dataset_id <- "evans-optim"
 dataset_index <- which(dataset_details$dataset_id == dataset_id)
 subjects <- dataset_details$n_subjects[dataset_index]
 derived_data <- dataset_details$save_IC_path[dataset_index]
@@ -34,7 +34,8 @@ v_models <- c(
               "v-linear-blocked",
               "v-exp-blocked",
               "v-block-trial-exp",
-              "v-dExp-blocked"
+              "v-dExp-blocked",
+              "v-step-fixed"
 )
 a_models <- c(
               "a-linear",
@@ -43,10 +44,11 @@ a_models <- c(
               "a-linear-blocked",
               "a-exp-blocked",
               "a-dExp-blocked",
-              "a-block-trial-exp"
+              "a-block-trial-exp",
+              "a-step-fixed"
               )
 
-load(here(paste0(derived_data,"round-2-models.Rdata")))
+load(here(paste0(derived_data[dataset_index],"round-2-models.Rdata")))
 
 models <- c("simple",a_models, v_models, unique_2p_best)
 
@@ -264,8 +266,10 @@ colnames(n_param_comparison_AIC) <-
 n_param_comparison_weights_AIC <-
   weightedICs(n_param_comparison_AIC)
 
-save(n_param_comparison_weights_AIC, file = here(paste0(derived_data,"n_param_comparison_AIC.Rdata")))
-save(n_param_comparison_weights_BIC, file = here(paste0(derived_data,"n_param_comparison_BIC.Rdata")))
+save(n_param_comparison_weights_AIC, file = here(paste0(derived_data, "n_param_comparison_AIC.Rdata"))) 
+
+save(n_param_comparison_weights_BIC, file = here(paste0(derived_data, "n_param_comparison_BIC.Rdata"))) 
+
 
 getNBest(n_param_comparison_AIC)
 getNBest(n_param_comparison_BIC)
@@ -359,6 +363,20 @@ count_a_v <- c(a_models = sum(count_a_v == 1), v_models = sum(count_a_v == 2))
 barplot(count_a_v)
 ```
 ```{r}
+countWordInString <- function(input_string, words) {
+  # Create a regular expression pattern that matches any of the words
+  pattern <- paste0("\\b(", paste(words, collapse="|"), ")\\b")
+  # Count the matches
+  count <- str_count(input_string, pattern)
+  return(count)
+}
+
+# check how. many times these words appear in models (indicative of how many block-varying functions there are)
+count_block_models <- sapply(models, function(x) countWordInString(input_string = x, words = c("blocked", "step", "block")))
+
+# because of block+trial models, need to check this, too.
+count_block_only <- sapply(models, function(x) countWordInString(input_string = x, words = c("blocked", "step")))
+
 # # models that assume at lease one parameter varies across trials
 # #trial_models <- models[!str_detect(models, "blocked") & !str_detect(models, "step")]
 # 
@@ -393,8 +411,9 @@ barplot(count_a_v)
 ## Block varying models versus trial-only varying models
 
 ```{r}
-groups <- c("Best block change", "Best trial change", "Best Mix", "Simple")
+# models that assume both parameters vary across blocks
 
+# models where block changes were the only changes happening. 
 
 countWordInString <- function(input_string, words) {
   # Create a regular expression pattern that matches any of the words
@@ -431,30 +450,17 @@ best_blocked <- best_IC_from_models(only_blocked)
 best_trial <- best_IC_from_models(only_trial)
 best_mixed<- best_IC_from_models(mixed_models)
 
-blockVtrial_AIC <- cbind(best_blocked$AIC, best_trial$AIC, best_mixed$AIC, allAIC$simple)
+groups <- c("Best block change", "Best trial change", "Best Mix", "Simple")
+weighted_blockVtrial_AIC <- weightedICs(cbind(best_blocked$AIC, best_trial$AIC, best_mixed$AIC, allAIC$simple))
+colnames(weighted_blockVtrial_AIC) <- groups
 
-colnames(blockVtrial_AIC) <- groups
-
-blockVtrial_BIC <- cbind(best_blocked$BIC, best_trial$BIC, best_mixed$BIC, allBIC$simple)
-colnames(blockVtrial_BIC) <- groups
-
-
-weighted_blockVtrial_AIC <- weightedICs(blockVtrial_AIC)
-
-print("AIC n")
-getNBest(blockVtrial_AIC)
-print("BIC n")
-getNBest(blockVtrial_BIC)
-
-weighted_blockVtrial_BIC <- weightedICs(blockVtrial_BIC)
+weighted_blockVtrial_BIC <- weightedICs(cbind(best_blocked$BIC, best_trial$BIC, best_mixed$BIC, allBIC$simple))
 colnames(weighted_blockVtrial_BIC) <- groups
 
-save(weighted_blockVtrial_BIC, file = here(paste0(derived_data,"blockVtrial_BIC.Rdata")))
-save(weighted_blockVtrial_AIC, file = here(paste0(derived_data,"blockVtrial_AIC.Rdata")))
+save(weighted_blockVtrial_BIC, file = here("data/evansetal-17/derived/optim/blockVtrial_BIC.Rdata"))
+save(weighted_blockVtrial_AIC, file = here("data/evansetal-17/derived/optim/blockVtrial_AIC.Rdata"))
 
-print("AIC")
 round(apply(weighted_blockVtrial_AIC,2 ,mean),2)
-print("BIC")
 round(apply(weighted_blockVtrial_BIC,2 ,mean),2)
 
 
