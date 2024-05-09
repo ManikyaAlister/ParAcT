@@ -34,7 +34,7 @@ if (dataset_id == "evans-optim"){
 }
 
 # source data set details
-source(here("modelling/generic_scripts/define-dataset-details.R"))
+source(here("modelling/define-dataset-details.R"))
 
 dataset_index <- which(dataset_details$dataset_id == dataset_id)
 subjects <- dataset_details$n_subjects[dataset_index]
@@ -75,7 +75,7 @@ plotParamChanges = function(m, subjects, output_path, parameter, dataset_id){
   median_paract <- apply(all_paract, 2, median)
 
   # get change function
-  source(here("modelling/generic_scripts/model-functions.R"))
+  source(here("modelling/model-functions.R"))
   
   # source helper functions 
   source(here("functions/generic-functions.R"))

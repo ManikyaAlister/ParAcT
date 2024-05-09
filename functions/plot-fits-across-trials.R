@@ -12,7 +12,7 @@ fitRTAcrossTime = function(model, subjects, output_path,data_path, dataset_id){
   all_data = NULL
   
   # source model info that includes full names for plotting
-  source(here("modelling/generic_scripts/model-functions.R"))
+  source(here("modelling/model-functions.R"))
   
   for (useSub in subjects) {
     

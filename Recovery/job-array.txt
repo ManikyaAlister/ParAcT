@@ -67,7 +67,7 @@ echo "participant idx"
 echo $participant_idx
 
 # Run the R script with the input and output files and the participant number as a command line argument
-Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/generic-recovery-scripts/07_fit.R ${participants[$participant_idx]} ${data} ${models[$model_idx]} 
+Rscript /data/gpfs/projects/punim1751/ParAcT/Recovery/07_fit.R ${participants[$participant_idx]} ${data} ${models[$model_idx]} 
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage
