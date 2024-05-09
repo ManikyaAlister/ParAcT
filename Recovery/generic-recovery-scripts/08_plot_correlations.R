@@ -34,7 +34,7 @@ plot_recovery_correlations = function(model, n = 100){
   allMeanTheta= as.data.frame(allMeanTheta)
   
   # Start a PDF device to save the plots to a PDF file
-  pdf(paste0("Recovery/",model,"/recovery-",model,".pdf"), width = 10, height = 10)
+  pdf(paste0("Recovery/figures/recovery-",model,".pdf"), width = 10, height = 10)
   
   
   # Determine the layout based on the number of parameters
@@ -60,6 +60,21 @@ plot_recovery_correlations = function(model, n = 100){
   dev.off()
 }
 
-plot_recovery_correlations("a-power")
+recovery_models <-
+  c(
+    "simple",
+    "a-linear",
+    "v-linear",
+    "a-exp",
+    "v-exp",
+    "a-power",
+    "v-power",
+    "a-dExp",
+    "v-dExp"
+  )
+
+for (model in recovery_models){
+  plot_recovery_correlations(model)
+}
 
 

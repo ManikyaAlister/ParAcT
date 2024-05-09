@@ -34,23 +34,23 @@ getEstimateMismatch = function(n_subjects, path_to_output, gen_models = NULL) {
   # load estimated parameters
   for (i in 1:n_subjects) {
     if (is.null(gen_models)){
-      load(here(paste0(path, "P", i, "_a-exp.Rdata")))
+      load(here(paste0(path, "P", i, "-a-exp.Rdata")))
       a_asym[i,] <- getCredIntParams("a.asym", theta)
       a_rate[i] <- getParams("a.rate", theta)
-      load(here(paste0(path, "P", i, "_v-exp.Rdata")))
+      load(here(paste0(path, "P", i, "-v-exp.Rdata")))
       v_asym[i,] <-
         getCredIntParams("v.asym", theta) + getCredIntParams("v.start", theta)
       v_rate[i] <- getParams("v.rate", theta)
-      load(here(paste0(path, "P", i, "_simple.Rdata")))
+      load(here(paste0(path, "P", i, "-simple.Rdata")))
       a[i,] <- getCredIntParams("a",  theta)
       v[i,] <- getCredIntParams("v",  theta)
     } else {
-      load(here(paste0("Recovery/model-recovery/",gen_models[grep("a-",gen_models)],"-generated/fits/P",i,"_simple.Rdata")))
+      load(here(paste0("Recovery/model-recovery/",gen_models[grep("a-",gen_models)],"-generated/fits/P",i,"-simple.Rdata")))
       # get the true generating parameters
       a_asym[i,] <- rep(getParams("a.asym", theta, gen_params = genParams),3)
       a_rate[i] <- getParams("a.rate", theta, gen_params = genParams)
       a[i,] <- rep(getParams("a",  theta),3)
-      load(here(paste0("Recovery/model-recovery/",gen_models[grep("v-",gen_models)],"-generated/fits/P",i,"_simple.Rdata")))
+      load(here(paste0("Recovery/model-recovery/",gen_models[grep("v-",gen_models)],"-generated/fits/P",i,"-simple.Rdata")))
       v[i,] <- rep(getParams("v",  theta),3)
       v_asym[i,] <-
         rep(getParams("v.asym", theta, gen_params = genParams) + getParams("v.start", theta, gen_params = genParams),3)
@@ -145,10 +145,10 @@ mtext("Data Set 3 (Practice Block Removed)", side = 3, line = 5)
 
 dev.off()
 
-path = "Recovery/model-recovery/a-exp-rr-generated/fits/"
-n_subjects <- 100
-getEstimateMismatch(n_subjects = n_subjects, path_to_output = "", gen_models = c("a-exp", "v-exp"))
-
-
+# path = "Recovery/model-recovery/a-exp-generated/fits/"
+# n_subjects <- 100
+# getEstimateMismatch(n_subjects = n_subjects, path_to_output = "", gen_models = c("a-exp", "v-exp"))
+# 
+# 
 
 

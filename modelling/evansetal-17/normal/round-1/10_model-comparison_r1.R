@@ -6,40 +6,47 @@ library(modelProb)
 n = 11
 # round 1 models 
 
-v_models <- c(#"simple", 
-              "v-linear",
-              #"v-power",
-              "v-exp",
-              #"v-delayed-pow",
-              "v-delayed-exp",
-              "v-blocked-simple",
-              #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
-              "v-blocked-exp-sb",
-              #"v-blocked-exp-ul",
-              "v-delayed-exp-blocked")
-
-a_models <- c(#"simple",
-              "a-linear",
-              #"a-power",
-              "a-exp",
-              #"a-delayed-power",
-              "a-delayed-exp",
-              "a-blocked-simple",
-              #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
-              "a-blocked-exp-sb",
-              #"a-blocked-exp-ul",
-              "a-delayed-exp-blocked"
-              )
+v_models <- c(
+  "v-linear",
+  #"v-power",
+  "v-exp",
+  #"v-delayed-pow",
+  "v-dExp",
+  "v-linear-blocked",
+  "v-exp-blocked",
+  #"v-blocked-simple",
+  #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
+  #"v-blocked-exp-sb",
+  "v-block-trial-exp",
+  "v-dExp-blocked"
+  #"v-step-fixed"
+)
+a_models <- c(
+  "a-linear",
+  #"a-power",
+  "a-exp",
+  #"a-delayed-power",
+  "a-dExp",
+  "a-linear-blocked",
+  "a-exp-blocked",
+  #"a-blocked-simple",
+  #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
+  #"a-blocked-exp-sb",
+  #"a-blocked-exp-ul",
+  "a-dExp-blocked",
+  "a-block-trial-exp"
+  #"a-step-fixed"
+)
 
 models <- c("simple",a_models, v_models)
 
-models_2p <- c(
-  "v-a-exp", 
-  "v-dExp-a-exp",
-  "v-dExp-a-pow",
-  "v-dPow-a-exp",
-  "v-dPow-a-Pow"
-)
+# models_2p <- c(
+#   "v-a-exp", 
+#   "v-dExp-a-exp",
+#   "v-dExp-a-pow",
+#   "v-dPow-a-exp",
+#   "v-dPow-a-Pow"
+# )
 
 IC_array = function(models, criterion) {
   # set up empty array
@@ -102,6 +109,7 @@ rank_models <- function(scores_array) {
 # Rank the best models for each participant
 rankBIC <- rank_models(allBIC)
 rankAIC <- rank_models(allAIC)
+print(rankBIC)
 
 rankBIC_a <- rank_models(allBIC_a)
 rankBIC_v <- rank_models(allBIC_v)
@@ -132,51 +140,17 @@ best_v <- rankBIC_v[,1]
 best_a <- rankBIC_a[,1]
 
 best <- cbind(best_a, best_v)
+print(best)
 
 # Figure out all of the two parameter models to run for each participant, based on their best single parameterm models
 models_2p_best <- array(dim = c(n, 1))
 
 for (i in 1:length(best[,1])){
   models_2p_best
-  models_2p_best[i] <- paste0(best[i,2],"+",best[i,1])
+  models_2p_best[i] <- paste0(best[i,1],"+",best[i,2])
 }
 
 # what are the 2-parameter models that need to be made? 
-unique_2p_best <- unique(models_2p_best)
-#save(file = here("data/evansetal-17/derived/normal/round-2-models.Rdata"), unique_2p_best)
-
-
-## FIT PLOT
-
-# DOTS IN GREEN OR RED FOR CORRECT OR INCORRECT 
-# HOW TO CAPTURE UNCERTAINTY? 
-# dots plotted as usual. Color based on correct or incorrect. If correct, get model predictions and error bar
-# Number at the top saying % of times where model made correction prediction about accuracy. 
-
-
-# Relative probability of single param modles to simple model
-# 
-# 
-# # Get names of best model for each participant
-# nSub = 7
-# library(modelProb)
-# best_mod_names <- rankBIC[, 1]
-# BIC_best_mod <- NULL
-# for (i in 1:nSub) {
-#   BIC_best_mod[i] <- allBIC[i, best_mod_names[i]]
-# }
-# allBIC$simple
-# 
-# IC_array_MM <- cbind(BIC_best_mod, allBIC$simple)
-# rownames(IC_array_MM) <- c("Best Model", "Standard DDM")
-# 
-# weights_simple_comp <- modelProb::weightedICs(IC_array_MM)
-# colnames(weights_simple_comp) <- c("Best Model", "Standard DDM")
-# 
-# 
-# MMComparisonPlot(
-#   ICweights = weights_simple_comp,
-#   models1 = "Best Model",
-#   models2 = "Standard DDM",
-#   main = "Best Model v Standard DDM"
-# )
+unique_2p_best_df <- unique(models_2p_best)
+unique_2p_best <- as.vector(unlist(unique_2p_best_df))
+save(file = here("data/evansetal-17/derived/normal/round-2-models.Rdata"), unique_2p_best)

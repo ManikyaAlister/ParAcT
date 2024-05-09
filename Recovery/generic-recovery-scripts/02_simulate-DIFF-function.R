@@ -13,20 +13,23 @@ simulate.DIFF=function(time,params,maxCounter,stepSize,use.table,n.table.options
   rts=rep(0,N)
   resps=rep(0,N)
   
-  v = parameter_functions$v(params, time = time)
+  # the time variable needs to be a data frame for the paract functions
+  df_time = data.frame(Trial = time)
+  
+  v = parameter_functions$v(params, data = df_time)
   # if the parameter is not time varying (which will output as length == 1), you still need it to be length(trials)
   if (length(v) == 1)
     v = rep(v, N)
   
-  a = parameter_functions$a(params, time = time)
+  a = parameter_functions$a(params, data = df_time)
   if (length(a) == 1)
     a = rep(a, N)
   
-  t0 = parameter_functions$t0(params, time = time)
+  t0 = parameter_functions$t0(params, data = df_time)
   if (length(t0) == 1)
     t0 = rep(t0, N)
   
-  z = parameter_functions$z(params, time = time, stimulus = stimulus, all_stimuli = all_stimuli)
+  z = parameter_functions$z(params, data = df_time, stimulus = stimulus, all_stimuli = all_stimuli)
   if (length(z) == 1)
     z = rep(z, N)
   

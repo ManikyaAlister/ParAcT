@@ -8,39 +8,28 @@ n = 10
 
 v_models <- c(
               "v-linear",
-              #"v-power",
               "v-exp",
-              #"v-delayed-pow",
-              "v-delayed-exp",
-              "v-blocked-simple",
-              #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
-              "v-blocked-exp-sb",
-              #"v-blocked-exp-ul",
-              "v-delayed-exp-blocked",
-              "v-step-fixed")
+              "v-dExp",
+              "v-linear-blocked",
+              "v-exp-blocked",
+              "v-block-trial-exp",
+              "v-dExp-blocked",
+              "v-step-fixed"
+)
 
 a_models <- c(
               "a-linear",
-              #"a-power",
               "a-exp",
-              #"a-delayed-power",
-              "a-delayed-exp",
-              "a-blocked-simple",
-              #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
-              "a-blocked-exp-sb",
-              #"a-blocked-exp-ul",
-              "a-delayed-exp-blocked",
-              "a-step-fixed")
+              "a-dExp",
+              "a-linear-blocked",
+              "a-exp-blocked",
+              "a-dExp-blocked",
+              "a-block-trial-exp",
+              "a-step-fixed"
+              )
 
 models <- c("simple",a_models, v_models)
 
-models_2p <- c(
-  "v-a-exp", 
-  "v-dExp-a-exp",
-  "v-dExp-a-pow",
-  "v-dPow-a-exp",
-  "v-dPow-a-Pow"
-)
 
 IC_array = function(models, criterion) {
   # set up empty array
@@ -141,12 +130,13 @@ models_2p_best <- array(dim = c(n, 1))
 
 for (i in 1:length(best[,1])){
   models_2p_best
-  models_2p_best[i] <- paste0(best[i,2],"+",best[i,1])
+  models_2p_best[i] <- paste0(best[i,1],"+",best[i,2])
 }
 
 # what are the 2-parameter models that need to be made? 
-unique_2p_best <- unique(models_2p_best)
-save(file = here("data/evansetal-17/derived/optim/round-2-models.Rdata"), unique_2p_best)
+unique_2p_best_df <- unique(models_2p_best)
+unique_2p_best <- as.vector(unlist(unique_2p_best_df))
+save(unique_2p_best, file = here("data/evansetal-17/derived/optim/round-2-models.Rdata"))
 
 
 ## FIT PLOT

@@ -5,6 +5,8 @@ library(ggpubr)
 
 # source plotting function
 source(here("functions/plot-fits-across-trials.R"))
+# source dataset details with file paths 
+
 
 dataset <- "evansetal-17"
 subset <- "/optim"

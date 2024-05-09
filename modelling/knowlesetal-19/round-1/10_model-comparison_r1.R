@@ -6,34 +6,39 @@ library(modelProb)
 n = 147
 # round 1 models 
 
-v_models <- c("simple", 
-              "v-linear",
-              "v-exp",
-              "v-delayed-exp",
-              "v-blocked-simple",
-              #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model comparison
-              "v-blocked-exp-sb",
-              "v-delayed-exp-blocked")
-
-a_models <- c(
-              "a-linear",
-              "a-exp",
-              "a-delayed-exp",
-              "a-blocked-simple",
-              #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
-              "a-blocked-exp-sb",
-              #"a-delayed-exp-blocked",
-              "a-step")
-
-models <- c(a_models, v_models)
-
-models_2p <- c(
-  "v-a-exp", 
-  "v-dExp-a-exp",
-  "v-dExp-a-pow",
-  "v-dPow-a-exp",
-  "v-dPow-a-Pow"
+v_models <- c(
+  "v-linear",
+  #"v-power",
+  "v-exp",
+  #"v-delayed-pow",
+  "v-dExp",
+  "v-linear-blocked",
+  "v-exp-blocked",
+  #"v-blocked-simple",
+  #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
+  #"v-blocked-exp-sb",
+  "v-block-trial-exp",
+  "v-dExp-blocked"
+  #"v-step-fixed"
 )
+a_models <- c(
+  "a-linear",
+  #"a-power",
+  "a-exp",
+  #"a-delayed-power",
+  "a-dExp",
+  "a-linear-blocked",
+  "a-exp-blocked",
+  #"a-blocked-simple",
+  #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
+  #"a-blocked-exp-sb",
+  #"a-blocked-exp-ul",
+  "a-dExp-blocked",
+  "a-block-trial-exp"
+  #"a-step-fixed"
+)
+
+models <- c("simple",a_models, v_models)
 
 IC_array = function(models, criterion) {
   # set up empty array
@@ -123,9 +128,9 @@ unique_2p <- unique(models_2p)
 
 # Narrow that down to the best model because best two results in a lot of models
 best_v <- rankBIC_v[,1]
-save(best_v, file = here("data/knowlesetal-19/derived/best_v_1p_BIC"))
+# save(best_v, file = here("data/knowlesetal-19/derived/best_v_1p_BIC"))
 best_a <- rankBIC_a[,1]
-save(best_a, file = here("data/knowlesetal-19/derived/best_a_1p_BIC"))
+# save(best_a, file = here("data/knowlesetal-19/derived/best_a_1p_BIC"))
 
 
 best <- cbind(best_a, best_v)
@@ -135,11 +140,17 @@ models_2p_best <- array(dim = c(n, 1))
 
 for (i in 1:length(best[,1])){
   models_2p_best
-  models_2p_best[i] <- paste0(best[i,2],"+",best[i,1])
+  models_2p_best[i] <- paste0(best[i,1],"+",best[i,2])
 }
 
-# what are the 2-parameter models that need to be made? 
-unique_2p_best <- unique(models_2p_best)
+
+count_2p_best <- table(models_2p_best)
+sort(count_2p_best, decreasing = TRUE)
+
+# since there are so many participants, we are only going to take combinations that account for at least 10% of participants (~14)
+unique_2p_best <- names(count_2p_best[count_2p_best > 14]) # naming it this is to keep it consistent with the other data sets. 
+
+save(file = here("data/knowlesetal-19/derived/round-2-models.Rdata"), unique_2p_best)
 
 BIC_weights <- modelProb::weightedICs(allBIC)
 BICmeans <- apply(BIC_weights, 2, mean)
@@ -184,39 +195,3 @@ modelProb::MMComparisonPlot(BIC_weights, v_linear_models, non_v_linear_models, g
 v_dExp_models <- models[grep("v-dExp", models)]
 non_v_dExp_models <- models[!(models %in% v_dExp_models)]
 modelProb::MMComparisonPlot(BIC_weights, v_dExp_models, non_v_dExp_models, groupNames = c("v-delayed exp Models", "Other Models"))
-
-
-## FIT PLOT
-
-# DOTS IN GREEN OR RED FOR CORRECT OR INCORRECT 
-# HOW TO CAPTURE UNCERTAINTY? 
-# dots plotted as usual. Color based on correct or incorrect. If correct, get model predictions and error bar
-# Number at the top saying % of times where model made correction prediction about accuracy. 
-
-
-# Relative probability of single param modles to simple model
-# 
-# 
-# # Get names of best model for each participant
-# nSub = 7
-# library(modelProb)
-# best_mod_names <- rankBIC[, 1]
-# BIC_best_mod <- NULL
-# for (i in 1:nSub) {
-#   BIC_best_mod[i] <- allBIC[i, best_mod_names[i]]
-# }
-# allBIC$simple
-# 
-# IC_array_MM <- cbind(BIC_best_mod, allBIC$simple)
-# rownames(IC_array_MM) <- c("Best Model", "Standard DDM")
-# 
-# weights_simple_comp <- modelProb::weightedICs(IC_array_MM)
-# colnames(weights_simple_comp) <- c("Best Model", "Standard DDM")
-# 
-# 
-# MMComparisonPlot(
-#   ICweights = weights_simple_comp,
-#   models1 = "Best Model",
-#   models2 = "Standard DDM",
-#   main = "Best Model v Standard DDM"
-# )

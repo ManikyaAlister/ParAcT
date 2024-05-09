@@ -2,7 +2,7 @@
 #'
 #' @param parameter Standard diffusion model parameter to be plotted (v, a , z, t0).
 #' @param functions List of time-varying functions for each parameter that define how they change across time.
-#' @param time_var Time variable (either trials or blocks).
+#' @param data Data that contains the trial/block.
 #' @param theta Array of parameters outputted by the model fits.
 #' @param plot_path File path that points to the folder the plots will be saved to. 
 #' @param subject The subject being plotted.
@@ -11,14 +11,25 @@
 #' @export
 #'
 #' @examples
-plotParamsIndividual = function(parameter, functions, time_var, theta, plot_path, subject){
+plotParamsIndividual = function(parameter, functions, data, theta, subject, blocked_likelihood){
   params = apply(theta,2,mean)
   paractFunction <- functions[[parameter]]
-  paract <- paractFunction(params, time = time_var)
-  if (length(paract) == 1){
-    paract <- rep(paract, length(time_var))
+  # check if the function requires a "block" (b) argument and if so, different plotting procedure. 
+  if (blocked_likelihood & ("b" %in% names(formals(paractFunction)))){
+    blocks <- unique(data$Block)
+    paract <- c()
+    for (block in blocks){
+      paract_iteration <- paractFunction(params, data = data[data$Block == block,], b = block)
+      if (length(paract_iteration) == 1){
+        paract_iteration <- rep(paract_iteration, length(data[data$Block == block,1]))
+      }
+      paract <- c(paract, paract_iteration)
+    }
+  } else {
+    paract <- paractFunction(params, data = data)
   }
-  png(filename = paste0(plot_path(), "P", subject, "-",model,"-",parameter,"-parameter-plot.png"))
-  plot(time_var, paract, "l", ylab = paste0(parameter, " (",model," model)"), xlab = "Time")
-  dev.off()
+  if (length(paract) == 1){
+    paract <- rep(paract, nrow(data))
+  }
+  plot(1:length(paract), paract, "l", ylab = parameter, xlab = "Trial", ylim = c(0,7))
 }

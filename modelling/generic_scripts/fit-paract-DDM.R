@@ -47,10 +47,10 @@ for (useSub in subj) {
   print(paste0("Participant: ", useSub))
   
   # check if the model is a blocked model
-  blocked_model <- grepl("blocked", model)
+  #blocked_model <- grepl("blocked", model)
   
-  # print to make sure blcoked model has been updated properly
-  print(paste0("Blocked model: ", blocked_model))
+  # print to make sure blocked model has been updated properly
+  #print(paste0("Blocked model: ", blocked_model))
   
   # load data
   load(here(load_data_path()))
@@ -62,60 +62,51 @@ for (useSub in subj) {
   
   # identify unique response stimuli in data (eg., left/right)
   stims <- sort(unique(data$Stim))
-  if (length(stims) > 2 ) stop("More than two response stimuli detected in the data set.")
+  if (length(stims) > 2 ) stop("More than two response stimuli detected in the data.")
   
   # generate and set seed
   newSeed = Sys.time()
   set.seed(as.numeric(newSeed))
   
-  # log likelihood function
-  log.dens.like = function (x, data, par.names, functions = paract_functions) {
-    out = 0
-    names(x) = par.names
-    
-    for (stim in stims) {
-      #if it's a blocked model, time = block, if trial model time = trial
-      if (blocked_model){
-        # filter trials for a given stimulus 
-        stim_time <- data$Block[data$Stim == stim]
-      } else{
-        stim_time <- data$Trial[data$Stim == stim]
-      }
-
-      # get estimates 
-      a = functions$a(x, time = stim_time)
-      t0 = functions$t0(x, time = stim_time)
-      v = functions$v(x, time = stim_time)
-      z = functions$z(x, time = stim_time, stimulus = stim)
-      sv = 0
-      sz = 0
-      st0 = 0
-      s = 1
-      tmp = ddiffusion(
-        rt = data$Time[stim_time],
-        response = data$Resp[stim_time],
-        z = z * a,
-        a = a,
-        v = v,
-        t0 = t0 - (st0 / 2),
-        s = s,
-        sv = sv,
-        sz = sz,
-        st0 = st0
-      )
-      out = out + sum(log(pmax(tmp, 1e-10)))
-    }
-    out
+  # source log likelihood functions
+  source(here("modelling/generic_scripts/likelihood-function.R"))
+  
+  # some models require the likelihood function to iterate over blocks
+  if (blocked_likelihood){
+    log.dens.like <- log.dens.like.blocked
+  } else{
+    log.dens.like <- log.dens.like.normal
   }
+  
+  # Extract the full name of the model
+  full_name = paract_functions$full_name
   
   # list parameter names so we knows what to call from priors scripts
   theta.z = get_function_variables(paract_functions$z) # function that extracts the parameters from the time-varying (or standard DDM) functions.
   theta.t = get_function_variables(paract_functions$t0)
   theta.v = get_function_variables(paract_functions$v)
   theta.a = get_function_variables(paract_functions$a)
+  # to extract the parameter names for the complex block function is a little different
+  getComplexBlockParams = function(parameter, blocks){
+    # name block parameters
+    block.theta.names = NULL
+    for (block in blocks) {
+      block.theta.names[block] =  paste(parameter,block,sep=".")
+    }
+    block.theta.names
+  }
+
+  # if a model is the complex block model, the parameter should come up as, e.g., "a."
+  if("a." %in% theta.a){
+    # add to theta names
+    theta.a = getComplexBlockParams("a", blocks = unique(data$Block))
+  }
+  if ("v." %in% theta.v){
+    theta.v = getComplexBlockParams("v", blocks = unique(data$Block))
+  }
   
   theta.names = c(theta.z, theta.a, theta.v, theta.t)
-  
+  print(cat("Parameters to be estimated: ", theta.names))
   # define file paths for output
   savefile = here(
       save_output_path()
@@ -124,6 +115,8 @@ for (useSub in subj) {
   
   # source priors
   source(here("modelling/generic_scripts/priors.R"))
+  
+  print("Starting sampling")
   
   # run MCMC process
   source(here("modelling/generic_scripts/iterative-process.R"))
@@ -146,6 +139,11 @@ for (useSub in subj) {
        n.chains,
        theta.names,
        stims,
+       blocked_likelihood,
+       paract_functions,
+       analysis_round,
+       dataset_details,
+       model,
        file = savefile)
   
   
@@ -155,7 +153,7 @@ for (useSub in subj) {
   saveIC = here(
     paste(
       save_IC_path,
-      "/P",
+      "P",
       useSub,
       "_",
       model,
@@ -171,20 +169,31 @@ for (useSub in subj) {
     # source parameter plotting script
     source(here("modelling/generic_scripts/plot-parameters.R"))
     
+  png(filename = paste0(plot_path(), "P", subj, "-",model,"-parameter-plot.png"), width = 1000, height = 500)
     # define parameters of interest
     parameters_of_interest <- c("a", "v")
     
-    for (par in parameters_of_interest){
-      if (blocked_model) {
-        time_var <- data$Block
-      } else {
-        time_var <- data$Trial
-      }
-      # plot parameters across time for parameters of interest
-      plotParamsIndividual(parameter = par, functions = paract_functions, time_var = time_var, theta = theta, plot_path = plot_path, subject = subj)
-    }
-  }
+    # Set up the plotting layout
+    par(mfrow = c(1, length(parameters_of_interest)), cex = 1.3)
 
+    for (par in parameters_of_interest){
+      # plot parameters across time for parameters of interest
+      plotParamsIndividual(
+        parameter = par,
+        functions = paract_functions,
+        theta = theta,
+        subject = subj,
+        blocked_likelihood = blocked_likelihood,
+        data = data
+      )
+      if (par == parameters_of_interest[1]){
+        mtext(full_name, line = 2, cex = 2, adj = 0)
+      }
+    }
+  
+  dev.off()
+  print(paste0("Plot saved for model", model))
+  }
   
   if(simulate_fits){
     # simulate predictions from estimated parameters (for model fits)
