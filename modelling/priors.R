@@ -62,7 +62,7 @@ if (exists("blocks")) {
 
 
 
-# Start points ------------------------------------------------------------
+# Start points (of MCMC) ------------------------------------------------------------
 # simple model 
 start.points=rep(NA,n.pars)
 start.points[tmpP1]=1
@@ -259,7 +259,7 @@ tmp = grep("a", theta.names, value = TRUE)
 if (length(tmp) > 0) {
   for (n in 1:length(tmp)) {
     tmp2 = tmp[n]
-    prior[[tmp2]] = c(2, 1)
+    prior[[tmp2]] = c(2, 1) # this is the prior mean and standard deviation
   }
 }
 
