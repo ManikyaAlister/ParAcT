@@ -125,7 +125,7 @@ getEstimateMismatch = function(n_subjects, path_to_output, gen_models = NULL) {
 }
 
 # Start a PDF device to save the plots to a PDF file
-pdf(paste0("man-figures/estimate-mismatch.pdf"), width = 14, height = 10)
+pdf(paste0("man-figures/estimate-mismatch-poster.pdf"), width = 12, height = 3.5)
 par(mfrow = c(1, 3), oma = c(0, 1, 4, 0))  # Adjust the bottom margin (oma) to move titles closer
 
 n_subjects =  10

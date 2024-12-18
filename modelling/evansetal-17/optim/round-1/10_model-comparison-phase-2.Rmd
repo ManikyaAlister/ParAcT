@@ -463,7 +463,6 @@ save(weighted_blockVtrial_AIC, file = here("data/evansetal-17/derived/optim/bloc
 round(apply(weighted_blockVtrial_AIC,2 ,mean),2)
 round(apply(weighted_blockVtrial_BIC,2 ,mean),2)
 
-
 plotWeightedICs(weighted_blockVtrial_AIC, main = "AIC", colours = c("darkgreen", "blue", "orange", "red"))
 plotWeightedICs(weighted_blockVtrial_BIC, main = "BIC",colours = c("darkgreen", "blue", "orange", "red"))
 
