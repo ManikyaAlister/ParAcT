@@ -52,11 +52,11 @@ models_1p=("simple" "a-linear" "a-exp" "a-dExp" "a-linear-blocked"  "a-exp-block
 
 
 # Set the model script names
-models=("a-blocked-complex" "v-blocked-complex")
+models=("a-exp-blocked+v-exp-blocked" "a-dExp-blocked+v-exp" "a-exp+v-exp-blocked" "a-dExp-blocked+v-exp-blocked" "a-exp-blocked+v-step-fixed”)
 #
 #
 
-n_models=2
+n_models=5
 data="knowles"
 
 # Models not run (put below)
