@@ -310,7 +310,7 @@ all_functions <- list(
     full_name = "a Linear + v Linear"
   ),
   "a-exp-blocked+v-exp-blocked" = list(
-    a = a_exp, 
+    a = a_exp_blocked, 
     v = v_exp_blocked,
     z = z_standard,
     t0 = t0_standard,
@@ -346,5 +346,13 @@ all_functions <- list(
     t0 = t0_standard,
     blocked_likelihood = TRUE,
     full_name = "a Exp Blocked + v Step"
+), "a-exp-blocked+v-exp" = list(
+    a = a_exp_blocked,
+    v = v_exp,
+    z = z_standard,
+    t0 = t0_standard,
+    blocked_likelihood = FALSE,
+    full_name = "a Exp Blocked + v Exp"
 )
+
 )
