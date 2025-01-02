@@ -52,7 +52,6 @@ models <- c("simple",a_models, v_models, unique_2p_best)
 
 full_names <- sapply(models, function(x) all_functions[[x]]$full_name )
 
-#save(full_names, file = here("data/evansetal-17/derived/optim/model-full-names.Rdata"))
 
 ```
 
