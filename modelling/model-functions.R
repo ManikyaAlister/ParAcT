@@ -160,6 +160,7 @@ all_functions <- list(
     blocked_likelihood = TRUE,
     full_name = "v Exp Trial with Block Bump"
   ),
+# blocked-complex means it is estimated in each block (used for some of the plots, but not contained in the model comparison)
   "a-blocked-complex" = list(
     a = a_blocked_complex,
     v = v_standard,
