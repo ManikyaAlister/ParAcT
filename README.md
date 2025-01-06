@@ -1,5 +1,4 @@
-# ParAcT-DDM: A diffusion-based framework for modelling systematic,
-time-varying cognitive processes
+# ParAcT-DDM: A diffusion-based framework for modelling systematic, time-varying cognitive processes
 
 
 - [R Tutorial](#r-tutorial)
@@ -53,11 +52,11 @@ install_and_load <- function(packages) {
   
   # Install missing packages
   if (length(missing_packages) > 0) {
-    install.packages(missing_packages)
+    install.packages(missing_packages, quiet = TRUE)
   }
   
   # Load all packages
-  lapply(packages, library, character.only = TRUE)
+  load <- lapply(packages, library, character.only = TRUE) # assign to object so no messages are printed
 }
 
 # Specify the packages you need
@@ -66,18 +65,6 @@ required_packages <- c("here", "rtdists", "dplyr")
 # Use the function to install and load the packages
 install_and_load(required_packages)
 ```
-
-    [[1]]
-    [1] "here"      "stats"     "graphics"  "grDevices" "utils"     "datasets" 
-    [7] "methods"   "base"     
-
-    [[2]]
-    [1] "rtdists"   "here"      "stats"     "graphics"  "grDevices" "utils"    
-    [7] "datasets"  "methods"   "base"     
-
-    [[3]]
-     [1] "dplyr"     "rtdists"   "here"      "stats"     "graphics"  "grDevices"
-     [7] "utils"     "datasets"  "methods"   "base"     
 
 ## Load data
 
@@ -105,7 +92,7 @@ head(data)
     6 4.363    1 right     6     1
 
 You will notice that there are 5 columns. `Time` corresponds to the
-response time (in seconds) `Resp` corresponds to accuracy, where “2”
+response time (in seconds), `Resp` corresponds to accuracy, where “2”
 equals correct and “1” equals incorrect. `Trial` and `Block` are the
 corresponding experimental trial and block.
 
@@ -114,11 +101,11 @@ corresponding experimental trial and block.
 In this tutorial, we will use exponential trial-varying functions as
 this was the best performing model in our study. In the code, we define
 all of the time-varying functions in
-`modelling/time-varying-functions.R`. Although we only demonstrate one
-kind of time-varying function here, hopefully this tutorial will make it
-clear how to easily implement whatever time-varying function you like
-(see also the file referenced above for all of the functions we used in
-our study).
+[modelling/time-varying-functions.R](modelling/time-varying-functions.R).
+Although we only demonstrate one kind of time-varying function here,
+hopefully this tutorial will make it clear how to easily implement
+whatever time-varying function you like (see also the file referenced
+above for all of the functions we used in our study).
 
 First, let’s define non time-varying functions for models that include
 parameters that do not change over time:
@@ -159,7 +146,9 @@ Next, we can define the exponential trial-varying functions. If you
 wanted the functions to vary over a different unit of time, like
 experimental blocks or days, simply change `data$Trial` to the
 appropriate column in the data set (e.g., `data$Block`, just make sure
-you include that column in your data).
+you include that column in your data). Just like in the original
+manuscript, in this tutorial we will only examine changes across time
+for two parameters: *a* (decision threshold) and *v* (drift rate).
 
 ``` r
 # As in the original study, we are only manipulating a and v across time. 
@@ -179,7 +168,7 @@ v_exp = function(x, data){
 In this tutorial, we will define a standard (non-time varying) diffusion
 model, an a-varying exponential ParAcT model and a v-varying exponential
 ParAcT model. In our code, the time-varying functions are defined in
-`modelling/model-functions.R`.
+[modelling/model-functions.R](modelling/model-functions.R).
 
 ``` r
 # Create a named list of each of the models, defining the time-varying functions for each parameter in each model 
@@ -207,8 +196,9 @@ all_functions <- list(
 
 ## Define Likelihood Function
 
-In our code, this is defined in `modelling/likelihood-function`. Below
-is the function that we used for all of the standard trial-varying and
+In our code, this is defined in
+[modelling/likelihood-function](modelling/likelihood-function). Below is
+the function that we used for all of the standard trial-varying and
 block-varying functions in our study. Two ParAcT models in the original
 study – the step function used in Data Set 1 and the Exp Trail with
 Block Bump, required that the likelihood be calculated within each
@@ -268,14 +258,14 @@ log.dens.like = function (x, data, par.names, functions) {
 In this step, we need to define all of the parameters that are to be
 estimated in the models, their upper and lower bounds, and the starting
 point for the optimisation algorithm. In our code, we define this in
-`modelling/priors.R` but we do it a bit differently because we define
-Bayesian priors. The underlying logic is pretty similar, though: you
-need to tell the optimization/fitting function what parameters you want
-to estimate, and define plausible ranges that the true parameter can be
-between. In this tutorial, the parameters that we need to define are all
-of the standard DDM parameters (z, t0, a , v) and all of the
-time-varying parameters for the exponential functions (start, asymptote,
-rate for each of v and a).
+[modelling/priors.R](modelling/priors.R) but we do it a bit differently
+because we define Bayesian priors. The underlying logic is pretty
+similar, though: you need to tell the optimization/fitting function what
+parameters you want to estimate, and define plausible ranges that the
+true parameter can be between. In this tutorial, the parameters that we
+need to define are all of the standard DDM parameters (z, t0, a , v) and
+all of the time-varying parameters for the exponential functions (start,
+asymptote, rate for each of v and a).
 
 ``` r
 parameter_info <- list(
@@ -351,15 +341,16 @@ parameter_info <- list(
 
 In this step, we need to find the parameter values that create the best
 fit between the model and the data. As I mentioned earlier, in the
-original study we use Bayesian MCMC to do this, but in this tutrial we
+original study we use Bayesian MCMC to do this, but in this tutorial we
 will use a much simpler, faster optimization technique: the `optim`
 function in R.
 
 The code chunk below contains two functions. First,
 `extract_parameter_features` is a simple helper function that extract
-either start point, lower bounds and upper bounds, depending on what you
-specify. Second `optimize_ddm` is the fitting function that finds the
-best fitting parameters given the data.
+some key details necessary for the optimization function from our list
+defined above. Second `optimize_ddm` is the fitting function that uses
+the `optim` function and our likelihood function that we defined earlier
+to find the best fitting parameters given the data.
 
 ``` r
 # create a function that extracts the relevant parameters and features (e.g., optimization ranges, start points) for a given model. 
@@ -435,7 +426,7 @@ time-varying parameters.
 model <- "simple"
 model_functions <- all_functions[[model]]
 output <- optimize_ddm(model = model, data = data, functions = model_functions, parameter_info = parameter_info)
-all_output[[model]] <- output
+all_output[[model]] <- output # store output in list
 output
 ```
 
@@ -518,28 +509,18 @@ that it was the best candidate model for this participant (which is
 consistent with the results in the main paper).
 
 ``` r
-print("BIC: ")
+IC  <- list(
+BIC = sapply(all_output, function(model) model[["BIC"]]),
+AIC = sapply(all_output, function(model) model[["AIC"]])
+)
+IC
 ```
 
-    [1] "BIC: "
-
-``` r
-sapply(all_output, function(model) model[["BIC"]])
-```
-
+    $BIC
       simple    a-exp    v-exp 
     3221.223 2929.618 3205.000 
 
-``` r
-print("AIC: ")
-```
-
-    [1] "AIC: "
-
-``` r
-sapply(all_output, function(model) model[["AIC"]])
-```
-
+    $AIC
       simple    a-exp    v-exp 
     3201.760 2900.423 3175.804 
 
@@ -568,4 +549,7 @@ plot_param_trajectory = function(estimates, param_function, title){
 plot_param_trajectory(estimates = a_exp_params, param_function = a_exp, title = "Estimated change in a (Threshold) according to ParAcT model")
 ```
 
-![](tutorial_files/figure-commonmark/unnamed-chunk-13-1.png)
+![](README_files/figure-commonmark/unnamed-chunk-13-1.png)
+
+As shown above, our model estimated fairly substantial exponential
+changes in *a* across time.
