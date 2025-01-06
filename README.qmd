@@ -14,7 +14,7 @@ This repository contains all of the code and data for the paper "ParAcT-DDM: A d
 
 This tutorial provides a simple demonstration of how to fit ParAcT DDM models to data in R. While most of these steps exist as scripts in this repository, this tutorial will show a slightly simpler implementation than what we did in our study/code base. Mainly, in our code we performed Bayesian parameter estimation whereas this tutorial uses non-Bayesian optimization. We do not do Bayesian estimation in this tutorial because it is 1) more complicated and requires more steps and more technical/mathematical knowledge and 2) takes a lot more time to run. We do, however, believe Bayesian parameter estimation tends to be more robust, so recommend using it over non-Bayesian methods in general. In this tutorial we implement a simple version of the standard diffusion model that assumes no random variability parameters. 
 
-**This tutorial is written in Quarto, which means you can download the original readme.qmd file (which renders this file) and play around with the tutorial code yourself.**
+**This tutorial is written in Quarto, which means you can download the original README.qmd file (which renders this file) and play around with the tutorial code yourself.**
 
 ## Load R Packages
 
