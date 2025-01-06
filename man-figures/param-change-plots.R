@@ -1,28 +1,29 @@
 rm(list = ls())
 library(here)
 library(ggplot2)
+source(here("functions/generic-functions.R"))
 # Parameter change plots --------------------------------------------------
 
 # define data sets
 datasets <- c("evans-optim", "evans-normal", "knowles")
 
-dataset_id <- commandArgs(trailingOnly = TRUE)
+dataset_id <- datasets[2] #commandArgs(trailingOnly = TRUE)
 
 v_models_1p <- c(
-  "v-linear",
+  #"v-linear",
   "v-exp",
   "v-dExp",
-  "v-linear-blocked",
+  #"v-linear-blocked",
   "v-exp-blocked",
   "v-block-trial-exp",
   "v-dExp-blocked"
 )
 
 a_models_1p <- c(
-  "a-linear",
+  #"a-linear",
   "a-exp",
   "a-dExp",
-  "a-linear-blocked",
+  #"a-linear-blocked",
   "a-exp-blocked",
   "a-dExp-blocked",
   "a-block-trial-exp"
@@ -148,6 +149,7 @@ best_model_weight <- apply(i_weighted_BIC, 1, max)
 # assign names to the weighted models from the ranked vector
 names(best_model_weight) <- best_models
 
+# get the 1 parameter version of the models for plotting
 models_1p <- get(paste0(i_param,"_models_1p"))
 
 # for each change function, get the best one 
@@ -156,8 +158,13 @@ sum_change_weights <- sapply(models_1p, function(x) {
 }
   )
 
-# get the best 3 models 
-best_3_models <- names(sort(sum_change_weights, decreasing = TRUE)[1:3])
+
+# get the best 3 models and the score
+best_3_models_score <- sort(sum_change_weights, decreasing = TRUE)[1:3]
+
+# filter any models that have a score of zero (i.e., account for cases where there were only two best models, not 3)
+best_3_models <- names(best_3_models_score[best_3_models_score>0])
+
 
 # define empty list to store plots for parameters
 plot_list_param <- NULL

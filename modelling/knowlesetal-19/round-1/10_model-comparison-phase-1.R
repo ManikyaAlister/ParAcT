@@ -7,12 +7,12 @@ n = 147
 # round 1 models 
 
 v_models <- c(
-  "v-linear",
+  #"v-linear",
   #"v-power",
   "v-exp",
   #"v-delayed-pow",
   "v-dExp",
-  "v-linear-blocked",
+  #"v-linear-blocked",
   "v-exp-blocked",
   #"v-blocked-simple",
   #"v-blocked-complex",  # only including complex blocked models as a sanity check, not in model compariso
@@ -22,12 +22,12 @@ v_models <- c(
   #"v-step-fixed"
 )
 a_models <- c(
-  "a-linear",
+  #"a-linear",
   #"a-power",
   "a-exp",
   #"a-delayed-power",
   "a-dExp",
-  "a-linear-blocked",
+  #"a-linear-blocked",
   "a-exp-blocked",
   #"a-blocked-simple",
   #"a-blocked-complex", # only including complex blocked models as a sanity check, not in model comparisons
@@ -38,7 +38,12 @@ a_models <- c(
   #"a-step-fixed"
 )
 
+# 2p models for Knowles is just the 2p models for data sets 1 AND 2
+
 models <- c("simple",a_models, v_models)
+
+
+
 
 IC_array = function(models, criterion) {
   # set up empty array
@@ -160,7 +165,7 @@ AICmeans <- apply(AIC_weights, 2, mean)
 barplot(AICmeans)
 
 
-modelProb::plotWeightedICs(weightedAICs)
+modelProb::plotWeightedICs(AIC_weights)
 
 # Best model vesus simple model
 rank_no_simple <- rank_models(dplyr::select(allBIC, -simple) )

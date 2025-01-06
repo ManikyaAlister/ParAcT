@@ -7,19 +7,19 @@ n = 11
 # round 1 models 
 
 v_models <- c(
-  "v-linear",
+  #"v-linear",
   "v-exp",
   "v-dExp",
-  "v-linear-blocked",
+  #"v-linear-blocked",
   "v-exp-blocked",
   "v-block-trial-exp",
   "v-dExp-blocked"
 )
 a_models <- c(
-  "a-linear",
+  #"a-linear",
   "a-exp",
   "a-dExp",
-  "a-linear-blocked",
+  #"a-linear-blocked",
   "a-exp-blocked",
   "a-dExp-blocked",
   "a-block-trial-exp"

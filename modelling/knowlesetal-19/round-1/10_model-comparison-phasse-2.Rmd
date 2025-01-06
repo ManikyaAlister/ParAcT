@@ -28,19 +28,19 @@ derived_data <- dataset_details$save_IC_path[dataset_index]
 
 
 v_models <- c(
-              "v-linear",
+              #"v-linear",
               "v-exp",
               "v-dExp",
-              "v-linear-blocked",
+              #"v-linear-blocked",
               "v-exp-blocked",
               "v-block-trial-exp",
               "v-dExp-blocked"
 )
 a_models <- c(
-              "a-linear",
+              #"a-linear",
               "a-exp",
               "a-dExp",
-              "a-linear-blocked",
+              #"a-linear-blocked",
               "a-exp-blocked",
               "a-dExp-blocked",
               "a-block-trial-exp"
@@ -52,7 +52,6 @@ models <- c("simple",a_models, v_models, unique_2p_best)
 
 full_names <- sapply(models, function(x) all_functions[[x]]$full_name )
 
-#save(full_names, file = here("data/evansetal-17/derived/optim/model-full-names.Rdata"))
 
 ```
 
