@@ -6,7 +6,7 @@ theta.t = get_function_variables(paract_functions$t0)
 theta.v = get_function_variables(paract_functions$v)
 theta.a = get_function_variables(paract_functions$a)
 
-theta.names = c(theta.z, theta.a, theta.v, theta.t, "stoch.s", "sz", "sv", "ster")
+theta.names = c(theta.z, theta.a, theta.v, theta.t, "stoch.s","sz", "sv", "ster")
 
 # source parameter ranges
 source(here("Recovery/01_parameter-ranges.R"))

@@ -10,6 +10,24 @@ all_functions <- list(
     blocked_likelihood = FALSE,
     full_name = "Standard DDM"
   ),
+  "v-var" = list(
+    a = a_standard,
+    v = v_standard,
+    z = z_standard,
+    t0 = t0_standard,
+    sv = sv_standard,
+    blocked_likelihood = FALSE,
+    full_name = "DDM with sv"
+  ),
+  "z-var" = list(
+    a = a_standard,
+    v = v_standard,
+    z = z_standard,
+    t0 = t0_standard,
+    sz = sz_standard,
+    blocked_likelihood = FALSE,
+    full_name = "DDM with sz"
+  ),
   "a-linear" = list(
     a = a_linear,
     v = v_standard,

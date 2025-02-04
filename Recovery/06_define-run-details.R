@@ -20,6 +20,12 @@ source(here("modelling/model-functions.R"))
 # whether or not this is a model recovery 
 recovery = TRUE
 
+# whether we want to save a plot 
+plot = FALSE
+
+# whether the likelihood is blocked
+blocked_likelihood = FALSE
+
 # get the time-varying functions that correspond to the model. 
 paract_functions <- all_functions[[model]]
 

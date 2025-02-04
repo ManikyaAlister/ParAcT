@@ -18,6 +18,12 @@ tmpP2=grep("t0",theta.names,perl=TRUE)
 tmpP3=grep("v",theta.names,perl=TRUE)
 tmpP4=grep("z",theta.names,perl=TRUE)
 
+# across trial variability in the full ddm
+tmpP3.1=grep("sv",theta.names,perl=TRUE)
+tmpP4.1=grep("sz",theta.names,perl=TRUE)
+
+
+
 # linear model
 tmpP1.2 = grep("a.b",theta.names,perl=TRUE)
 tmpP1.3 = grep("a.c",theta.names,perl=TRUE)
@@ -45,6 +51,8 @@ tmpP7=grep("trialUnlearn",theta.names,perl=TRUE)
 tmpP8.1= grep("when",theta.names,perl=TRUE)
 tmpP8.2= grep("initial",theta.names,perl=TRUE)
 
+
+
 if (exists("blocks")) {
   # for each block, create a new variable tmpP1.8, tmpP1,9, etc based on the value of the block for v and a
   names.a = NULL
@@ -69,6 +77,11 @@ start.points[tmpP1]=1
 start.points[tmpP2]=0.3
 start.points[tmpP3]=3
 start.points[tmpP4]=0.5
+
+# full ddm 
+start.points[tmpP3.1]=2
+start.points[tmpP3.2]=0.3
+
 
 # linear model
 start.points[tmpP1.2]=1
@@ -113,6 +126,10 @@ start.points.sd[tmpP1]=0.5
 start.points.sd[tmpP2]=0.1
 start.points.sd[tmpP3]=1
 start.points.sd[tmpP4]=0.15
+
+# full ddm
+start.points.sd[tmpP3.1]=0.5
+start.points.sd[tmpP4.1]=0.15
 
 
 # linear model
@@ -159,6 +176,10 @@ lower.bounds[tmpP2]=0
 lower.bounds[tmpP3]=-Inf
 lower.bounds[tmpP4]=0
 
+# full ddm
+lower.bounds[tmpP3.1]=0
+lower.bounds[tmpP4.1]=0
+
 # linear model
 lower.bounds[tmpP1.2]=0
 lower.bounds[tmpP1.3]=0
@@ -202,6 +223,10 @@ upper.bounds[tmpP1]=Inf
 upper.bounds[tmpP2]=Inf
 upper.bounds[tmpP3]=Inf
 upper.bounds[tmpP4]=1
+
+# full ddm
+upper.bounds[tmpP3.1]=Inf
+upper.bounds[tmpP4.1]=Inf
 
 # linear model
 upper.bounds[tmpP1.2]=Inf
@@ -285,6 +310,23 @@ if (length(tmp) > 0) {
   for (n in 1:length(tmp)) {
     tmp2 = tmp[n]
     prior[[tmp2]] = c(0.5, 0.1)
+  }
+}
+
+# full ddm
+tmp = grep("sv", theta.names, value = TRUE)
+if (length(tmp) > 0) {
+  for (n in 1:length(tmp)) {
+    tmp2 = tmp[n]
+    prior[[tmp2]] = c(1.5, 0.1)
+  }
+}
+
+tmp = grep("sz", theta.names, value = TRUE)
+if (length(tmp) > 0) {
+  for (n in 1:length(tmp)) {
+    tmp2 = tmp[n]
+    prior[[tmp2]] = c(0.2, 0.1)
   }
 }
 

@@ -24,6 +24,16 @@ t0_standard = function(x, data){
   param
 }
 
+sv_standard = function(x, data){
+  param <- x["sv"]
+  param
+}
+
+sz_standard = function(x, data){
+  param <- x["sz"]
+  param
+}
+
 # z has slightly different rules as it changes based on the response stimulus
 z_standard = function(x, stimulus = stim, all_stimuli = stims, data) {
   if (stimulus == all_stimuli[1]) {

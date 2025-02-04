@@ -35,6 +35,18 @@ getParameterRanges = function(model) {
     c(0.45, 2)
   }
 
+  sv <- if(model == "full-ddm" | model == "v-var"){
+    c(1.5,2.5)
+  } else {
+    c(0,0)
+  }
+  
+  sz <- if(model == "full-ddm"| model == "z-var"){
+    c(0.1,0.4)
+  } else {
+    c(0,0)
+  }
+  
   use.range <- rbind(
     # standard DDM parameters
     a = c(0.45, 1.75),
@@ -59,8 +71,8 @@ getParameterRanges = function(model) {
     v.delay = c(0.1, 30),
     # between trial variability parameters
     stoch.s = c(1, 1),
-    sz = c(0, 0),
-    sv = c(0, 0),
+    sz = sz,
+    sv = sv,
     ster = c(0, 0)
   )
   use.range

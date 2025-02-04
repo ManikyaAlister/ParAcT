@@ -86,6 +86,13 @@ for (useSub in subj) {
   theta.t = get_function_variables(paract_functions$t0)
   theta.v = get_function_variables(paract_functions$v)
   theta.a = get_function_variables(paract_functions$a)
+  if(model == "z-var" | model == "full-ddm"){
+    theta.sz = get_function_variables(paract_functions$sz)
+  }
+  if(model == "v-var" | model == "full-ddm"){
+    theta.sv = get_function_variables(paract_functions$sv)
+  }
+  
   # to extract the parameter names for the complex block function is a little different
   getComplexBlockParams = function(parameter, blocks){
     # name block parameters
@@ -106,6 +113,13 @@ for (useSub in subj) {
   }
   
   theta.names = c(theta.z, theta.a, theta.v, theta.t)
+  if(model == "z-var" | model == "full-ddm"){
+    theta.names = c(theta.names,theta.sz)
+  }
+  if(model == "v-var" | model == "full-ddm"){
+    theta.names = c(theta.names,theta.sv)
+  }
+  
   print(cat("Parameters to be estimated: ", theta.names))
   # define file paths for output
   savefile = here(
