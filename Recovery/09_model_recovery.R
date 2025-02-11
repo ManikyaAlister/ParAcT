@@ -90,13 +90,13 @@ model_comparisons <- list(
   list(data = "a-dExp",
         models = c("simple", a_models),
         name = "a-dExp-vs-all-a"),
-  # # can we distinguish between v time-varying functions?
-  # list(data = "v-linear",
-  #      models = c("simple", v_models),
-  #      name = "v-linear-vs-all-v"),
-  # list(data = "v-exp",
-  #       models = c("simple", v_models),
-  #       name = "v-exp-vs-all-v"),
+  # can we distinguish between v time-varying functions?
+  list(data = "v-linear",
+       models = c("simple", v_models),
+       name = "v-linear-vs-all-v"),
+  list(data = "v-exp",
+        models = c("simple", v_models),
+        name = "v-exp-vs-all-v"),
   list(data = "v-dExp",
         models = c("simple", v_models),
         name = "v-dExp-vs-all-v"),
@@ -206,4 +206,6 @@ for (i in 1:length(model_comparisons)){
 }
 
 save(model_comparisons, file = here("Recovery/model_comparisons.Rdata"))
+
+
 
