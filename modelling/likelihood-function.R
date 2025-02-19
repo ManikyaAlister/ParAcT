@@ -8,13 +8,27 @@ log.dens.like.normal = function (x, data, par.names, functions = paract_function
     # get the trials that correspond to the stimulus in the loop
     stim_time = data$Stim == stim
     
+    # figure out whether the model has across trial variability for v/z
+    if("sz" %in% par.names) {
+      sz = functions$sz(x,data = data_stim)
+    } else {
+      sz = 0
+    }
+    
+    if("sv" %in% par.names) {
+      sv = functions$sv(x,data = data_stim)
+    } else {
+      sv = 0
+    }
+    
+    
     # get estimates 
     a = functions$a(x, data = data_stim)
     t0 = functions$t0(x, data = data_stim)
     v = functions$v(x, data = data_stim)
     z = functions$z(x, data = data_stim, stimulus = stim)
-    sv = 0
-    sz = 0
+    sv = sv
+    sz = sz
     st0 = 0
     s = 1
     tmp = ddiffusion(

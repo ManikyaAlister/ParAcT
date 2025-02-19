@@ -63,7 +63,8 @@ v_exp_power <- c("v-exp", "v-power")
 # define details of each comparsion 
 model_comparisons <- list(
   # can we distinguish between power and exponential changes?
-  list(data = "a-exp",
+  list(
+    data = "a-exp",
       models = a_exp_power,
       name = "a-exp-vs-a-power"),
   list(data = "a-power",
@@ -75,11 +76,11 @@ model_comparisons <- list(
   list(data = "v-power",
        models = v_exp_power,
        name = "v-power-vs-v-exp"),
-  #can we recover the simple model compared to all time-varying models?
+  # can we recover the simple model compared to all time-varying models?
   list(data = "simple",
        models = c("simple", a_models, v_models),
        name = "simple-vs-all"),
-  #can we distinguish between a time-varying functions?
+  # can we distinguish between a time-varying functions?
   list(data = "a-linear",
        models = c("simple", a_models),
        name = "a-linear-vs-all-a"),
@@ -105,7 +106,20 @@ model_comparisons <- list(
                   name = "a-exp-vs-v-exp"),
   list(data = "v-exp",
        models = c("a-exp", "v-exp"),
-       name = "v-exp-vs-a-exp")
+       name = "v-exp-vs-a-exp"),
+  # checking whether across trial variability can explain ParAcT changes and vice/versa
+  list(data = "v-var",
+       models=c("v-var", "v-exp"),
+       name = "v-var"),
+  list(data = "z-var",
+       models = c("z-var", "a-exp"),
+       name = "z-var"),
+  list(data = "v-exp",
+       models = c("v-exp", "v-var"),
+       name = "v-exp-var"),
+  list(data = "a-exp",
+       models = c("a-exp", "z-var"),
+       name = "a-exp-var")
 )
 
 criteria <- c("BIC", "AIC")
@@ -192,4 +206,6 @@ for (i in 1:length(model_comparisons)){
 }
 
 save(model_comparisons, file = here("Recovery/model_comparisons.Rdata"))
+
+
 

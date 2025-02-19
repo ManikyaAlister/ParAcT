@@ -1,4 +1,4 @@
-models <- c("simple", "a-linear", "a-power", "a-exp", "a-dExp", "v-linear", "v-power", "v-exp", "v-dExp")
+models <- c("simple", "a-linear", "a-power", "a-exp", "a-dExp", "v-linear", "v-power", "v-exp", "v-dExp", "v-var", "z-var")
 
 # Higher-order function for load_data
 load_data_generator = function(id) {

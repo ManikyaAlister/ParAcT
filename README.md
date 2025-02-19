@@ -23,6 +23,11 @@ the sub folders contain their own readme files that describe their
 contents. Below, is a tutorial describing simple implementation of the
 ParAcT framework in R.
 
+To install all necessary packages in this repository, run
+`renv::restore()` in the R console. If you are only doing the tutorial,
+you can just run the first code chunk which will be a a bit quicker as
+it only installs the packages necessary for the tutorial.
+
 # R Tutorial
 
 This tutorial provides a simple demonstration of how to fit ParAcT DDM
@@ -39,7 +44,7 @@ In this tutorial we implement a simple version of the standard diffusion
 model that assumes no random variability parameters.
 
 **This tutorial is written in Quarto, which means you can download the
-original readme.qmd file (which renders this file) and play around with
+original README.qmd file (which renders this file) and play around with
 the tutorial code yourself.**
 
 ## Load R Packages

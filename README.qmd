@@ -10,9 +10,11 @@ warning: false
 
 This repository contains all of the code and data for the paper "ParAcT-DDM: A diffusion-based framework for modelling systematic, time-varying cognitive processes" by Alister and Evans (2025). Each of the sub folders contain their own readme files that describe their contents. Below, is a tutorial describing simple implementation of the ParAcT framework in R.
 
+To install all necessary packages in this repository, run `renv::restore()` in the R console. If you are only doing the tutorial, you can just run the first code chunk which will be a a bit quicker as it only installs the packages necessary for the tutorial.
+
 # R Tutorial
 
-This tutorial provides a simple demonstration of how to fit ParAcT DDM models to data in R. While most of these steps exist as scripts in this repository, this tutorial will show a slightly simpler implementation than what we did in our study/code base. Mainly, in our code we performed Bayesian parameter estimation whereas this tutorial uses non-Bayesian optimization. We do not do Bayesian estimation in this tutorial because it is 1) more complicated and requires more steps and more technical/mathematical knowledge and 2) takes a lot more time to run. We do, however, believe Bayesian parameter estimation tends to be more robust, so recommend using it over non-Bayesian methods in general. In this tutorial we implement a simple version of the standard diffusion model that assumes no random variability parameters. 
+This tutorial provides a simple demonstration of how to fit ParAcT DDM models to data in R. While most of these steps exist as scripts in this repository, this tutorial will show a slightly simpler implementation than what we did in our study/code base. Mainly, in our code we performed Bayesian parameter estimation whereas this tutorial uses non-Bayesian optimization. We do not do Bayesian estimation in this tutorial because it is 1) more complicated and requires more steps and more technical/mathematical knowledge and 2) takes a lot more time to run. We do, however, believe Bayesian parameter estimation tends to be more robust, so recommend using it over non-Bayesian methods in general. In this tutorial we implement a simple version of the standard diffusion model that assumes no random variability parameters.
 
 **This tutorial is written in Quarto, which means you can download the original README.qmd file (which renders this file) and play around with the tutorial code yourself.**
 
@@ -55,11 +57,11 @@ data <- data %>%
 head(data)
 ```
 
-You will notice that there are 5 columns. `Time` corresponds to the response time (in seconds), `Resp` corresponds to accuracy, where "2" equals correct and "1" equals incorrect. `Trial` and `Block` are the corresponding experimental trial and block. 
+You will notice that there are 5 columns. `Time` corresponds to the response time (in seconds), `Resp` corresponds to accuracy, where "2" equals correct and "1" equals incorrect. `Trial` and `Block` are the corresponding experimental trial and block.
 
 ## Define time-varying (ParAcT) functions
 
-In this tutorial, we will use exponential trial-varying functions as this was the best performing model in our study. In the code, we define all of the time-varying functions in [modelling/time-varying-functions.R](modelling/time-varying-functions.R). Although we only demonstrate one kind of time-varying function here, hopefully this tutorial will make it clear how to easily implement whatever time-varying function you like (see also the file referenced above for all of the functions we used in our study). 
+In this tutorial, we will use exponential trial-varying functions as this was the best performing model in our study. In the code, we define all of the time-varying functions in [modelling/time-varying-functions.R](modelling/time-varying-functions.R). Although we only demonstrate one kind of time-varying function here, hopefully this tutorial will make it clear how to easily implement whatever time-varying function you like (see also the file referenced above for all of the functions we used in our study).
 
 First, let's define non time-varying functions for models that include parameters that do not change over time:
 
@@ -141,9 +143,9 @@ all_functions <- list(
 
 ## Define Likelihood Function
 
-In our code, this is defined in [modelling/likelihood-function](modelling/likelihood-function). Below is the function that we used for all of the standard trial-varying and block-varying functions in our study. Two ParAcT models in the original study -- the step function used in Data Set 1 and the Exp Trail with Block Bump, required that the likelihood be calculated within each block, so they used a slightly different likelihood function (but that is not important for this tutorial). 
+In our code, this is defined in [modelling/likelihood-function](modelling/likelihood-function). Below is the function that we used for all of the standard trial-varying and block-varying functions in our study. Two ParAcT models in the original study -- the step function used in Data Set 1 and the Exp Trail with Block Bump, required that the likelihood be calculated within each block, so they used a slightly different likelihood function (but that is not important for this tutorial).
 
-The likelihood function below uses the package  `rtdists` (specifically, the `ddiffusion` function) to get the likelihoods of the models. 
+The likelihood function below uses the package `rtdists` (specifically, the `ddiffusion` function) to get the likelihoods of the models.
 
 ```{r}
 # log likelihood function
@@ -192,7 +194,7 @@ log.dens.like = function (x, data, par.names, functions) {
 
 ## Define parameter information for optimmization/fitting
 
-In this step, we need to define all of the parameters that are to be estimated in the models, their upper and lower bounds, and the starting point for the optimisation algorithm. In our code, we define this in [modelling/priors.R](modelling/priors.R) but we do it a bit differently because we define Bayesian priors. The underlying logic is pretty similar, though: you need to tell the optimization/fitting function what parameters you want to estimate, and define plausible ranges that the true parameter can be between. In this tutorial, the parameters that we need to define are all of the standard DDM parameters (z, t0, a , v) and all of the time-varying parameters for the exponential functions (start, asymptote, rate for each of v and a). 
+In this step, we need to define all of the parameters that are to be estimated in the models, their upper and lower bounds, and the starting point for the optimisation algorithm. In our code, we define this in [modelling/priors.R](modelling/priors.R) but we do it a bit differently because we define Bayesian priors. The underlying logic is pretty similar, though: you need to tell the optimization/fitting function what parameters you want to estimate, and define plausible ranges that the true parameter can be between. In this tutorial, the parameters that we need to define are all of the standard DDM parameters (z, t0, a , v) and all of the time-varying parameters for the exponential functions (start, asymptote, rate for each of v and a).
 
 ```{r}
 
@@ -270,9 +272,9 @@ parameter_info <- list(
 
 ## Create optimization/fitting function
 
-In this step, we need to find the parameter values that create the best fit between the model and the data. As I mentioned earlier, in the original study we use Bayesian MCMC to do this, but in this tutorial we will use a much simpler, faster optimization technique: the `optim` function in R. 
+In this step, we need to find the parameter values that create the best fit between the model and the data. As I mentioned earlier, in the original study we use Bayesian MCMC to do this, but in this tutorial we will use a much simpler, faster optimization technique: the `optim` function in R.
 
-The code chunk below contains two functions. First, `extract_parameter_features` is a simple helper function that extract some key details necessary for the optimization function from our list defined above. Second `optimize_ddm` is the fitting function that uses the `optim` function and our likelihood function that we defined earlier to find the best fitting parameters given the data. 
+The code chunk below contains two functions. First, `extract_parameter_features` is a simple helper function that extract some key details necessary for the optimization function from our list defined above. Second `optimize_ddm` is the fitting function that uses the `optim` function and our likelihood function that we defined earlier to find the best fitting parameters given the data.
 
 ```{r}
 # create a function that extracts the relevant parameters and features (e.g., optimization ranges, start points) for a given model. 
@@ -340,7 +342,7 @@ names(all_output) = model_names
 
 In this step, we will fit each of the three models to the data, extract the parameter estimates, and figure out which model performed best.
 
-Starting with the standard DDM ("simple" model), that assumes no time-varying parameters. 
+Starting with the standard DDM ("simple" model), that assumes no time-varying parameters.
 
 ```{r}
 # standard DDM
@@ -351,9 +353,9 @@ all_output[[model]] <- output # store output in list
 output
 ```
 
-As shown above, the optimization algorithm performed as expected, with good convergence and reasonable parameter estimates. 
+As shown above, the optimization algorithm performed as expected, with good convergence and reasonable parameter estimates.
 
-Now, let's see the *a* Exponential ParAcT Variant: 
+Now, let's see the *a* Exponential ParAcT Variant:
 
 ```{r}
 # a Exponential ParAcT model
@@ -363,7 +365,8 @@ output <- optimize_ddm(model = model, data = data, functions = model_functions, 
 all_output[[model]] <- output
 output
 ```
-And finally, the *v* exponential ParAcT variant: 
+
+And finally, the *v* exponential ParAcT variant:
 
 ```{r}
 # v exponential ParAcT model
@@ -373,7 +376,8 @@ output <- optimize_ddm(model = model, data = data, functions = model_functions, 
 all_output[[model]] <- output
 output
 ```
-Comparing the models using AIC and BIC, we can see that the a Exponential model outputs the lowest value for both models, suggesting that it was the best candidate model for this participant (which is consistent with the results in the main paper). 
+
+Comparing the models using AIC and BIC, we can see that the a Exponential model outputs the lowest value for both models, suggesting that it was the best candidate model for this participant (which is consistent with the results in the main paper).
 
 ```{r}
 IC  <- list(
@@ -383,7 +387,7 @@ AIC = sapply(all_output, function(model) model[["AIC"]])
 IC
 ```
 
-We can also plot the parameter trajectories using the estimated parameter values. According to the best model, *a* followed an exponential trajectory. 
+We can also plot the parameter trajectories using the estimated parameter values. According to the best model, *a* followed an exponential trajectory.
 
 ```{r}
 
@@ -408,4 +412,4 @@ plot_param_trajectory(estimates = a_exp_params, param_function = a_exp, title = 
 
 ```
 
-As shown above, our model estimated fairly substantial exponential changes in *a* across time. 
+As shown above, our model estimated fairly substantial exponential changes in *a* across time.
