@@ -2,12 +2,12 @@ rm(list = ls())
 library(here)
 
 #define models
-data_model <- "z-var"
-other_model <- "a-exp"
+data_model <- "v-exp"
+other_model <- "v-var"
 models <- c(data_model, other_model)
 
 # define parameters that are to be correlated
-params <- c("a", "a.asym")
+params <- c("v.asym", "v")
 
 # define empty data set to be filled with values
 all_params <- data.frame("1" = rep(NA,100), "2" = rep(NA,100))
