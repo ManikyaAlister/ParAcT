@@ -372,6 +372,20 @@ all_functions <- list(
     t0 = t0_standard,
     blocked_likelihood = FALSE,
     full_name = "a Exp Blocked + v Exp"
+    # Dutilh only models
+), "a-dExp+v-exp" = list(
+  a = a_dExp,
+  v = v_exp,
+  z = z_standard,
+  t0 = t0_standard,
+  blocked_likelihood = FALSE,
+  full_name = "a Delayed Exp + v Exp"
+), "a-dExp+v-exp-blocked" = list(
+  a = a_dExp,
+  v = v_exp_blocked,
+  z = z_standard,
+  t0 = t0_standard,
+  blocked_likelihood = FALSE,
+  full_name = "a Delayed Exp + v Exp Blocked"
 )
-
 )

@@ -34,7 +34,7 @@ IC_array = function(models, criterion) {
     for (i in 1:n) {
       load(here(
         paste(
-          "data/knowlesetal-19/derived/P",
+          "data/dutilhetal-09/derived/P",
           i,
           "_",
           model,
@@ -57,8 +57,8 @@ IC_array = function(models, criterion) {
 allAIC <- IC_array(models,"AIC")
 allBIC <- IC_array(models,"BIC")
 
-#save(allAIC, file = here("data/knowlesetal-19/derived/allAIC.Rdata"))
-#save(allBIC, file = here("data/knowlesetal-19/derived/allBIC.Rdata"))
+#save(allAIC, file = here("data/dutilhetal-09/derived/allAIC.Rdata"))
+#save(allBIC, file = here("data/dutilhetal-09/derived/allBIC.Rdata"))
 
 allAIC_v <- IC_array(v_models, "AIC")
 allAIC_a <- IC_array(a_models, "AIC")
@@ -113,9 +113,9 @@ unique_2p <- unique(models_2p)
 
 # Narrow that down to the best model because best two results in a lot of models
 best_v <- rankBIC_v[,1]
-# save(best_v, file = here("data/knowlesetal-19/derived/best_v_1p_BIC"))
+# save(best_v, file = here("data/dutilhetal-09/derived/best_v_1p_BIC"))
 best_a <- rankBIC_a[,1]
-# save(best_a, file = here("data/knowlesetal-19/derived/best_a_1p_BIC"))
+# save(best_a, file = here("data/dutilhetal-09/derived/best_a_1p_BIC"))
 
 
 best <- cbind(best_a, best_v)
@@ -133,9 +133,9 @@ count_2p_best <- table(models_2p_best)
 sort(count_2p_best, decreasing = TRUE)
 
 # since there are so many participants, we are only going to take combinations that account for at least 10% of participants (~14)
-unique_2p_best <- names(count_2p_best[count_2p_best > 14]) # naming it this is to keep it consistent with the other data sets. 
+unique_2p_best <- names(count_2p_best) # naming it this is to keep it consistent with the other data sets. 
 
-save(file = here("data/knowlesetal-19/derived/round-2-models.Rdata"), unique_2p_best)
+save(file = here("data/dutilhetal-09/derived/round-2-models.Rdata"), unique_2p_best)
 
 BIC_weights <- modelProb::weightedICs(allBIC)
 BICmeans <- apply(BIC_weights, 2, mean)
