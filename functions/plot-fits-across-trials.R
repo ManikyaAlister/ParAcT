@@ -137,6 +137,9 @@ fitRTAcrossTime = function(model, subjects, output_path,data_path, dataset_id){
   } else if (dataset_id == "knowles"){
     # more some outliers make smoothing more difficult to see 
     plot <- plot + coord_cartesian(ylim=c(0,8))  
+  } else if (dataset_id == "dutilh") {
+    # no lims for dutlh bc RTs are much lower due to speed emphasis
+    plot <- plot
   } else {
     plot <- plot + coord_cartesian(ylim=c(0,5)) 
   }
