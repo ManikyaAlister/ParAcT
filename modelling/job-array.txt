@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set up job array (make sure the array length is nModels * nParticipants)
-#SBATCH --array=1-16
+#SBATCH --array=1-8
 
 # Partition for the job:
 #SBATCH --partition=cascade
@@ -52,11 +52,11 @@ models_1p=("simple" "a-exp" "a-dExp" "a-exp-blocked" "a-dExp-blocked" "a-block-t
 dutilh_2p=("a-dExp+v-exp" "a-dExp+v-exp-blocked" "a-exp-blocked+v-exp-blocked" "a-exp+v-exp-blocked")
 
 # Set the model script names
-models=("a-dExp+v-exp" "a-dExp+v-exp-blocked" "a-exp-blocked+v-exp-blocked" "a-exp+v-exp-blocked")   
+models=("a-blocked-complex" "v-blocked-complex")   
 
 #
 
-n_models=4
+n_models=2
 data="dutilh"
 
 # Models not run (put below)
