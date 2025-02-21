@@ -125,8 +125,8 @@ getEstimateMismatch = function(n_subjects, path_to_output, gen_models = NULL) {
 }
 
 # Start a PDF device to save the plots to a PDF file
-pdf(paste0("man-figures/estimate-mismatch-poster.pdf"), width = 12, height = 3.5)
-par(mfrow = c(1, 3), oma = c(0, 1, 4, 0))  # Adjust the bottom margin (oma) to move titles closer
+pdf(paste0("man-figures/estimate-mismatch.pdf"), width = 13, height = 6)
+par(mfrow = c(1, 4), oma = c(0, 1, 4, 0))  # Adjust the bottom margin (oma) to move titles closer
 
 n_subjects =  10
 path = "modelling/evansetal-17/optim/round-1/06_output/"
@@ -142,6 +142,11 @@ path = "modelling/knowlesetal-19/round-1/06_output/"
 n_subjects <- 147
 getEstimateMismatch(n_subjects = n_subjects, path_to_output = path)
 mtext("Data Set 3 (Practice Block Removed)", side = 3, line = 5)
+
+path = "modelling/dutilhetal-09/round-1/06_output/"
+n_subjects <- 4
+getEstimateMismatch(n_subjects = n_subjects, path_to_output = path)
+mtext("Data Set 4", side = 3, line = 5)
 
 dev.off()
 

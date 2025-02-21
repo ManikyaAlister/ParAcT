@@ -1,8 +1,8 @@
 library(dplyr)
 library(ggplot2)
 
-nSub = 1
-dataset = "knowlesetal-19"
+nSub = 4
+dataset = "dutilhetal-09"
 
 # vector of the best model for each participant  
 best_models = rep("a-exp", nSub)
@@ -19,7 +19,7 @@ for (useSub in 1:nSub) {
     load(paste(
       "modelling/knowlesetal-19/round-1/08_model-predictions/P",
       useSub,
-      "_",best_model,".Rdata",
+      "-",best_model,".Rdata",
       sep = ""
     ))
     
@@ -29,7 +29,7 @@ for (useSub in 1:nSub) {
     load(paste(
       "modelling/knowlesetal-19/round-1/08_model-predictions/P",
       useSub,
-      "_simple.Rdata",
+      "-simple.Rdata",
       sep = ""
     ))
     

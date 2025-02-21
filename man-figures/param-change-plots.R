@@ -5,25 +5,21 @@ source(here("functions/generic-functions.R"))
 # Parameter change plots --------------------------------------------------
 
 # define data sets
-datasets <- c("evans-optim", "evans-normal", "knowles")
+datasets <- c("evans-optim", "evans-normal", "knowles", "dutilh")
 
-dataset_id <- datasets[2] #commandArgs(trailingOnly = TRUE)
+dataset_id <- datasets[4] #commandArgs(trailingOnly = TRUE)
 
 v_models_1p <- c(
-  #"v-linear",
   "v-exp",
   "v-dExp",
-  #"v-linear-blocked",
   "v-exp-blocked",
   "v-block-trial-exp",
   "v-dExp-blocked"
 )
 
 a_models_1p <- c(
-  #"a-linear",
   "a-exp",
   "a-dExp",
-  #"a-linear-blocked",
   "a-exp-blocked",
   "a-dExp-blocked",
   "a-block-trial-exp"

@@ -21,26 +21,22 @@ source(here("modelling/define-dataset-details.R"))
 # source model functions
 source(here("modelling/model-functions.R"))
 
-dataset_id <- "knowles"
+dataset_id <- "dutilh"
 dataset_index <- which(dataset_details$dataset_id == dataset_id)
 subjects <- dataset_details$n_subjects[dataset_index]
 derived_data <- dataset_details$save_IC_path[dataset_index]
 
 
 v_models <- c(
-              #"v-linear",
               "v-exp",
               "v-dExp",
-              #"v-linear-blocked",
               "v-exp-blocked",
               "v-block-trial-exp",
               "v-dExp-blocked"
 )
 a_models <- c(
-              #"a-linear",
               "a-exp",
               "a-dExp",
-              #"a-linear-blocked",
               "a-exp-blocked",
               "a-dExp-blocked",
               "a-block-trial-exp"
