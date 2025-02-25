@@ -129,7 +129,7 @@ for (i in 1:(length(subs))) {
   data$Block = as.numeric(data$Block)
   
   save(data,file = paste0("data/knowlesetal-19/clean/P",i
-                          ,".Rdata"))
+                         ,".Rdata"))
 }
 # 
 # save.image("parsedData-RDK.Rdata")     # Save data to be used for LBA fit
