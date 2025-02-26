@@ -64,7 +64,7 @@ data="knowles"
 #  
 # Set the participant numbers (make sure the slurm array is set up for the correct model * participant combintation)
 #participants=($(seq 1 4))
-participants = (2 35 51 141)
+participants=(2 35 51 141)
 
 # Calculate the model and participant indices from the job array task ID
 model_idx=$(((SLURM_ARRAY_TASK_ID-1) % n_models)) # make sure you correctly indicate the number of models after '%'
