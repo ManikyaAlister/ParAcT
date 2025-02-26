@@ -1,4 +1,4 @@
-## Some files have the same ID number which is why some "participants" have 320 trials. 
+## 26/02 Realised that 4 participants did the experiment twice, which meant that they were recoded as having 320 trials. Made edits to remove the second session of these participants. 
 rm(list=ls())
 
 files=dir("data/knowlesetal-19/raw/",pattern = ".txt")
@@ -27,8 +27,29 @@ for (n in files) {
       snum=as.numeric(substr(n,1,5))
     }
     if (is.na(snum)) browser()
+    
+    # Extract subject number
+    parts = unlist(strsplit(n, "_"))
+    subject_num = as.numeric(parts[1])
+    
+    # Extract date from filename
+    date_str = gsub(".txt$", "", paste(parts[-1], collapse = "_"))
+    
+    remove_ordinal <- function(date_str) {
+      gsub("([0-9]+)(st|nd|rd|th)", "\\1", date_str)
+    }
+    
+    date_cleaned <- remove_ordinal(date_str)
+    
+    # Replace underscores with colons for proper time parsing
+    date_cleaned <- gsub("_", ":", date_cleaned)
+    
+    # Correct format string
+    date_parsed <- as.POSIXct(date_cleaned, format = "%A %d of %B %Y %I:%M:%S %p", tz = "UTC")
+    
+    
     tmp=read.table(file=paste("data/knowlesetal-19/raw/",n,sep=""),header=TRUE)
-    data=rbind(data,cbind(subject=snum,tmp))
+    data=rbind(data,cbind(subject=snum,tmp, date_collected = date_parsed))
   }
 }
 
@@ -98,64 +119,34 @@ for(s in 1:S) {
   data[[s]]$trlNum= parsedData$trlNum[isSub]
   data[[s]]$blkNum = parsedData$blkNum[isSub]
   data[[s]]$winningDirection = parsedData$winningDirection[isSub]
+  data[[s]]$date_collected = parsedData$date_collected[isSub]
 }
 
 
 allData = data
 data = NULL
-for (i in 1:(length(subs))) {
-  #data= as.data.frame(matrix(nrow = 0,ncol = 1))
+for (i in 1:length(subs)) {
+  data = data.frame(
+    PID = i,
+    Time = as.numeric(allData[[i]]$Time),  
+    Resp = as.numeric(allData[[i]]$Correct) + 1,
+    Stim = allData[[i]]$winningDirection,
+    Trial = as.integer(1:length(allData[[i]]$Time)),
+    TrialInBlock = allData[[i]]$trlNum,
+    Block = as.numeric(allData[[i]]$blkNum),
+    Cond = rep(1, length(allData[[i]]$Time)),
+    Date_Collected = allData[[i]]$date_collected  
+    )
+  
+  # If max trial > 160, keep only trials from the earliest date
+  if (max(data$Trial) > 160) {
+    min_date <- min(data$Date_Collected, na.rm = TRUE)
+    data <- data[data$Date_Collected == min_date, ]
+  }
 
-  data = data.frame(Cond=NULL,Time=NULL,Resp=NULL,Stim=NULL,Trial = NULL, TrialInBlock = NULL, Block = NULL)
-  #data = data.frame()
-  #isSub=allData$subject==nSubs[subs[i]]
-  #parsedData[[i]]$Cond=data$blkNum[isSub]
-  Time=allData[[i]]$Time
-  Resp=allData[[i]]$Correct+1
-  Stim=allData[[i]]$winningDirection
-  Trial = 1:length(allData[[i]]$Time)
-  TrialInBlock = allData[[i]]$trlNum
-  Block = allData[[i]]$blkNum
-  Cond= rep(1,length(allData[[i]]$Time))
-  PID = i
+  # remove date collected column since we don't need it anymore
+  data$Date_Collected <- NULL
+
   
-  data = as.data.frame(cbind(PID,Time,Resp,Stim,Trial,TrialInBlock,Block,Cond))
-  
-  # a bunch of columns get converted to numeric when switching to a data frame
-  data$Trial = as.integer(data$Trial)
-  data$Time = as.numeric(data$Time)
-  data$Resp = as.numeric(data$Resp)
-  data$Cond = as.numeric(data$Cond)
-  data$Block = as.numeric(data$Block)
-  
-  save(data,file = paste0("data/knowlesetal-19/clean/P",i
-                         ,".Rdata"))
+  save(data, file = paste0("data/knowlesetal-19/clean/P", i, ".Rdata"))
 }
-# 
-# save.image("parsedData-RDK.Rdata")     # Save data to be used for LBA fit
-# 
-# 
-# 
-# RDKdata=NULL
-# 
-# for (s in 1:S) {
-#   isSub = parsedData$subject == subs[s]
-#   currSubData=subs[s]
-#   meanRT=mean(parsedData$RT[isSub])
-#   meanACC=mean(parsedData$correct[isSub])
-#   
-#   currSubData=c(currSubData,meanRT)
-#   currSubData=c(currSubData,meanACC)
-#   
-#   RDKdata=rbind(RDKdata,currSubData)
-# }
-# 
-# colnames(RDKdata)=c("Subject","MRT","ACC")
-# 
-# rownames(RDKdata)=NULL
-# 
-# 
-# 
-# write.csv(RDKdata,file="data/knowlesetal-19/clean/RDKdata.csv")
-# 
-# 
