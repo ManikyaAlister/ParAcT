@@ -71,9 +71,9 @@ getEstimateMismatch = function(n_subjects, path_to_output, gen_models = NULL) {
   
   a_diff <- a_diff[order_a_rate,]
   median_a_diff <- median(a_diff[,"median"])
-  print(paste0("median a: ", round(median_a_diff,2)))
+  print(paste0("median a diff: ", round(median_a_diff,2)))
   range_a_diff <- round(range(a_diff[,"median"]),2)
-  print(paste0("range a: ", range_a_diff))
+  print(paste0("range a diff: ", range_a_diff))
   
   
   v_diff <- v - v_asym
@@ -83,8 +83,8 @@ getEstimateMismatch = function(n_subjects, path_to_output, gen_models = NULL) {
   v_diff <- v_diff[order_v_rate,] # needs to be in the same order as 
   median_v_diff <- median(v_diff[,"median"])
   range_v_diff <- range(v_diff[,"median"])
-  print(paste0("median v: ", round(median_v_diff,2)))
-  print(paste0("range v: ",round(range_v_diff,2)))
+  print(paste0("median v diff: ", round(median_v_diff,2)))
+  print(paste0("range v diff: ",round(range_v_diff,2)))
   
   plot(
     1:n_subjects,
