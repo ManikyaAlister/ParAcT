@@ -9,7 +9,7 @@ source(here("functions/plot-fits-across-trials.R"))
 # source data set details with file paths 
 source(here("modelling/define-dataset-details.R"))
 
-dataset_id <- commandArgs(trailingOnly = TRUE)
+dataset_id <- "dutilh" #commandArgs(trailingOnly = TRUE)
 
 dataset_index <- which(dataset_details$dataset_id == dataset_id)
 subjects <- dataset_details$n_subjects[dataset_index]

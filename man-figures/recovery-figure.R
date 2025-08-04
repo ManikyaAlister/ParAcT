@@ -45,7 +45,11 @@ plot_recovery = function(parameter, all_parameters, title){
     xlab = "Generating",
     ylab = "Estimated",
     sub = paste0("r = ", round(cor, 2)),
-    main = title
+    main = title,
+    cex.axis = 1.5,   # Increase axis text size
+    cex.lab = 1.5,     # Increase axis label size
+    cex.main =2,
+    cex.sub = 1.5
   )
   abline(a = 0, b = 1, col = "red")
 }
