@@ -1,7 +1,6 @@
 ---
 title: "Model Comparison"
 author: "Manikya Aluster"
-date: "2023-08-28"
 output: 
   html_document:
     code_folding: hide

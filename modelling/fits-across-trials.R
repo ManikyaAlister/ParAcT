@@ -9,7 +9,7 @@ source(here("functions/plot-fits-across-trials.R"))
 # source data set details with file paths 
 source(here("modelling/define-dataset-details.R"))
 
-dataset_id <- "dutilh" #commandArgs(trailingOnly = TRUE)
+dataset_id <- "evans-normal" #commandArgs(trailingOnly = TRUE)
 
 dataset_index <- which(dataset_details$dataset_id == dataset_id)
 subjects <- dataset_details$n_subjects[dataset_index]
@@ -48,6 +48,9 @@ for (i in 1:length(fit_models)){
   model <- fit_models[i]
   # determine which participants were best fit by model 
   subjects <- which(best_BIC == model)
+  
+  # if there are no participants that fit this model best, skip
+  if (length(subjects)< 1) next
   #print(subjects)
   
   # # determine whether it is a 1-parameter model (round 1) or 2-parameter model (round-2)
@@ -61,6 +64,6 @@ for (i in 1:length(fit_models)){
 }
 
 
-ggarrange(plotlist = plot_list, common.legend = TRUE, nrow=2, ncol = 2, legend = "bottom")
-ggsave(filename = paste0("man-figures/fits-across-trials-",dataset_id,".png"), width = 12, height = 6)
+ggarrange(plotlist = plot_list, common.legend = TRUE, nrow=length(plot_list), ncol = 1, legend = "bottom")
+ggsave(filename = paste0("man-figures/fits-across-trials-",dataset_id,".png"), width = 12, height = 12)
 

@@ -142,6 +142,10 @@ for (i in 1:length(subs)) {
   if (max(data$Trial) > 160) {
     min_date <- min(data$Date_Collected, na.rm = TRUE)
     data <- data[data$Date_Collected == min_date, ]
+    # reset the trials so they're starting at 1. Sometimes the earlier day appears 
+    # later in the directory, which means that the trials would be 161-320 instead of 1-160, 
+    # which causes some issues with plotting. This should be fixed now.  
+    data$Trial <- 1:length(data$Trial)
   }
 
   # remove date collected column since we don't need it anymore

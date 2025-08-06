@@ -94,7 +94,8 @@ getEstimateMismatch = function(n_subjects, path_to_output, gen_models = NULL) {
     col = "darkgreen",
     xlab = "",
     ylab = "",
-    xaxt = "n"  )
+    xaxt = "n"  ,
+    cex.axis = 1.6)
   lines(1:n_subjects, v_diff[,"median"], col = "blue")
   #abline(h = median_a_diff, col = "red")
   #abline(h = median_v_diff, col = "red")
@@ -117,8 +118,8 @@ getEstimateMismatch = function(n_subjects, path_to_output, gen_models = NULL) {
     border = NA
   )
   
-  axis(side = 1, at = 1:n_subjects, labels = ordered_labels_a)
-  axis(side = 3, at = 1:n_subjects, labels = ordered_labels_v)
+  axis(side = 1, at = 1:n_subjects, labels = ordered_labels_a, cex.axis = 1.6)
+  axis(side = 3, at = 1:n_subjects, labels = ordered_labels_v, cex.axis = 1.6)
   mtext(side = 3, line = 3, expression(paste("a ", eta, " (rate parameter)")), cex = 1.2)  
   mtext(side = 2, line = 3, "Difference between asymptote and standard DDM estimates", cex = 1.2)
   mtext(side = 1, line = 3, expression(paste("v ", eta, " (rate parameter)")), cex = 1.2)  

@@ -122,12 +122,27 @@ fitRTAcrossTime = function(model, subjects, output_path,data_path, dataset_id){
   plot <- ggplot(combined_data, aes(x = Trial, y = Time)) +
     geom_point(data = all_data, alpha = 0.1) +
     geom_smooth(aes(colour = Model), method = "loess") +
-    labs(title = full_name, subtitle = paste0("n Best Fit = ", length(subjects)), colour = "Model", y = "Response Time (s)") +
+    labs(title = full_name,
+         subtitle = paste0("n Best Fit = ", length(subjects)),
+         colour = "Model",
+         y = "Response Time (s)") +
     facet_wrap(~accuracy) +
-    theme_bw()+
+    theme_bw() +
     scale_color_viridis_d() + 
-    #scale_color_brewer()+
-    theme(panel.grid = element_blank(), plot.margin = margin(1, 9, 1, 1)) # make sure x axis isn't cut off
+    theme(
+      panel.grid = element_blank(), 
+      plot.margin = margin(1, 12, 1, 1),  # ensure x axis isn't cut off
+      axis.text = element_text(size = 14),
+      plot.title = element_text(size = 16, face = "bold"),
+      plot.subtitle = element_text(size = 14),
+      axis.title = element_text(size = 16),
+      legend.text = element_text(size = 16),
+      legend.title = element_blank(),
+      strip.text = element_text(size = 14),                 # facet title font size
+      strip.background = element_rect(fill = "white")       # facet background color
+    )
+  
+  
     #ylim(0,6.5)
   
   if (dataset_id == "evans-optim"){
